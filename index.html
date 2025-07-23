@@ -50,6 +50,84 @@
             }
         }
 
+        /* Floating Snorlax Animation */
+        .snorlax-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .floating-snorlax {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            opacity: 0.8;
+            animation: floatAround 20s linear infinite;
+            background-image: url('https://imgur.com/a/tbCf9oE');
+            background-size: contain;
+            background-repeat: no-repeat;
+        }
+
+        .floating-snorlax:nth-child(1) {
+            top: 10%;
+            left: -8%;
+            animation-delay: 0s;
+            animation-duration: 25s;
+        }
+
+        .floating-snorlax:nth-child(2) {
+            top: 30%;
+            left: -8%;
+            animation-delay: -8s;
+            animation-duration: 30s;
+        }
+
+        .floating-snorlax:nth-child(3) {
+            top: 60%;
+            left: -8%;
+            animation-delay: -15s;
+            animation-duration: 22s;
+        }
+
+        .floating-snorlax:nth-child(4) {
+            top: 80%;
+            left: -8%;
+            animation-delay: -5s;
+            animation-duration: 28s;
+        }
+
+        .floating-snorlax:nth-child(5) {
+            top: 45%;
+            left: -8%;
+            animation-delay: -12s;
+            animation-duration: 35s;
+        }
+
+        @keyframes floatAround {
+            0% {
+                transform: translateX(-100px) translateY(0px) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.6;
+            }
+            50% {
+                transform: translateX(calc(50vw)) translateY(-20px) rotate(180deg);
+                opacity: 0.8;
+            }
+            90% {
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateX(calc(100vw + 100px)) translateY(0px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
         /* Floating navigation with magnetic effect */
         .nav-container {
             position: fixed;
@@ -1124,6 +1202,10 @@
                 gap: 20px;
             }
 
+            .nav-container {
+                padding: 15px;
+            }
+
             nav ul {
                 gap: 5px;
             }
@@ -1153,12 +1235,55 @@
             .hobby-card p {
                 font-size: 0.8rem;
             }
+
+            .section {
+                padding: 80px 4%;
+            }
+
+            .section-title {
+                font-size: 2.2rem;
+                text-align: center;
+            }
+
+            .section-title::after {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
+            .card-header {
+                flex-direction: column;
+                gap: 10px;
+                align-items: flex-start;
+            }
+
+            .skills-showcase {
+                grid-template-columns: 1fr;
+            }
+
+            .skill-group {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+
+            .skill-icon {
+                align-self: center;
+            }
         }
     </style>
 </head>
 <body>
     <!-- Dynamic mesh background -->
     <div class="mesh-bg"></div>
+
+    <!-- Floating Snorlax Animation -->
+    <div class="snorlax-container">
+        <div class="floating-snorlax"></div>
+        <div class="floating-snorlax"></div>
+        <div class="floating-snorlax"></div>
+        <div class="floating-snorlax"></div>
+        <div class="floating-snorlax"></div>
+    </div>
 
     <!-- Magnetic navigation -->
     <div class="nav-container">
@@ -1680,6 +1805,11 @@
             const modal = document.getElementById('hobbyModal');
             modal.style.display = 'none';
             document.body.style.overflow = 'auto';
+        }
+
+        function showProjectDetails(projectKey) {
+            // This would show project details in a modal
+            console.log('Show details for:', projectKey);
         }
 
         // Initialize everything
