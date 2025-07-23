@@ -765,8 +765,8 @@
         /* Skills showcase */
         .skills-showcase {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
             max-width: 1200px;
             margin: 0 auto;
         }
@@ -774,42 +774,76 @@
         .skill-group {
             background: rgba(0, 16, 37, 0.3);
             border: 1px solid rgba(55, 120, 215, 0.2);
-            border-radius: 25px;
-            padding: 35px;
-            text-align: center;
+            border-radius: 20px;
+            padding: 30px;
             position: relative;
             overflow: hidden;
             backdrop-filter: blur(15px);
             box-shadow: 0 8px 32px rgba(0, 26, 87, 0.2);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
         }
 
-        .skill-group::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: linear-gradient(90deg, #4682d4, #001a57, #39528a);
-            transform: scaleX(0);
-            transition: transform 0.6s ease;
+        .skill-group:hover {
+            transform: translateY(-5px);
+            border-color: rgba(70, 130, 212, 0.4);
+            box-shadow: 0 15px 40px rgba(0, 26, 87, 0.3);
         }
 
-        .skill-group:hover::before {
-            transform: scaleX(1);
+        .skill-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            flex-shrink: 0;
+            color: white;
+        }
+
+        .skill-content {
+            flex: 1;
         }
 
         .skill-group h3 {
-            color: #87ceeb;
-            margin-bottom: 20px;
+            color: #ffffff;
+            margin-bottom: 8px;
             font-size: 1.3rem;
+            font-weight: 600;
         }
 
-        .skill-items {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 12px;
+        .skill-description {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+
+        /* Icon colors for different categories */
+        .skill-icon.frontend {
+            background: linear-gradient(135deg, #7c3aed, #a855f7);
+        }
+
+        .skill-icon.backend {
+            background: linear-gradient(135deg, #0ea5e9, #3b82f6);
+        }
+
+        .skill-icon.devops {
+            background: linear-gradient(135deg, #f97316, #ea580c);
+        }
+
+        .skill-icon.design {
+            background: linear-gradient(135deg, #ec4899, #f43f5e);
+        }
+
+        .skill-icon.web {
+            background: linear-gradient(135deg, #06b6d4, #0891b2);
+        }
+
+        .skill-icon.database {
+            background: linear-gradient(135deg, #10b981, #059669);
         }
 
         /* Clean Contact Section */
@@ -1327,38 +1361,62 @@
         <h2 class="section-title">Tech Stack</h2>
         <div class="skills-showcase">
             <div class="skill-group">
-                <h3>Languages</h3>
-                <div class="skill-items">
-                    <span class="tech-bubble">Python</span>
-                    <span class="tech-bubble">Java</span>
-                    <span class="tech-bubble">JavaScript</span>
-                    <span class="tech-bubble">TypeScript</span>
-                    <span class="tech-bubble">HTML/CSS</span>
+                <div class="skill-icon frontend">
+                    &lt;/&gt;
+                </div>
+                <div class="skill-content">
+                    <h3>Frontend Development</h3>
+                    <p class="skill-description">React, React Native, Next.js, TypeScript, HTML/CSS, JavaScript</p>
                 </div>
             </div>
             
             <div class="skill-group">
-                <h3>Frameworks & Libraries</h3>
-                <div class="skill-items">
-                    <span class="tech-bubble">React</span>
-                    <span class="tech-bubble">React Native</span>
-                    <span class="tech-bubble">Flask</span>
-                    <span class="tech-bubble">Next.js</span>
-                    <span class="tech-bubble">Node.js</span>
-                    <span class="tech-bubble">Express.js</span>
+                <div class="skill-icon backend">
+                    📊
+                </div>
+                <div class="skill-content">
+                    <h3>Backend Development</h3>
+                    <p class="skill-description">Node.js, Express.js, Flask, Python, Java</p>
                 </div>
             </div>
             
             <div class="skill-group">
-                <h3>Technologies & Tools</h3>
-                <div class="skill-items">
-                    <span class="tech-bubble">MongoDB</span>
-                    <span class="tech-bubble">Neo4j</span>
-                    <span class="tech-bubble">PostgreSQL</span>
-                    <span class="tech-bubble">Firebase</span>
-                    <span class="tech-bubble">Pandas</span>
-                    <span class="tech-bubble">Git</span>
-                    <span class="tech-bubble">RESTful APIs</span>
+                <div class="skill-icon devops">
+                    🛠️
+                </div>
+                <div class="skill-content">
+                    <h3>DevOps & Tools</h3>
+                    <p class="skill-description">Git, RESTful APIs, Firebase, Docker, Vercel</p>
+                </div>
+            </div>
+            
+            <div class="skill-group">
+                <div class="skill-icon design">
+                    🔍
+                </div>
+                <div class="skill-content">
+                    <h3>Data & Web Scraping</h3>
+                    <p class="skill-description">Pandas, BeautifulSoup, Selenium</p>
+                </div>
+            </div>
+            
+            <div class="skill-group">
+                <div class="skill-icon web">
+                    🌐
+                </div>
+                <div class="skill-content">
+                    <h3>Web Technologies</h3>
+                    <p class="skill-description">RESTful APIs, JavaScript, TypeScript</p>
+                </div>
+            </div>
+            
+            <div class="skill-group">
+                <div class="skill-icon database">
+                    📈
+                </div>
+                <div class="skill-content">
+                    <h3>Database Management</h3>
+                    <p class="skill-description">PostgreSQL, MongoDB, Neo4j, Firebase</p>
                 </div>
             </div>
         </div>
@@ -1385,7 +1443,7 @@
             </div>
             
             <div class="contact-footer">
-                <p>Currently seeking <strong>Summer 2026 internship opportunities</strong> in software engineering.</p>
+                <p>Currently seeking <strong>Summer 2026 internship opportunities</strong> in software engineering and data science.</p>
             </div>
 
             <!-- Contact Form -->
@@ -1421,7 +1479,7 @@
         // Typing animation
         const texts = [
             "Full-Stack Developer",
-            "Food Enthusiast", 
+            "Data Science Enthusiast", 
             "First-Gen College Student",
             "Problem Solver",
             "Duke Blue Devil"
