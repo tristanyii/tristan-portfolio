@@ -127,41 +127,26 @@
             justify-content: center;
             padding: 0 5%;
             position: relative;
-            text-align: center;
         }
 
         .hero-content {
-            max-width: 800px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            max-width: 1200px;
             margin: 0 auto;
+            align-items: center;
         }
 
-        .hero h1 {
-            font-size: 5rem;
-            font-weight: 300;
-            margin-bottom: 30px;
-            background: linear-gradient(135deg, #ffffff, #e6f0ff, #4682d4);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
-            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
-            letter-spacing: -2px;
+        .hero-left {
+            text-align: left;
         }
 
-        .hero-subtitle {
-            font-size: 1.4rem;
-            font-weight: 400;
-            color: #87ceeb;
-            margin-bottom: 20px;
-            opacity: 0.9;
-        }
-
-        .typing-text {
-            font-size: 1.2rem;
-            margin-bottom: 40px;
-            height: 40px;
-            color: #aaa;
-            font-weight: 300;
+        .hero-right {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
         }
 
         .floating-profile {
@@ -177,7 +162,7 @@
             position: relative;
             animation: float 6s ease-in-out infinite;
             box-shadow: 0 20px 60px rgba(0, 26, 87, 0.4);
-            margin: 0 auto 40px;
+            margin-bottom: 40px;
         }
 
         .floating-profile::before {
@@ -204,7 +189,7 @@
         }
 
         .hero h1 {
-            font-size: 5rem;
+            font-size: 4rem;
             font-weight: 300;
             margin-bottom: 30px;
             background: linear-gradient(135deg, #ffffff, #e6f0ff, #4682d4);
@@ -249,6 +234,7 @@
             display: flex;
             gap: 20px;
             align-items: center;
+            justify-content: flex-start;
         }
 
         .magnetic-btn {
@@ -316,7 +302,315 @@
             border-radius: 2px;
         }
 
-        /* Clean card design */
+        /* About Section Styling */
+        .about-content {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #ffffff;
+        }
+
+        .about-intro {
+            font-size: 1.3rem;
+            font-weight: 500;
+            color: #87ceeb;
+            margin-bottom: 30px;
+        }
+
+        .about-description {
+            margin-bottom: 40px;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .outside-work h3 {
+            font-size: 1.4rem;
+            color: #87ceeb;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .outside-work > p {
+            margin-bottom: 25px;
+            opacity: 0.9;
+        }
+
+        .activities-grid {
+            display: grid;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .activity-item {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 20px;
+            background: rgba(0, 16, 37, 0.3);
+            border: 1px solid rgba(55, 120, 215, 0.2);
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            position: relative;
+        }
+
+        .activity-item:hover {
+            transform: translateY(-3px);
+            border-color: rgba(70, 130, 212, 0.4);
+            box-shadow: 0 10px 25px rgba(0, 26, 87, 0.2);
+        }
+
+        .expand-arrow {
+            margin-left: auto;
+            color: #87ceeb;
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .expand-arrow.expanded {
+            transform: rotate(180deg);
+        }
+
+        .activity-details {
+            display: none;
+            padding: 20px;
+            margin-top: 10px;
+            background: rgba(70, 130, 212, 0.05);
+            border: 1px solid rgba(70, 130, 212, 0.2);
+            border-radius: 12px;
+            line-height: 1.6;
+        }
+
+        .activity-details.expanded {
+            display: block;
+            animation: slideDown 0.3s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                max-height: 0;
+            }
+            to {
+                opacity: 1;
+                max-height: 500px;
+            }
+        }
+
+        .activity-details ul {
+            margin: 15px 0;
+            padding-left: 20px;
+        }
+
+        .activity-details li {
+            margin-bottom: 8px;
+        }
+
+        .activity-icon {
+            font-size: 2rem;
+            flex-shrink: 0;
+        }
+
+        .activity-text {
+            flex: 1;
+        }
+
+        .instagram-link {
+            color: #4682d4;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .instagram-link:hover {
+            color: #87ceeb;
+        }
+
+        .about-footer {
+            font-style: italic;
+            opacity: 0.8;
+            text-align: center;
+            font-size: 1.05rem;
+            margin-top: 20px;
+        }
+
+        /* Hobbies grid within about section */
+        .hobbies-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+            margin-bottom: 30px;
+        }
+
+        .hobby-card {
+            background: rgba(0, 16, 37, 0.3);
+            border: 1px solid rgba(55, 120, 215, 0.2);
+            border-radius: 15px;
+            padding: 20px 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 8px 32px rgba(0, 26, 87, 0.2);
+        }
+
+        .hobby-card::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: radial-gradient(circle, rgba(70, 130, 212, 0.15) 0%, transparent 70%);
+            transition: all 0.4s ease;
+            transform: translate(-50%, -50%);
+        }
+
+        .hobby-card:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .hobby-card:hover {
+            transform: translateY(-5px) scale(1.03);
+            border-color: rgba(70, 130, 212, 0.5);
+            box-shadow: 0 15px 30px rgba(0, 26, 87, 0.3);
+        }
+
+        .hobby-icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .hobby-card h4 {
+            color: #87ceeb;
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+
+        .hobby-card p {
+            font-size: 0.85rem;
+            opacity: 0.8;
+        }
+
+        /* Activity Details Modal */
+        .activity-modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+        }
+
+        .activity-modal-content {
+            background: linear-gradient(135deg, #001025 0%, #001a57 50%, #0d2240 100%);
+            margin: 5% auto;
+            padding: 40px;
+            border-radius: 25px;
+            width: 90%;
+            max-width: 700px;
+            border: 1px solid rgba(70, 130, 212, 0.4);
+            position: relative;
+            animation: modalSlideIn 0.4s ease-out;
+            box-shadow: 0 20px 60px rgba(0, 26, 87, 0.5);
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .activity-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 28px;
+            cursor: pointer;
+            color: #aaa;
+            transition: color 0.3s ease;
+        }
+
+        .activity-close:hover {
+            color: #87ceeb;
+        }
+
+        .activity-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .gallery-item {
+            width: 100%;
+            height: 200px;
+            background: rgba(70, 130, 212, 0.1);
+            border: 2px dashed rgba(70, 130, 212, 0.3);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #87ceeb;
+            font-size: 0.9rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .gallery-item:hover {
+            background: rgba(70, 130, 212, 0.2);
+            border-color: rgba(70, 130, 212, 0.5);
+        }
+
+        .gallery-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 1px solid rgba(70, 130, 212, 0.3);
+        }
+
+        .spotify-artists {
+            margin-top: 20px;
+        }
+
+        .artist-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .artist-item {
+            background: rgba(70, 130, 212, 0.1);
+            border: 1px solid rgba(70, 130, 212, 0.3);
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .artist-item:hover {
+            background: rgba(70, 130, 212, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .artist-name {
+            font-weight: 600;
+            color: #87ceeb;
+            margin-bottom: 5px;
+        }
+
+        .artist-genre {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
         .unique-card {
             background: rgba(0, 16, 37, 0.2);
             border: 1px solid rgba(55, 120, 215, 0.15);
@@ -518,63 +812,6 @@
             gap: 12px;
         }
 
-        /* Hobbies grid */
-        .hobbies-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 25px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .hobby-card {
-            background: rgba(0, 16, 37, 0.3);
-            border: 1px solid rgba(55, 120, 215, 0.2);
-            border-radius: 20px;
-            padding: 30px 20px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-            backdrop-filter: blur(15px);
-            box-shadow: 0 8px 32px rgba(0, 26, 87, 0.2);
-        }
-
-        .hobby-card::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            background: radial-gradient(circle, rgba(70, 130, 212, 0.15) 0%, transparent 70%);
-            transition: all 0.4s ease;
-            transform: translate(-50%, -50%);
-        }
-
-        .hobby-card:hover::before {
-            width: 300px;
-            height: 300px;
-        }
-
-        .hobby-card:hover {
-            transform: translateY(-8px) scale(1.05);
-            border-color: rgba(70, 130, 212, 0.5);
-            box-shadow: 0 20px 40px rgba(0, 26, 87, 0.3);
-        }
-
-        .hobby-icon {
-            font-size: 3rem;
-            margin-bottom: 15px;
-            display: block;
-        }
-
-        .hobby-card h3 {
-            color: #87ceeb;
-            margin-bottom: 10px;
-        }
-
         /* Clean Contact Section */
         .contact-clean {
             max-width: 900px;
@@ -659,6 +896,118 @@
             color: #87ceeb;
         }
 
+        /* Contact Form Styling */
+        .contact-form {
+            background: rgba(0, 16, 37, 0.4);
+            border: 1px solid rgba(70, 130, 212, 0.3);
+            border-radius: 20px;
+            padding: 40px;
+            margin-top: 40px;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 8px 25px rgba(0, 26, 87, 0.3);
+        }
+
+        .contact-form h3 {
+            color: #87ceeb;
+            font-size: 1.5rem;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #87ceeb;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 15px;
+            background: rgba(0, 16, 37, 0.6);
+            border: 1px solid rgba(70, 130, 212, 0.3);
+            border-radius: 12px;
+            color: white;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: rgba(70, 130, 212, 0.6);
+            box-shadow: 0 0 20px rgba(70, 130, 212, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #4682d4, #001a57);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(70, 130, 212, 0.3);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(70, 130, 212, 0.4);
+            background: linear-gradient(135deg, #39528a, #4682d4);
+        }
+
+        .submit-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .form-note {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 0.9rem;
+            opacity: 0.7;
+            font-style: italic;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .contact-form {
+                padding: 25px;
+            }
+        }
+
         /* Modal for hobbies */
         .hobby-modal {
             display: none;
@@ -706,10 +1055,19 @@
 
         /* Responsive design */
         @media (max-width: 768px) {
-            .hero {
-                flex-direction: column;
+            .hero-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
                 text-align: center;
-                padding: 100px 5% 50px;
+            }
+
+            .hero-left {
+                order: 2;
+                text-align: center;
+            }
+
+            .hero-right {
+                order: 1;
             }
 
             .hero h1 {
@@ -717,9 +1075,9 @@
             }
 
             .floating-profile {
-                width: 200px;
-                height: 200px;
-                font-size: 4rem;
+                width: 150px;
+                height: 150px;
+                font-size: 3rem;
                 margin-bottom: 30px;
             }
 
@@ -740,6 +1098,27 @@
                 padding: 8px 12px;
                 font-size: 0.9rem;
             }
+
+            .hobbies-grid {
+                grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+                gap: 15px;
+            }
+
+            .hobby-card {
+                padding: 15px 10px;
+            }
+
+            .hobby-icon {
+                font-size: 2rem;
+            }
+
+            .hobby-card h4 {
+                font-size: 0.9rem;
+            }
+
+            .hobby-card p {
+                font-size: 0.8rem;
+            }
         }
     </style>
 </head>
@@ -752,10 +1131,10 @@
         <nav id="navbar">
             <ul>
                 <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
                 <li><a href="#experience">Experience</a></li>
                 <li><a href="#projects">Projects</a></li>
                 <li><a href="#skills">Skills</a></li>
-                <li><a href="#hobbies">Hobbies</a></li>
                 <li><a href="#contact">Connect</a></li>
             </ul>
         </nav>
@@ -764,22 +1143,93 @@
     <!-- Hero Section -->
     <section id="home" class="hero">
         <div class="hero-content">
-            <div class="floating-profile">
-                TY
+            <div class="hero-left">
+                <h1>Tristan Yi</h1>
+                <div class="hero-subtitle">Computer Science & Statistics @ Duke University</div>
+                <div class="typing-text" id="typingText"></div>
+                <div class="hero-cta">
+                    <a href="#contact" class="magnetic-btn">Let's Connect</a>
+                </div>
             </div>
-            <h1>Tristan Yi</h1>
-            <div class="hero-subtitle">Computer Science & Statistics @ Duke University</div>
-            <div class="typing-text" id="typingText"></div>
-            <div class="hero-cta">
-                <a href="#contact" class="magnetic-btn">Let's Connect</a>
+            <div class="hero-right">
+                <div class="floating-profile">
+                    TY
+                </div>
             </div>
         </div>
         <div class="scroll-indicator">
             <div style="font-size: 2rem;">↓</div>
         </div>
+        <!-- Activity Details Modal -->
+        <div id="activityModal" class="activity-modal">
+            <div class="activity-modal-content">
+                <span class="activity-close">&times;</span>
+                <div id="activityContent"></div>
+            </div>
+        </div>
     </section>
 
-    <!-- Experience Section -->
+    <!-- About Section -->
+    <section id="about" class="section">
+        <h2 class="section-title">👋 About Me</h2>
+        <div class="about-content">
+            <p class="about-intro">Hi! I'm Tristan, an undergraduate at Duke University studying Computer Science and Statistics.</p>
+            
+            <p class="about-description">I'm currently an intern at Duke Alumni Engagement and Development, where I'm building a platform to identify and connect non-Duke-affiliated philanthropists with giving opportunities. I'm especially passionate about full-stack software engineering and using tech to solve meaningful problems.</p>
+            
+            <div class="outside-work">
+                <h3>My Hobbies at a Glance</h3>
+                <div class="hobbies-grid">
+                    <div class="hobby-card" onclick="showHobbyDetails('photography')">
+                        <span class="hobby-icon">📸</span>
+                        <h4>Photography</h4>
+                        <p>Creative perspectives</p>
+                    </div>
+                    <div class="hobby-card" onclick="showHobbyDetails('fashion')">
+                        <span class="hobby-icon">👕</span>
+                        <h4>Fashion</h4>
+                        <p>Style & trends</p>
+                    </div>
+                    <div class="hobby-card" onclick="showHobbyDetails('running')">
+                        <span class="hobby-icon">🏃‍♂️</span>
+                        <h4>Running</h4>
+                        <p>Outdoor exploration</p>
+                    </div>
+                    <div class="hobby-card" onclick="showHobbyDetails('basketball')">
+                        <span class="hobby-icon">🏀</span>
+                        <h4>Basketball</h4>
+                        <p>Pickup games</p>
+                    </div>
+                    <div class="hobby-card" onclick="showHobbyDetails('soccer')">
+                        <span class="hobby-icon">⚽</span>
+                        <h4>Soccer</h4>
+                        <p>Tactical analysis</p>
+                    </div>
+                    <div class="hobby-card" onclick="showHobbyDetails('anime')">
+                        <span class="hobby-icon">🎌</span>
+                        <h4>Anime</h4>
+                        <p>Japanese stories</p>
+                    </div>
+                    <div class="hobby-card" onclick="showHobbyDetails('music')">
+                        <span class="hobby-icon">🎵</span>
+                        <h4>Music</h4>
+                        <p>Live performances</p>
+                    </div>
+                </div>
+            </div>
+            
+            <p class="about-footer">Feel free to contact me to talk about whatever!</p>
+        </div>
+        
+        <!-- Hobby Modal -->
+        <div id="hobbyModal" class="hobby-modal">
+            <div class="hobby-modal-content">
+                <span class="hobby-close">&times;</span>
+                <div id="hobbyContent"></div>
+            </div>
+        </div>
+    </section>
+
     <section id="experience" class="section">
         <h2 class="section-title">Experience</h2>
         <div class="cards-container">
@@ -828,7 +1278,7 @@
     <section id="projects" class="section">
         <h2 class="section-title">Featured Projects</h2>
         <div class="projects-grid">
-            <div class="project-card" onclick="showProjectDetails('buddies')">
+            <div class="project-card" onclick="window.open('https://dukestudentgovernment.org/affiliates/blue-devil-buddies/', '_blank')">
                 <div class="project-title">
                     <div class="project-icon">🎯</div>
                     Duke Blue Devil Buddies
@@ -856,7 +1306,7 @@
                 </div>
             </div>
             
-            <div class="project-card" onclick="showProjectDetails('gohelp')">
+            <div class="project-card" onclick="window.open('https://devpost.com/software/gohelpme', '_blank')">
                 <div class="project-title">
                     <div class="project-icon">🚑</div>
                     GoHelpMe
@@ -914,56 +1364,6 @@
         </div>
     </section>
 
-    <!-- Hobbies Section -->
-    <section id="hobbies" class="section">
-        <h2 class="section-title">Beyond Code</h2>
-        <div class="hobbies-grid">
-            <div class="hobby-card" onclick="showHobbyDetails('photography')">
-                <span class="hobby-icon">📸</span>
-                <h3>Photography</h3>
-                <p>Capturing moments and creative perspectives</p>
-            </div>
-            <div class="hobby-card" onclick="showHobbyDetails('fashion')">
-                <span class="hobby-icon">👕</span>
-                <h3>Fashion</h3>
-                <p>Style trends and personal expression</p>
-            </div>
-            <div class="hobby-card" onclick="showHobbyDetails('running')">
-                <span class="hobby-icon">🏃‍♂️</span>
-                <h3>Running</h3>
-                <p>Building endurance and exploring outdoors</p>
-            </div>
-            <div class="hobby-card" onclick="showHobbyDetails('basketball')">
-                <span class="hobby-icon">🏀</span>
-                <h3>Basketball</h3>
-                <p>Playing pickup games and NBA analytics</p>
-            </div>
-            <div class="hobby-card" onclick="showHobbyDetails('soccer')">
-                <span class="hobby-icon">⚽</span>
-                <h3>Soccer</h3>
-                <p>Following matches and tactical analysis</p>
-            </div>
-            <div class="hobby-card" onclick="showHobbyDetails('anime')">
-                <span class="hobby-icon">🎌</span>
-                <h3>Anime</h3>
-                <p>Japanese animation and storytelling</p>
-            </div>
-            <div class="hobby-card" onclick="showHobbyDetails('music')">
-                <span class="hobby-icon">🎵</span>
-                <h3>Music</h3>
-                <p>Discovering artists and live performances</p>
-            </div>
-        </div>
-        
-        <!-- Hobby Modal -->
-        <div id="hobbyModal" class="hobby-modal">
-            <div class="hobby-modal-content">
-                <span class="hobby-close">&times;</span>
-                <div id="hobbyContent"></div>
-            </div>
-        </div>
-    </section>
-
     <!-- Contact Section -->
     <section id="contact" class="section">
         <h2 class="section-title">Connect With Me</h2>
@@ -986,6 +1386,33 @@
             
             <div class="contact-footer">
                 <p>Currently seeking <strong>Summer 2026 internship opportunities</strong> in software engineering and data science.</p>
+            </div>
+
+            <!-- Contact Form -->
+            <div class="contact-form">
+                <h3>💌 Send Me a Message</h3>
+                <form id="contactForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" id="name" name="name" placeholder="Your name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" placeholder="your.email@example.com" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="subject">Subject</label>
+                        <input type="text" id="subject" name="subject" placeholder="What's this about?" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" placeholder="Tell me what's on your mind..." required></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">Send Message ✈️</button>
+                    <p class="form-note">I'll get back to you as soon as possible!</p>
+                </form>
             </div>
         </div>
     </section>
@@ -1041,20 +1468,43 @@
         });
 
         // Smooth scrolling for navigation
-        document.querySelectorAll('nav a').forEach(anchor => {
+        document.querySelectorAll('nav a, .magnetic-btn').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                target.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
+                const href = this.getAttribute('href');
+                if (href && href.startsWith('#')) {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                }
             });
         });
 
-        // Project details
-        function showProjectDetails(projectKey) {
-            console.log(`Project clicked: ${projectKey}`);
+        // Simple toggle function for activity details
+        function toggleActivity(activityId) {
+            const details = document.getElementById(activityId + '-details');
+            const arrow = document.getElementById(activityId + '-arrow');
+            
+            if (details.classList.contains('expanded')) {
+                details.classList.remove('expanded');
+                arrow.classList.remove('expanded');
+            } else {
+                // Close all other expanded sections first
+                document.querySelectorAll('.activity-details.expanded').forEach(detail => {
+                    detail.classList.remove('expanded');
+                });
+                document.querySelectorAll('.expand-arrow.expanded').forEach(arr => {
+                    arr.classList.remove('expanded');
+                });
+                
+                // Open the clicked section
+                details.classList.add('expanded');
+                arrow.classList.add('expanded');
+            }
         }
 
         // Hobby data
@@ -1198,6 +1648,40 @@
                     }
                 }
             });
+
+            // Contact form handler
+            const contactForm = document.getElementById('contactForm');
+            if (contactForm) {
+                contactForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const formData = new FormData(contactForm);
+                    const name = formData.get('name');
+                    const email = formData.get('email');
+                    const subject = formData.get('subject');
+                    const message = formData.get('message');
+                    
+                    // Create mailto link
+                    const mailtoLink = `mailto:triyi0513@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(
+                        `Hi Tristan,\n\n${message}\n\nBest regards,\n${name}\n${email}`
+                    )}`;
+                    
+                    // Open email client
+                    window.location.href = mailtoLink;
+                    
+                    // Show confirmation
+                    const submitBtn = contactForm.querySelector('.submit-btn');
+                    const originalText = submitBtn.innerHTML;
+                    submitBtn.innerHTML = '✅ Opening Email Client...';
+                    submitBtn.style.background = 'linear-gradient(135deg, #28a745, #20c997)';
+                    
+                    setTimeout(() => {
+                        submitBtn.innerHTML = originalText;
+                        submitBtn.style.background = 'linear-gradient(135deg, #4682d4, #001a57)';
+                        contactForm.reset();
+                    }, 3000);
+                });
+            }
         });
     </script>
 </body>
