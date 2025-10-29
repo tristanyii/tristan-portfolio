@@ -47,9 +47,11 @@ export function MusicPlayer() {
     }
   }, []);
 
+  // Refetch tracks every time player is opened to get latest Spotify data
   useEffect(() => {
-    if (isOpen && tracks.length === 0) {
+    if (isOpen) {
       fetchTracks();
+      setCurrentTrackIndex(0); // Reset to first track
     }
   }, [isOpen]);
 

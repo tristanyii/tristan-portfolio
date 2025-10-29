@@ -25,9 +25,18 @@ export function YouTubeMusicPlayer() {
   const [currentVideo, setCurrentVideo] = useState<VideoResult | null>(null);
   const [loadingVideo, setLoadingVideo] = useState(false);
 
+  // Fetch tracks on mount
   useEffect(() => {
     fetchTopTracks();
   }, []);
+
+  // Refetch tracks every time player is opened to get latest Spotify data
+  useEffect(() => {
+    if (isOpen) {
+      fetchTopTracks();
+      setCurrentTrackIndex(0); // Reset to first track
+    }
+  }, [isOpen]);
 
   useEffect(() => {
     if (tracks.length > 0 && isOpen) {
@@ -60,11 +69,18 @@ export function YouTubeMusicPlayer() {
     try {
       const response = await fetch("/api/spotify/top-tracks");
       const data = await response.json();
-      if (data.items && data.items.length > 0) {
-        console.log(`🎵 Loaded ${data.items.length} tracks for YouTube player`);
-        setTracks(data.items.slice(0, 10)); // Use top 10 tracks
+      
+      console.log("🔍 YouTube Player - API Response:", data);
+      console.log("🔍 Is Array?", Array.isArray(data));
+      console.log("🔍 Length:", data?.length);
+      
+      // API returns direct array, not wrapped in items
+      if (Array.isArray(data) && data.length > 0) {
+        console.log(`🎵 Loaded ${data.length} tracks for YouTube player`);
+        console.log("🎵 First track structure:", data[0]);
+        setTracks(data.slice(0, 10)); // Use top 10 tracks
       } else {
-        console.log("❌ No tracks returned from API");
+        console.log("❌ No tracks returned from API, got:", typeof data, data);
       }
     } catch (error) {
       console.error("❌ Error fetching top tracks:", error);

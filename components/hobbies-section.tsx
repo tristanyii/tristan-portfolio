@@ -9,12 +9,12 @@ export function HobbiesSection() {
   const [isTravelMapOpen, setIsTravelMapOpen] = useState(false);
   const [isPhotographyOpen, setIsPhotographyOpen] = useState(false);
   const hobbies = [
-    { emoji: "⚽", title: "Sports", desc: "Playing pickup games and staying active. Whether it's basketball, soccer, or hitting the gym, sports keep me energized and competitive.", color: "from-green-500/20 to-emerald-500/10", rotation: "-rotate-1" },
-    { emoji: "📸", title: "Photography", desc: "Capturing moments and exploring creative perspectives. Photography helps me see the world differently and appreciate the details.", color: "from-purple-500/20 to-pink-500/10", rotation: "rotate-1" },
-    { emoji: "🎵", title: "Music", desc: "Listening to various genres and discovering new artists. Music is my constant companion for focus, relaxation, and motivation.", color: "from-blue-500/20 to-cyan-500/10", rotation: "-rotate-2" },
-    { emoji: "🎮", title: "Gaming", desc: "Playing strategy and competitive games. Gaming is a fun way to unwind, challenge myself, and connect with friends online.", color: "from-red-500/20 to-orange-500/10", rotation: "rotate-2" },
-    { emoji: "🍔", title: "Eating", desc: "Exploring different cuisines and trying new restaurants. Food is an adventure and a way to experience different cultures.", color: "from-yellow-500/20 to-amber-500/10", rotation: "rotate-1" },
-    { emoji: "✈️", title: "Traveling", desc: "Exploring new places and cultures around the world. Each trip brings new perspectives, experiences, and unforgettable memories.", color: "from-indigo-500/20 to-violet-500/10", rotation: "-rotate-1" },
+    { emoji: "⚽", title: "Sports", desc: "Pickup basketball, soccer, gym sessions. Always down for a game.", color: "from-green-500/20 to-emerald-500/10", rotation: "-rotate-1", available: false },
+    { emoji: "📸", title: "Photography", desc: "View my photo collection from travels and everyday moments.", color: "from-purple-500/20 to-pink-500/10", rotation: "rotate-1", available: true },
+    { emoji: "🎵", title: "Music", desc: "Everything from indie to hip-hop. Currently obsessed with discovering new artists.", color: "from-blue-500/20 to-cyan-500/10", rotation: "-rotate-2", available: false },
+    { emoji: "🎮", title: "Gaming", desc: "Strategy games and competitive multiplayer when I need to unwind.", color: "from-red-500/20 to-orange-500/10", rotation: "rotate-2", available: false },
+    { emoji: "🍔", title: "Eating", desc: "Always hunting for the best local spots and new cuisines to try.", color: "from-yellow-500/20 to-amber-500/10", rotation: "rotate-1", available: false },
+    { emoji: "✈️", title: "Traveling", desc: "Explore my travel map and photos from places I've visited.", color: "from-indigo-500/20 to-violet-500/10", rotation: "-rotate-1", available: true },
   ];
 
   return (
@@ -26,15 +26,14 @@ export function HobbiesSection() {
         {hobbies.map((hobby, idx) => (
           <div
             key={idx}
-            className={`group cursor-pointer ${hobby.rotation} hover:rotate-0 hover:scale-105 transition-all duration-500`}
+            className={`group ${hobby.available ? 'cursor-pointer' : 'cursor-default'} ${hobby.rotation} hover:rotate-0 ${hobby.available ? 'hover:scale-105' : 'hover:scale-102'} transition-all duration-500`}
             onClick={() => {
-              if (hobby.title === "Traveling") {
-                setIsTravelMapOpen(true);
-              } else if (hobby.title === "Photography") {
-                setIsPhotographyOpen(true);
-              } else {
-                // TODO: Add modal or expanded view for other hobbies
-                console.log(`Clicked on ${hobby.title}`);
+              if (hobby.available) {
+                if (hobby.title === "Traveling") {
+                  setIsTravelMapOpen(true);
+                } else if (hobby.title === "Photography") {
+                  setIsPhotographyOpen(true);
+                }
               }
             }}
           >
@@ -65,7 +64,7 @@ export function HobbiesSection() {
               
               {/* Click indicator */}
               <div className="mt-4 text-xs text-primary/0 group-hover:text-primary/70 transition-all duration-300">
-                ✨ Click to explore more
+                {hobby.available ? "✨ Click to explore" : "🚧 Coming soon"}
               </div>
             </CardContent>
           </Card>
