@@ -1,0 +1,51 @@
+[
+  {
+    "id": "1",
+    "name": "Durham",
+    "country": "USA",
+    "state": "North Carolina",
+    "visited": true,
+    "date": "2024-Present",
+    "description": "Home at Duke University - studying Computer Science and Statistics",
+    "coordinates": {
+      "lat": 35.994,
+      "lng": -78.8986
+    },
+    "photos": [
+      "/Headshot.jpg",
+      "/MirrorPic.jpg"
+    ]
+  },
+  {
+    "id": "2",
+    "name": "Union",
+    "country": "USA",
+    "state": "South Carolina",
+    "visited": true,
+    "date": "Home",
+    "description": "My hometown where it all began",
+    "coordinates": {
+      "lat": 34.7154,
+      "lng": -81.6234
+    },
+    "photos": [
+      "/GreatAunt.jpg"
+    ]
+  },
+  {
+    "id": "3",
+    "name": "Charlotte",
+    "country": "USA",
+    "state": "North Carolina",
+    "visited": true,
+    "date": "2023-2024",
+    "description": "Frequent visits to the Queen City",
+    "coordinates": {
+      "lat": 35.2271,
+      "lng": -80.8431
+    },
+    "photos": [
+      "/Carowinds.jpg"
+    ]
+  }
+]
