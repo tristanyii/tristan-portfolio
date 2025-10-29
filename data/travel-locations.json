@@ -47,5 +47,18 @@
     "photos": [
       "/Carowinds.jpg"
     ]
+  },
+  {
+    "id": "1761705940730",
+    "name": "New Location",
+    "country": "USA",
+    "state": "Lancaster",
+    "visited": true,
+    "coordinates": {
+      "lng": -78.007014458997,
+      "lat": 42.021474463287845
+    },
+    "photos": [],
+    "description": "Add your description here!"
   }
 ]

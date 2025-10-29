@@ -63,8 +63,10 @@ const getVisitedUSStates = (travelData: TravelLocation[]) => {
   travelData.forEach(location => {
     if (location.country === "USA" && location.state && location.visited) {
       states.add(location.state);
+      console.log('✅ Adding visited state:', location.state, 'from location:', location.name);
     }
   });
+  console.log('🗺️ Visited US States:', Array.from(states));
   return states;
 };
 
@@ -313,7 +315,7 @@ export function TravelMap({ isOpen, onClose }: TravelMapProps) {
 
   // Delete location from database
   const deleteLocationFromDb = async (id: string) => {
-    if (!confirm('Are you sure you want to delete this location?')) return;
+    if (!confirm('⚠️ Are you sure you want to delete this location?\n\nThis action cannot be undone.')) return;
 
     setSaving(true);
     try {
@@ -642,14 +644,16 @@ export function TravelMap({ isOpen, onClose }: TravelMapProps) {
                               {locations.map((location) => (
                                 <div
                                   key={location.id}
-                                  className="flex items-center gap-2 px-2 py-2 rounded-md hover:bg-primary/10 cursor-pointer text-sm group/item transition-colors"
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    setSelectedLocation(location);
-                                  }}
+                                  className="flex items-center gap-2 px-2 py-2 rounded-md hover:bg-primary/10 text-sm group/item transition-colors"
                                 >
                                   <MapPin className="h-3.5 w-3.5 text-red-500 flex-shrink-0" />
-                                  <div className="flex-1 min-w-0">
+                                  <div 
+                                    className="flex-1 min-w-0 cursor-pointer"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      setSelectedLocation(location);
+                                    }}
+                                  >
                                     <p className="font-medium truncate">{location.name}</p>
                                     {location.date && (
                                       <p className="text-[10px] text-muted-foreground">{location.date}</p>
@@ -662,17 +666,32 @@ export function TravelMap({ isOpen, onClose }: TravelMapProps) {
                                     </div>
                                   )}
                                   {adminMode && (
-                                    <Button
-                                      variant="ghost"
-                                      size="icon"
-                                      className="h-6 w-6 opacity-0 group-hover/item:opacity-100 transition-opacity"
-                                      onClick={(e) => {
-                                        e.stopPropagation();
-                                        setEditingLocation(location);
-                                      }}
-                                    >
-                                      <Settings className="h-3 w-3" />
-                                    </Button>
+                                    <div className="flex gap-1 opacity-0 group-hover/item:opacity-100 transition-opacity">
+                                      <Button
+                                        variant="ghost"
+                                        size="icon"
+                                        className="h-6 w-6"
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          setEditingLocation(location);
+                                        }}
+                                        title="Edit location"
+                                      >
+                                        <Settings className="h-3 w-3" />
+                                      </Button>
+                                      <Button
+                                        variant="ghost"
+                                        size="icon"
+                                        className="h-6 w-6 hover:bg-red-500/10"
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          deleteLocationFromDb(location.id);
+                                        }}
+                                        title="Delete location"
+                                      >
+                                        <Trash2 className="h-3 w-3 text-red-500" />
+                                      </Button>
+                                    </div>
                                   )}
                                 </div>
                               ))}
@@ -795,9 +814,15 @@ export function TravelMap({ isOpen, onClose }: TravelMapProps) {
                   <div>
                     <h3 className="text-2xl font-bold text-primary flex items-center gap-2">
                       <Settings className="h-6 w-6" />
-                      Edit Location
+                      {editingLocation.id && travelData.find(loc => loc.id === editingLocation.id) 
+                        ? 'Edit Location' 
+                        : 'Add New Location'}
                     </h3>
-                    <p className="text-sm text-muted-foreground mt-1">Update travel information</p>
+                    <p className="text-sm text-muted-foreground mt-1">
+                      {editingLocation.id && travelData.find(loc => loc.id === editingLocation.id)
+                        ? 'Update travel information'
+                        : 'Add a new place you\'ve visited'}
+                    </p>
                   </div>
                   <Button
                     variant="ghost"
@@ -869,7 +894,7 @@ export function TravelMap({ isOpen, onClose }: TravelMapProps) {
                   </div>
                   <div>
                     <label className="block text-sm font-bold mb-2">
-                      📍 State/Region {editingLocation.country === "USA" && <span className="text-red-500">* Required</span>}
+                      📍 State/Region {editingLocation.country === "USA" && <span className="text-red-500 text-base">* REQUIRED TO TURN STATE GREEN</span>}
                     </label>
                     <input
                       type="text"
@@ -880,15 +905,20 @@ export function TravelMap({ isOpen, onClose }: TravelMapProps) {
                       }}
                       className={`w-full px-4 py-2 bg-muted rounded-lg border-2 ${
                         editingLocation.country === "USA" && !editingLocation.state
-                          ? 'border-red-500/50 focus:border-red-500'
+                          ? 'border-red-500 focus:border-red-600 animate-pulse'
                           : 'border-primary/20 focus:border-primary'
                       } outline-none`}
-                      placeholder={editingLocation.country === "USA" ? "Pennsylvania, Texas, etc." : "Optional"}
+                      placeholder={editingLocation.country === "USA" ? "e.g., Pennsylvania, North Carolina" : "Optional for international"}
                     />
                     {editingLocation.country === "USA" && !editingLocation.state && (
-                      <p className="text-xs text-red-500 mt-1 font-medium">
-                        ⚠️ Please enter the state name to group locations correctly
-                      </p>
+                      <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-2 mt-2">
+                        <p className="text-xs text-red-600 dark:text-red-400 font-bold">
+                          ⚠️ STATE IS REQUIRED!
+                        </p>
+                        <p className="text-xs text-red-600 dark:text-red-400 mt-1">
+                          Enter the state name (e.g., "Pennsylvania") to make the state turn green on the map.
+                        </p>
+                      </div>
                     )}
                   </div>
                 </div>
@@ -1059,12 +1089,26 @@ export function TravelMap({ isOpen, onClose }: TravelMapProps) {
                     variant="default"
                     className="flex-1"
                     onClick={async () => {
+                      // Validate USA locations have state
+                      if (editingLocation.country === "USA" && !editingLocation.state?.trim()) {
+                        alert("⚠️ STATE REQUIRED FOR USA LOCATIONS!\n\n" +
+                              "You must enter both:\n" +
+                              "• City Name: " + editingLocation.name + "\n" +
+                              "• State: (e.g., Pennsylvania, North Carolina)\n\n" +
+                              "This is required to:\n" +
+                              "✓ Turn the state GREEN on the map\n" +
+                              "✓ Group your locations correctly");
+                        return;
+                      }
+                      
+                      console.log('💾 Saving location:', editingLocation);
                       const saved = await saveLocationToDb(editingLocation);
                       if (saved) {
+                        console.log('✅ Location saved successfully!');
                         setEditingLocation(null);
                       }
                     }}
-                    disabled={saving || !editingLocation.name || !editingLocation.country}
+                    disabled={saving || !editingLocation.name?.trim() || !editingLocation.country?.trim() || (editingLocation.country === "USA" && !editingLocation.state?.trim())}
                   >
                     {saving ? (
                       <>

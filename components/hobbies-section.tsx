@@ -3,9 +3,11 @@
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { TravelMap } from "./travel-map";
+import { PhotographyGallery } from "./photography-gallery";
 
 export function HobbiesSection() {
   const [isTravelMapOpen, setIsTravelMapOpen] = useState(false);
+  const [isPhotographyOpen, setIsPhotographyOpen] = useState(false);
   const hobbies = [
     { emoji: "⚽", title: "Sports", desc: "Playing pickup games and staying active. Whether it's basketball, soccer, or hitting the gym, sports keep me energized and competitive.", color: "from-green-500/20 to-emerald-500/10", rotation: "-rotate-1" },
     { emoji: "📸", title: "Photography", desc: "Capturing moments and exploring creative perspectives. Photography helps me see the world differently and appreciate the details.", color: "from-purple-500/20 to-pink-500/10", rotation: "rotate-1" },
@@ -18,6 +20,7 @@ export function HobbiesSection() {
   return (
     <>
       <TravelMap isOpen={isTravelMapOpen} onClose={() => setIsTravelMapOpen(false)} />
+      <PhotographyGallery isOpen={isPhotographyOpen} onClose={() => setIsPhotographyOpen(false)} />
       
       <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
         {hobbies.map((hobby, idx) => (
@@ -27,6 +30,8 @@ export function HobbiesSection() {
             onClick={() => {
               if (hobby.title === "Traveling") {
                 setIsTravelMapOpen(true);
+              } else if (hobby.title === "Photography") {
+                setIsPhotographyOpen(true);
               } else {
                 // TODO: Add modal or expanded view for other hobbies
                 console.log(`Clicked on ${hobby.title}`);
