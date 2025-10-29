@@ -19,6 +19,29 @@ export const metadata: Metadata = {
   icons: {
     icon: "/snorlax-pixel.gif",
   },
+  openGraph: {
+    title: "Tristan Yi Portfolio",
+    description: "Personal portfolio of Tristan Yi - Computer Science and Statistics student at Duke University",
+    url: "https://tristanyi.vercel.app",
+    siteName: "Tristan Yi Portfolio",
+    images: [
+      {
+        url: "/og-image.jpg", // You'll need to create this image
+        width: 1200,
+        height: 630,
+        alt: "Tristan Yi Portfolio",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Tristan Yi Portfolio",
+    description: "Personal portfolio of Tristan Yi - Computer Science and Statistics student at Duke University",
+    images: ["/og-image.jpg"], // Same image as OpenGraph
+  },
+  metadataBase: new URL("https://tristanyi.vercel.app"),
 };
 
 export const viewport: Viewport = {

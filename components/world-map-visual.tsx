@@ -157,9 +157,9 @@ export function WorldMapVisual({ visitedCountries, onCountryClick, cityMarkers =
                   onMouseLeave={() => setHoveredMarker(null)}
                   onMouseDown={(e) => e.stopPropagation()}
                   onTouchStart={(e) => e.stopPropagation()}
-                  style={{
-                    pointerEvents: 'bounding-box',
-                  }}
+        style={{
+          pointerEvents: 'auto',
+        }}
                 >
                   {/* Invisible hit area for easier clicking */}
                   <circle r={12} fill="transparent" />

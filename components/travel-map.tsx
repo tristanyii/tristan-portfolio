@@ -92,6 +92,8 @@ interface TravelMapProps {
 
 export function TravelMap({ isOpen, onClose }: TravelMapProps) {
   const [selectedLocation, setSelectedLocation] = useState<TravelLocation | null>(null);
+  const [selectedRegionLocations, setSelectedRegionLocations] = useState<TravelLocation[] | null>(null);
+  const [lightboxPhoto, setLightboxPhoto] = useState<string | null>(null);
   const [viewMode, setViewMode] = useState<"world" | "usa">("usa");
   const [hoveredRegion, setHoveredRegion] = useState<string | null>(null);
   const [adminMode, setAdminMode] = useState(false);
@@ -622,10 +624,8 @@ export function TravelMap({ isOpen, onClose }: TravelMapProps) {
                           <div 
                             className="w-32 h-24 md:w-36 md:h-28 rounded-lg overflow-hidden border border-primary/20 hover:border-primary/50 hover:shadow-lg transition-all bg-muted/50 backdrop-blur cursor-pointer"
                             onClick={() => {
-                              // Show the first location with photos, or just the first location
-                              const locationWithPhotos = locations.find(loc => loc.photos && loc.photos.length > 0);
-                              const locationToShow = locationWithPhotos || locations[0];
-                              setSelectedLocation(locationToShow);
+                              // Show all locations in this region
+                              setSelectedRegionLocations(locations);
                             }}
                           >
                             {photoCount > 0 ? (
@@ -764,6 +764,107 @@ export function TravelMap({ isOpen, onClose }: TravelMapProps) {
           </div>
         </div>
 
+        {/* Region Locations Modal - Shows ALL locations in a region */}
+        {selectedRegionLocations && (
+          <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-2 md:p-4 animate-fade-in"
+               onClick={() => setSelectedRegionLocations(null)}>
+            <div className="max-w-5xl w-full max-h-[95vh] md:max-h-[90vh] overflow-y-auto bg-background rounded-xl md:rounded-2xl shadow-2xl"
+                 onClick={(e) => e.stopPropagation()}>
+              <div className="sticky top-0 bg-background/95 backdrop-blur-lg border-b p-4 md:p-6 z-10">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="flex-1 min-w-0">
+                    <h3 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-primary via-purple-500 to-blue-500 bg-clip-text text-transparent truncate">
+                      {selectedRegionLocations[0].state || selectedRegionLocations[0].country}
+                    </h3>
+                    <p className="text-sm md:text-base text-muted-foreground mt-1">
+                      {selectedRegionLocations.length} {selectedRegionLocations.length === 1 ? 'place' : 'places'} • {selectedRegionLocations.reduce((sum, loc) => sum + (loc.photos?.length || 0), 0)} photos
+                    </p>
+                  </div>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => setSelectedRegionLocations(null)}
+                    className="rounded-full hover:bg-primary/10 h-8 w-8 md:h-10 md:w-10 flex-shrink-0"
+                  >
+                    <X className="h-4 w-4 md:h-5 md:w-5" />
+                  </Button>
+                </div>
+              </div>
+
+              <div className="p-4 md:p-6 space-y-8">
+                {/* Show each location with its photos */}
+                {selectedRegionLocations.map((location) => (
+                  <div key={location.id} className="space-y-4">
+                    {/* Location Header */}
+                    <div className="flex items-start justify-between">
+                      <div>
+                        <h4 className="text-xl md:text-2xl font-bold flex items-center gap-2">
+                          <MapPin className="h-5 w-5 text-red-500" />
+                          {location.name}
+                        </h4>
+                        {location.date && (
+                          <p className="text-sm text-muted-foreground mt-1">{location.date}</p>
+                        )}
+                        {location.description && (
+                          <p className="text-sm text-muted-foreground mt-2">{location.description}</p>
+                        )}
+                      </div>
+                      {adminMode && (
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => {
+                            setEditingLocation(location);
+                            setSelectedRegionLocations(null);
+                          }}
+                          className="gap-1"
+                        >
+                          <Settings className="h-3 w-3" />
+                          <span className="hidden sm:inline">Edit</span>
+                        </Button>
+                      )}
+                    </div>
+
+                    {/* Photos Grid */}
+                    {location.photos && location.photos.length > 0 ? (
+                      <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
+                        {location.photos.map((photo, index) => (
+                          <div 
+                            key={index} 
+                            className="group relative overflow-hidden rounded-xl aspect-video bg-muted cursor-pointer"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setLightboxPhoto(photo);
+                            }}
+                          >
+                            <img
+                              src={photo}
+                              alt={`${location.name} photo ${index + 1}`}
+                              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+                              <div className="absolute bottom-0 left-0 right-0 p-3">
+                                <p className="text-white text-xs md:text-sm">Click to view full size</p>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="text-sm text-muted-foreground italic">No photos for this location yet</p>
+                    )}
+
+                    {/* Divider between locations */}
+                    {selectedRegionLocations.indexOf(location) < selectedRegionLocations.length - 1 && (
+                      <div className="h-px bg-gradient-to-r from-transparent via-border to-transparent mt-6"></div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Selected Location Photo Gallery Modal */}
         {selectedLocation && (
           <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-2 md:p-4 animate-fade-in"
@@ -843,18 +944,24 @@ export function TravelMap({ isOpen, onClose }: TravelMapProps) {
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
                       {selectedLocation.photos.map((photo, index) => (
-                        <div key={index} className="group relative overflow-hidden rounded-xl aspect-video bg-muted">
+                        <div 
+                          key={index} 
+                          className="group relative overflow-hidden rounded-xl aspect-video bg-muted cursor-pointer"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setLightboxPhoto(photo);
+                          }}
+                        >
                           <img
                             src={photo}
                             alt={`${selectedLocation.name} photo ${index + 1}`}
-                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 cursor-pointer"
-                            onClick={() => window.open(photo, '_blank')}
+                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                           />
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
                             <div className="absolute bottom-0 left-0 right-0 p-4">
                               <p className="text-white text-sm mb-2">Click to view full size</p>
                               {adminMode && (
-                                <div className="flex gap-2">
+                                <div className="flex gap-2 pointer-events-auto">
                                   <Button
                                     size="sm"
                                     variant="destructive"
@@ -1297,6 +1404,31 @@ export function TravelMap({ isOpen, onClose }: TravelMapProps) {
                   </pre>
                 </details>
               </div>
+            </div>
+          </div>
+        )}
+
+        {/* Lightbox Modal for Full-Size Photo */}
+        {lightboxPhoto && (
+          <div 
+            className="fixed inset-0 z-[60] bg-black/95 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in"
+            onClick={() => setLightboxPhoto(null)}
+          >
+            <div className="relative max-w-7xl max-h-[90vh] w-full h-full flex items-center justify-center">
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setLightboxPhoto(null)}
+                className="absolute top-4 right-4 rounded-full bg-black/50 hover:bg-black/70 text-white z-10"
+              >
+                <X className="h-6 w-6" />
+              </Button>
+              <img
+                src={lightboxPhoto}
+                alt="Full size photo"
+                className="max-w-full max-h-full object-contain rounded-lg"
+                onClick={(e) => e.stopPropagation()}
+              />
             </div>
           </div>
         )}
