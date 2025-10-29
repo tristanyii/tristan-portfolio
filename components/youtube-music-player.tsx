@@ -67,15 +67,25 @@ export function YouTubeMusicPlayer() {
   const fetchTopTracks = async () => {
     setLoading(true);
     try {
+      console.log("🔍 Fetching tracks from /api/spotify/top-tracks...");
       const response = await fetch("/api/spotify/top-tracks");
+      
+      if (!response.ok) {
+        console.error("❌ API response not OK:", response.status, response.statusText);
+        return;
+      }
+      
       const data = await response.json();
+      console.log("📦 Received data type:", typeof data, "isArray:", Array.isArray(data));
+      console.log("📦 Data:", data);
       
       // API returns direct array, not wrapped in items
       if (Array.isArray(data) && data.length > 0) {
-        console.log(`🎵 Loaded ${data.length} tracks for YouTube player`);
+        console.log(`✅ Loaded ${data.length} tracks for YouTube player`);
+        console.log("🎵 First track:", data[0]);
         setTracks(data.slice(0, 10)); // Use top 10 tracks
       } else {
-        console.log("❌ No tracks returned from API");
+        console.error("❌ No valid tracks. Got:", data);
       }
     } catch (error) {
       console.error("❌ Error fetching top tracks:", error);

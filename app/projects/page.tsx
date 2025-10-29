@@ -106,22 +106,6 @@ export default function ProjectsPage() {
                 </div>
               </CardContent>
             </Card>
-
-            {/* Add your other projects here */}
-            <Card className="hover:shadow-lg transition-shadow">
-              <CardHeader>
-                <CardTitle>More Projects Coming Soon</CardTitle>
-                <CardDescription>Currently working on...</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <p className="text-muted-foreground">
-                  Stay tuned for more exciting projects in web development, AI/ML, and data science!
-                </p>
-                <p className="text-muted-foreground text-sm">
-                  Check out my <a href="https://github.com/tristanvii" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">GitHub</a> for more of my work.
-                </p>
-              </CardContent>
-            </Card>
           </div>
         </div>
       </section>

@@ -566,23 +566,6 @@ export default function Home() {
                 </div>
               </CardContent>
             </Card>
-
-            {/* More Projects */}
-            <Card className="hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] group relative overflow-hidden rounded-tl-3xl rounded-br-3xl border-r-4 border-r-primary/30">
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-              <CardHeader className="relative z-10">
-                <CardTitle className="text-xl">More Projects Coming Soon</CardTitle>
-                <CardDescription>Currently working on...</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4 relative z-10">
-                <p className="text-muted-foreground">
-                  Stay tuned for more exciting projects in web development, AI/ML, and data science!
-                </p>
-                <p className="text-muted-foreground text-sm">
-                  Check out my <a href="https://github.com/tristanyii" className="text-primary hover:underline font-semibold" target="_blank" rel="noopener noreferrer">GitHub</a> for more of my work.
-                </p>
-              </CardContent>
-            </Card>
           </div>
         </div>
       </section>

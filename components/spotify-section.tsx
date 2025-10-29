@@ -124,7 +124,7 @@ export function SpotifySection() {
           My Music Taste 🎵
           <div className="absolute -bottom-1 left-1/4 right-1/4 h-1 bg-gradient-to-r from-primary via-purple-500 to-blue-500 animate-gradient rounded-full"></div>
         </h2>
-        <p className="text-muted-foreground text-lg">Artists I'm currently listening to on Spotify (last 6 months)</p>
+        <p className="text-muted-foreground text-lg">Artists I'm currently listening to on Spotify (last 4 weeks)</p>
         <Button variant="outline" asChild>
           <a 
             href="https://open.spotify.com/user/kjq94n4jsrovc840u9qvpx0o5" 
