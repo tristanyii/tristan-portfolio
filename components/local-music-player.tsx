@@ -18,16 +18,19 @@ const playlist: Song[] = [
     title: "ONLY",
     artist: "LeeHi",
     file: "/이하이 (LeeHi) - 'ONLY' Official MV (ENG_CHN).mp3",
+    cover: "/download (1).jpeg",
   },
   {
     title: "My Lady",
     artist: "marQ",
     file: "/marQ - My Lady (Lyrics).mp3",
+    cover: "/hq720.jpg",
   },
   {
     title: "Call On Me",
     artist: "Daniel Caesar",
     file: "/Daniel Caesar - Call On Me (Official Lyric Video).mp3",
+    cover: "/maxresdefault.jpg",
   },
   // Add more songs here...
 ];
