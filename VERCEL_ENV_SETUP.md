@@ -14,7 +14,9 @@ SPOTIFY_REFRESH_TOKEN=your_refresh_token
 ### 2. YouTube API (for music player)
 ```
 YOUTUBE_API_KEY=your_youtube_api_key
+YOUTUBE_API_KEY_2=your_second_youtube_api_key
 ```
+**Note**: The system will automatically rotate between keys when one hits quota!
 
 ## How to Add Them to Vercel
 
