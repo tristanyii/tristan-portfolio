@@ -13,11 +13,11 @@ export function PhotographyGallery({ isOpen, onClose }: PhotographyGalleryProps)
   const [selectedPhoto, setSelectedPhoto] = useState<number | null>(null);
 
   const photos = [
-    { src: "/IMG_6411.jpg", caption: "Captured Moment 1", location: "China" },
-    { src: "/IMG_6343.jpg", caption: "Captured Moment 2", location: "China" },
-    { src: "/IMG_6273.jpg", caption: "Captured Moment 3", location: "China" },
-    { src: "/IMG_5969.jpg", caption: "Captured Moment 4", location: "China" },
-    { src: "/IMG_5966.jpg", caption: "Captured Moment 5", location: "China" },
+    { src: "/IMG_6411.jpg", location: "China" },
+    { src: "/IMG_6343.jpg", location: "China" },
+    { src: "/IMG_6273.jpg", location: "China" },
+    { src: "/IMG_5969.jpg", location: "China" },
+    { src: "/IMG_5966.jpg", location: "China" },
   ];
 
   if (!isOpen) return null;
@@ -67,18 +67,17 @@ export function PhotographyGallery({ isOpen, onClose }: PhotographyGalleryProps)
                 
                 {/* Image */}
                 <img
-                  src={photo.src}
-                  alt={photo.caption}
+              src={photo.src}
+              alt={`Photo from ${photo.location}`}
                   className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-110"
                   loading="lazy"
                 />
                 
-                {/* Caption overlay */}
+                {/* Location overlay */}
                 <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/90 to-transparent">
-                  <p className="text-white text-sm font-medium">{photo.caption}</p>
-                  <div className="flex items-center gap-1 mt-1">
-                    <span className="text-xs">📍</span>
-                    <p className="text-purple-300 text-xs font-medium">{photo.location}</p>
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-sm">📍</span>
+                    <p className="text-purple-300 text-sm font-semibold">{photo.location}</p>
                   </div>
                 </div>
               </div>
@@ -143,14 +142,11 @@ export function PhotographyGallery({ isOpen, onClose }: PhotographyGalleryProps)
               onClick={(e) => e.stopPropagation()}
             />
             
-            {/* Caption */}
+            {/* Location and counter */}
             <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/90 to-transparent rounded-b-lg">
-              <p className="text-white text-lg font-medium text-center">
-                {photos[selectedPhoto].caption}
-              </p>
-              <div className="flex items-center justify-center gap-2 mt-2">
-                <span className="text-base">📍</span>
-                <p className="text-purple-300 text-base font-medium">
+              <div className="flex items-center justify-center gap-2">
+                <span className="text-xl">📍</span>
+                <p className="text-purple-300 text-xl font-bold">
                   {photos[selectedPhoto].location}
                 </p>
               </div>
