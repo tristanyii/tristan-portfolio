@@ -21,8 +21,32 @@ declare global {
   }
 }
 
-// Cache for YouTube video IDs (persists across component re-renders)
-const youtubeCache: { [key: string]: string } = {};
+// Load cache from localStorage on initial load
+const loadCacheFromStorage = (): { [key: string]: string } => {
+  if (typeof window !== 'undefined') {
+    try {
+      const cached = localStorage.getItem('youtube_cache_music');
+      return cached ? JSON.parse(cached) : {};
+    } catch {
+      return {};
+    }
+  }
+  return {};
+};
+
+// Save cache to localStorage
+const saveCacheToStorage = (cache: { [key: string]: string }) => {
+  if (typeof window !== 'undefined') {
+    try {
+      localStorage.setItem('youtube_cache_music', JSON.stringify(cache));
+    } catch (error) {
+      console.warn('Failed to save cache to localStorage:', error);
+    }
+  }
+};
+
+// Cache for YouTube video IDs (persists across sessions via localStorage)
+const youtubeCache: { [key: string]: string } = loadCacheFromStorage();
 
 export function MusicPlayer() {
   const [isOpen, setIsOpen] = useState(false);
@@ -107,9 +131,10 @@ export function MusicPlayer() {
               const youtubeData = await youtubeResponse.json();
               
               if (youtubeData.videoId) {
-                // Store in cache
+                // Store in cache and localStorage
                 youtubeCache[cacheKey] = youtubeData.videoId;
-                console.log(`✅ Cached video ID for: ${track.name}`);
+                saveCacheToStorage(youtubeCache);
+                console.log(`✅ Cached video ID for: ${track.name} (saved to localStorage)`);
                 
                 return {
                   id: track.id,

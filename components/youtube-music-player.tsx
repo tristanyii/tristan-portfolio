@@ -17,8 +17,32 @@ interface VideoResult {
   title: string;
 }
 
-// Cache for YouTube video IDs (persists across component re-renders)
-const youtubeVideoCache: { [key: string]: string } = {};
+// Load cache from localStorage on initial load
+const loadVideoCacheFromStorage = (): { [key: string]: string } => {
+  if (typeof window !== 'undefined') {
+    try {
+      const cached = localStorage.getItem('youtube_cache_player');
+      return cached ? JSON.parse(cached) : {};
+    } catch {
+      return {};
+    }
+  }
+  return {};
+};
+
+// Save cache to localStorage
+const saveVideoCacheToStorage = (cache: { [key: string]: string }) => {
+  if (typeof window !== 'undefined') {
+    try {
+      localStorage.setItem('youtube_cache_player', JSON.stringify(cache));
+    } catch (error) {
+      console.warn('Failed to save cache to localStorage:', error);
+    }
+  }
+};
+
+// Cache for YouTube video IDs (persists across sessions via localStorage)
+const youtubeVideoCache: { [key: string]: string } = loadVideoCacheFromStorage();
 
 export function YouTubeMusicPlayer() {
   const [isOpen, setIsOpen] = useState(false);
@@ -71,9 +95,10 @@ export function YouTubeMusicPlayer() {
       const data = await response.json();
       
       if (data.videoId) {
-        // Store in cache
+        // Store in cache and localStorage
         youtubeVideoCache[cacheKey] = data.videoId;
-        console.log(`✅ Cached YouTube video for: ${track.name}`);
+        saveVideoCacheToStorage(youtubeVideoCache);
+        console.log(`✅ Cached YouTube video for: ${track.name} (saved to localStorage)`);
         setCurrentVideo(data);
       } else if (response.status === 403) {
         console.warn("⚠️ YouTube quota exceeded");

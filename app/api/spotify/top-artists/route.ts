@@ -23,4 +23,4 @@ export async function GET() {
   }
 }
 
-export const revalidate = 3600; // Cache for 1 hour
+export const revalidate = 21600; // Cache for 6 hours (music taste doesn't change that often)
