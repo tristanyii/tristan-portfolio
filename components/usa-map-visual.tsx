@@ -1,13 +1,21 @@
 "use client";
 
-import { ComposableMap, Geographies, Geography, ZoomableGroup } from "react-simple-maps";
+import { ComposableMap, Geographies, Geography, ZoomableGroup, Marker } from "react-simple-maps";
 import { useState } from "react";
 
 const geoUrl = "https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json";
 
+interface CityMarker {
+  name: string;
+  coordinates: [number, number];
+  hasPhotos: boolean;
+}
+
 interface USAMapVisualProps {
   visitedStates: Set<string>;
   onStateClick: (stateName: string) => void;
+  cityMarkers?: CityMarker[];
+  onMarkerClick?: (cityName: string) => void;
 }
 
 // Map state names to their proper display names
@@ -65,8 +73,9 @@ const stateNames: { [key: string]: string } = {
   "56": "Wyoming",
 };
 
-export function USAMapVisual({ visitedStates, onStateClick }: USAMapVisualProps) {
+export function USAMapVisual({ visitedStates, onStateClick, cityMarkers = [], onMarkerClick }: USAMapVisualProps) {
   const [hoveredState, setHoveredState] = useState<string | null>(null);
+  const [hoveredMarker, setHoveredMarker] = useState<string | null>(null);
 
   return (
     <div className="w-full h-[500px] bg-muted/20 rounded-lg border-2 border-primary/20 overflow-hidden relative">
@@ -129,16 +138,45 @@ export function USAMapVisual({ visitedStates, onStateClick }: USAMapVisualProps)
               })
             }
           </Geographies>
+
+          {/* City Markers */}
+          {cityMarkers.map((marker) => (
+            <Marker key={marker.name} coordinates={marker.coordinates}>
+              <g
+                className="cursor-pointer transition-transform hover:scale-125"
+                onClick={() => onMarkerClick?.(marker.name)}
+                onMouseEnter={() => setHoveredMarker(marker.name)}
+                onMouseLeave={() => setHoveredMarker(null)}
+              >
+                {/* Pin circle with pulse */}
+                <circle r={4} fill="#ef4444" stroke="white" strokeWidth={2} />
+                <circle r={1.5} fill="white" />
+                {/* Pulse ring */}
+                <circle r={4} fill="none" stroke="#ef4444" strokeWidth={1} opacity={0.5}>
+                  <animate attributeName="r" from="4" to="12" dur="2s" repeatCount="indefinite" />
+                  <animate attributeName="opacity" from="0.5" to="0" dur="2s" repeatCount="indefinite" />
+                </circle>
+              </g>
+            </Marker>
+          ))}
         </ZoomableGroup>
       </ComposableMap>
       
       {/* Hover Tooltip */}
-      {hoveredState && (
+      {hoveredState && !hoveredMarker && (
         <div className="absolute top-4 left-1/2 -translate-x-1/2 bg-background/95 backdrop-blur px-4 py-2 rounded-lg border-2 border-primary/40 shadow-lg animate-fade-in z-10">
           <p className="text-sm font-semibold">{hoveredState}</p>
           <p className="text-xs text-muted-foreground">
             {visitedStates.has(hoveredState) ? "✓ Visited" : "🔒 Not visited yet"}
           </p>
+        </div>
+      )}
+
+      {/* Marker Tooltip */}
+      {hoveredMarker && (
+        <div className="absolute top-4 left-1/2 -translate-x-1/2 bg-black/90 text-white px-4 py-2 rounded-lg text-sm font-medium shadow-xl animate-fade-in z-20">
+          📍 {hoveredMarker}
+          <span className="ml-2 text-yellow-300">📸 Click to view</span>
         </div>
       )}
     </div>
