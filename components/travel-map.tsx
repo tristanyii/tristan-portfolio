@@ -663,7 +663,11 @@ export function TravelMap({ isOpen, onClose }: TravelMapProps) {
                                     className="flex-1 min-w-0 cursor-pointer"
                                     onClick={(e) => {
                                       e.stopPropagation();
-                                      setSelectedLocation(location);
+                                      if (adminMode) {
+                                        setEditingLocation(location);
+                                      } else {
+                                        setSelectedLocation(location);
+                                      }
                                     }}
                                   >
                                     <p className="font-medium truncate">{location.name}</p>

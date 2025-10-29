@@ -16,6 +16,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Tristan Yi | CS & Stats @ Duke",
   description: "Personal website of Tristan Yi - Computer Science and Statistics student at Duke University",
+  icons: {
+    icon: "/snorlax-pixel.gif",
+  },
 };
 
 export default function RootLayout({
