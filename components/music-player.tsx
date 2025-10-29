@@ -76,25 +76,39 @@ export function MusicPlayer() {
       
       // Get YouTube IDs for the first 10 tracks
       const tracksToFetch = spotifyData.slice(0, 10);
+      console.log(`🔍 Fetching YouTube IDs for ${tracksToFetch.length} tracks...`);
+      
       const tracksWithYoutube = await Promise.all(
         tracksToFetch.map(async (track: any) => {
           try {
             const searchQuery = `${track.name} ${track.artists.map((a: any) => a.name).join(' ')}`;
+            console.log(`🔍 Searching YouTube for: "${searchQuery}"`);
             const youtubeResponse = await fetch(`/api/youtube/search?q=${encodeURIComponent(searchQuery)}`);
+            
+            console.log(`📡 YouTube API response status: ${youtubeResponse.status}`);
             
             if (youtubeResponse.ok) {
               const youtubeData = await youtubeResponse.json();
-              return {
-                id: track.id,
-                name: track.name,
-                artists: track.artists.map((a: any) => a.name).join(", "),
-                album: track.album.name,
-                albumArt: track.album.images[0]?.url || "",
-                youtubeId: youtubeData.videoId,
-              };
+              console.log(`✅ Got YouTube data:`, youtubeData);
+              
+              if (youtubeData.videoId) {
+                return {
+                  id: track.id,
+                  name: track.name,
+                  artists: track.artists.map((a: any) => a.name).join(", "),
+                  album: track.album.name,
+                  albumArt: track.album.images[0]?.url || "",
+                  youtubeId: youtubeData.videoId,
+                };
+              } else {
+                console.warn(`⚠️ No videoId in response for ${track.name}`);
+              }
+            } else {
+              const errorText = await youtubeResponse.text();
+              console.error(`❌ YouTube API error for ${track.name}:`, youtubeResponse.status, errorText);
             }
           } catch (err) {
-            console.error(`Failed to get YouTube ID for ${track.name}:`, err);
+            console.error(`❌ Exception getting YouTube ID for ${track.name}:`, err);
           }
           
           return {
@@ -108,7 +122,8 @@ export function MusicPlayer() {
       );
 
       const playableTracks = tracksWithYoutube.filter(track => track.youtubeId);
-      console.log(`✅ Found ${playableTracks.length} playable tracks with YouTube`);
+      console.log(`✅ Found ${playableTracks.length} playable tracks with YouTube out of ${tracksWithYoutube.length} total`);
+      console.log(`📋 Playable tracks:`, playableTracks.map(t => t.name));
       
       if (playableTracks.length === 0) {
         setError("No playable tracks available");
