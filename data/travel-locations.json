@@ -2,6 +2,7 @@
   {
     "id": "1",
     "name": "Durham",
+    "city": "Durham",
     "country": "USA",
     "state": "North Carolina",
     "visited": true,
@@ -19,6 +20,7 @@
   {
     "id": "2",
     "name": "Union",
+    "city": "Union",
     "country": "USA",
     "state": "South Carolina",
     "visited": true,
@@ -35,6 +37,7 @@
   {
     "id": "3",
     "name": "Charlotte",
+    "city": "Charlotte",
     "country": "USA",
     "state": "North Carolina",
     "visited": true,
@@ -50,15 +53,18 @@
   },
   {
     "id": "1761705940730",
-    "name": "New Location",
+    "name": "Lancaster",
+    "city": "Lancaster",
     "country": "USA",
-    "state": "Lancaster",
+    "state": "Pennsylvania",
     "visited": true,
     "coordinates": {
-      "lng": -78.007014458997,
-      "lat": 42.021474463287845
+      "lat": 40.0379,
+      "lng": -76.3055
     },
-    "photos": [],
+    "photos": [
+      "/travel-photos/travel_1761709410509_IMG_0710.jpg"
+    ],
     "description": "Add your description here!"
   }
 ]

@@ -10,7 +10,8 @@ import { USAMapVisual } from "./usa-map-visual";
 
 interface TravelLocation {
   id: string;
-  name: string;
+  name: string; // Display name (can be city name or full location)
+  city?: string; // City name
   country: string;
   state?: string; // For US locations
   visited: boolean;
@@ -25,6 +26,7 @@ const defaultTravelData: TravelLocation[] = [
   {
     id: "1",
     name: "Durham",
+    city: "Durham",
     country: "USA",
     state: "North Carolina",
     visited: true,
@@ -36,6 +38,7 @@ const defaultTravelData: TravelLocation[] = [
   {
     id: "2",
     name: "Union",
+    city: "Union",
     country: "USA",
     state: "South Carolina",
     visited: true,
@@ -47,6 +50,7 @@ const defaultTravelData: TravelLocation[] = [
   {
     id: "3",
     name: "Charlotte",
+    city: "Charlotte",
     country: "USA",
     state: "North Carolina",
     visited: true,
@@ -276,6 +280,7 @@ export function TravelMap({ isOpen, onClose }: TravelMapProps) {
     const newLocation: TravelLocation = {
       id: String(Date.now()),
       name: "New Location",
+      city: "New Location",
       country: countryName,
       state: stateName,
       visited: true,
@@ -340,15 +345,16 @@ export function TravelMap({ isOpen, onClose }: TravelMapProps) {
 
   // Geocode city name to get coordinates
   const geocodeLocation = async (silent = false) => {
-    if (!editingLocation || !editingLocation.name) {
-      if (!silent) alert('Please enter a location name first.');
+    const cityName = editingLocation?.city || editingLocation?.name;
+    if (!editingLocation || !cityName) {
+      if (!silent) alert('Please enter a city name first.');
       return;
     }
 
     setGeocoding(true);
     try {
       const params = new URLSearchParams({
-        city: editingLocation.name,
+        city: cityName,
         country: editingLocation.country || '',
         state: editingLocation.state || '',
       });
@@ -395,7 +401,8 @@ export function TravelMap({ isOpen, onClose }: TravelMapProps) {
 
     // Set new timeout for auto-geocode (wait 1.5 seconds after user stops typing)
     const timeout = setTimeout(() => {
-      if (editingLocation && editingLocation.name && editingLocation.name.length > 2) {
+      const cityName = editingLocation?.city || editingLocation?.name;
+      if (editingLocation && cityName && cityName.length > 2) {
         geocodeLocation(true); // Silent mode - no alerts
       }
     }, 1500);
@@ -726,6 +733,7 @@ export function TravelMap({ isOpen, onClose }: TravelMapProps) {
                           const newLocation: TravelLocation = {
                             id: String(Date.now()),
                             name: "New Location",
+                            city: "New Location",
                             country: country,
                             visited: true,
                             coordinates: { lat: 35.9940, lng: -78.8986 },
@@ -765,14 +773,31 @@ export function TravelMap({ isOpen, onClose }: TravelMapProps) {
                       {selectedLocation.date && ` • ${selectedLocation.date}`}
                     </p>
                   </div>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => setSelectedLocation(null)}
-                    className="rounded-full hover:bg-primary/10"
-                  >
-                    <X className="h-5 w-5" />
-                  </Button>
+                  <div className="flex gap-2">
+                    {/* Edit Button (Admin Mode) */}
+                    {adminMode && (
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        onClick={() => {
+                          setEditingLocation(selectedLocation);
+                          setSelectedLocation(null);
+                        }}
+                        className="rounded-full hover:bg-primary/10 border-primary/50"
+                        title="Edit location"
+                      >
+                        <Settings className="h-5 w-5" />
+                      </Button>
+                    )}
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => setSelectedLocation(null)}
+                      className="rounded-full hover:bg-primary/10"
+                    >
+                      <X className="h-5 w-5" />
+                    </Button>
+                  </div>
                 </div>
                 {selectedLocation.description && (
                   <p className="mt-4 text-muted-foreground">{selectedLocation.description}</p>
@@ -783,11 +808,27 @@ export function TravelMap({ isOpen, onClose }: TravelMapProps) {
                 {/* Photo Gallery */}
                 {selectedLocation.photos && selectedLocation.photos.length > 0 ? (
                   <div className="space-y-4">
-                    <div className="flex items-center gap-2 mb-4">
-                      <Camera className="h-5 w-5 text-primary" />
-                      <h4 className="font-semibold text-lg">
-                        Photos ({selectedLocation.photos.length})
-                      </h4>
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="flex items-center gap-2">
+                        <Camera className="h-5 w-5 text-primary" />
+                        <h4 className="font-semibold text-lg">
+                          Photos ({selectedLocation.photos.length})
+                        </h4>
+                      </div>
+                      {adminMode && (
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => {
+                            setEditingLocation(selectedLocation);
+                            setSelectedLocation(null);
+                          }}
+                          className="gap-2"
+                        >
+                          <ImageIcon className="h-4 w-4" />
+                          Manage Photos
+                        </Button>
+                      )}
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       {selectedLocation.photos.map((photo, index) => (
@@ -798,8 +839,36 @@ export function TravelMap({ isOpen, onClose }: TravelMapProps) {
                             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 cursor-pointer"
                             onClick={() => window.open(photo, '_blank')}
                           />
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
-                            <p className="text-white text-sm">Click to view full size</p>
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
+                            <div className="absolute bottom-0 left-0 right-0 p-4">
+                              <p className="text-white text-sm mb-2">Click to view full size</p>
+                              {adminMode && (
+                                <div className="flex gap-2">
+                                  <Button
+                                    size="sm"
+                                    variant="destructive"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      if (confirm(`Delete this photo?\n\n${photo}`)) {
+                                        const updatedLocation = {
+                                          ...selectedLocation,
+                                          photos: selectedLocation.photos?.filter((_, i) => i !== index)
+                                        };
+                                        saveLocationToDb(updatedLocation).then(success => {
+                                          if (success) {
+                                            setSelectedLocation(updatedLocation);
+                                          }
+                                        });
+                                      }
+                                    }}
+                                    className="gap-1"
+                                  >
+                                    <Trash2 className="h-3 w-3" />
+                                    Delete
+                                  </Button>
+                                </div>
+                              )}
+                            </div>
                           </div>
                         </div>
                       ))}
@@ -809,9 +878,23 @@ export function TravelMap({ isOpen, onClose }: TravelMapProps) {
                   <div className="border-2 border-dashed border-muted-foreground/20 rounded-xl p-12 text-center">
                     <Camera className="h-16 w-16 mx-auto mb-4 text-muted-foreground/30" />
                     <p className="text-lg text-muted-foreground mb-2">No photos yet</p>
-                    <p className="text-sm text-muted-foreground/60">
-                      Add photos to the location data in <code className="bg-muted px-2 py-1 rounded">travel-map.tsx</code>
-                    </p>
+                    {adminMode ? (
+                      <Button
+                        variant="outline"
+                        onClick={() => {
+                          setEditingLocation(selectedLocation);
+                          setSelectedLocation(null);
+                        }}
+                        className="mt-4"
+                      >
+                        <Plus className="h-4 w-4 mr-2" />
+                        Add Photos
+                      </Button>
+                    ) : (
+                      <p className="text-sm text-muted-foreground/60">
+                        Check back later for photos from this location!
+                      </p>
+                    )}
                   </div>
                 )}
               </div>
@@ -858,85 +941,102 @@ export function TravelMap({ isOpen, onClose }: TravelMapProps) {
                     💡 How to Add a Location:
                   </p>
                   <ul className="text-xs text-blue-600 dark:text-blue-400 space-y-1.5 ml-4 list-disc">
-                    <li><strong>City Name:</strong> Enter the city you visited (e.g., "Lancaster", "Charlotte", "Tokyo")</li>
-                    <li><strong>State:</strong> REQUIRED for USA - enter the state name (e.g., "Pennsylvania", "North Carolina")</li>
+                    <li><strong>City:</strong> Enter the city you visited (e.g., "Lancaster", "Charlotte", "Tokyo")</li>
+                    <li><strong>State:</strong> REQUIRED for USA - enter the full state name (e.g., "Pennsylvania", "North Carolina") to turn it green on the map</li>
                     <li><strong>Country:</strong> Enter the country (e.g., "USA", "Japan", "France")</li>
                     <li>Coordinates auto-fill as you type. Click "Save Location" when done!</li>
                   </ul>
                 </div>
 
-                {/* City Name with Auto-Geocode - CLEARER */}
-                <div>
-                  <label className="block text-sm font-bold mb-2 flex items-center gap-2 text-primary">
-                    🏙️ City Name <span className="text-red-500 text-base">*</span>
-                    {geocoding && (
-                      <span className="text-xs text-blue-500 flex items-center gap-1 font-normal">
-                        <div className="animate-spin h-3 w-3 border-2 border-blue-500 border-t-transparent rounded-full" />
-                        Finding coordinates...
-                      </span>
-                    )}
-                  </label>
-                  <input
-                    type="text"
-                    value={editingLocation.name}
-                    onChange={(e) => {
-                      setEditingLocation({ ...editingLocation, name: e.target.value });
-                      triggerAutoGeocode();
-                    }}
-                    className="w-full px-4 py-3 bg-muted rounded-lg border-2 border-primary/30 focus:border-primary outline-none text-lg font-semibold"
-                    placeholder="e.g., Lancaster, Charlotte, Tokyo"
-                  />
-                  <p className="text-xs text-muted-foreground mt-1">
-                    Enter the CITY name only (not the state)
-                  </p>
-                </div>
+                {/* Location Details Grid - City, State, Country */}
+                <div className="space-y-4">
+                  {/* City Name with Auto-Geocode */}
+                  <div>
+                    <label className="block text-sm font-bold mb-2 flex items-center gap-2 text-primary">
+                      🏙️ City <span className="text-red-500 text-base">*</span>
+                      {geocoding && (
+                        <span className="text-xs text-blue-500 flex items-center gap-1 font-normal">
+                          <div className="animate-spin h-3 w-3 border-2 border-blue-500 border-t-transparent rounded-full" />
+                          Finding coordinates...
+                        </span>
+                      )}
+                    </label>
+                    <input
+                      type="text"
+                      value={editingLocation.city || editingLocation.name}
+                      onChange={(e) => {
+                        setEditingLocation({ 
+                          ...editingLocation, 
+                          city: e.target.value,
+                          name: e.target.value // Keep name in sync with city
+                        });
+                        triggerAutoGeocode();
+                      }}
+                      className="w-full px-4 py-3 bg-muted rounded-lg border-2 border-primary/30 focus:border-primary outline-none text-lg font-semibold"
+                      placeholder="e.g., Lancaster, Charlotte, Tokyo"
+                    />
+                    <p className="text-xs text-muted-foreground mt-1">
+                      The city name only (e.g., "Lancaster" not "Lancaster, PA")
+                    </p>
+                  </div>
 
-                {/* Country and State - Better Labels */}
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-bold mb-2">
-                      🌍 Country <span className="text-red-500">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      value={editingLocation.country}
-                      onChange={(e) => {
-                        setEditingLocation({ ...editingLocation, country: e.target.value });
-                        triggerAutoGeocode();
-                      }}
-                      className="w-full px-4 py-2 bg-muted rounded-lg border-2 border-primary/20 focus:border-primary outline-none"
-                      placeholder="USA, Japan, France"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-bold mb-2">
-                      📍 State/Region {editingLocation.country === "USA" && <span className="text-red-500 text-base">* REQUIRED TO TURN STATE GREEN</span>}
-                    </label>
-                    <input
-                      type="text"
-                      value={editingLocation.state || ""}
-                      onChange={(e) => {
-                        setEditingLocation({ ...editingLocation, state: e.target.value });
-                        triggerAutoGeocode();
-                      }}
-                      className={`w-full px-4 py-2 bg-muted rounded-lg border-2 ${
-                        editingLocation.country === "USA" && !editingLocation.state
-                          ? 'border-red-500 focus:border-red-600 animate-pulse'
-                          : 'border-primary/20 focus:border-primary'
-                      } outline-none`}
-                      placeholder={editingLocation.country === "USA" ? "e.g., Pennsylvania, North Carolina" : "Optional for international"}
-                    />
-                    {editingLocation.country === "USA" && !editingLocation.state && (
-                      <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-2 mt-2">
-                        <p className="text-xs text-red-600 dark:text-red-400 font-bold">
-                          ⚠️ STATE IS REQUIRED!
+                  {/* State and Country Grid */}
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-bold mb-2">
+                        📍 State/Region {editingLocation.country === "USA" && <span className="text-red-500 text-base">*</span>}
+                      </label>
+                      <input
+                        type="text"
+                        value={editingLocation.state || ""}
+                        onChange={(e) => {
+                          setEditingLocation({ ...editingLocation, state: e.target.value });
+                          triggerAutoGeocode();
+                        }}
+                        className={`w-full px-4 py-2 bg-muted rounded-lg border-2 ${
+                          editingLocation.country === "USA" && !editingLocation.state
+                            ? 'border-red-500 focus:border-red-600 animate-pulse'
+                            : 'border-primary/20 focus:border-primary'
+                        } outline-none`}
+                        placeholder={editingLocation.country === "USA" ? "Pennsylvania" : "Optional"}
+                      />
+                      {editingLocation.country === "USA" && !editingLocation.state && (
+                        <p className="text-xs text-red-600 dark:text-red-400 mt-1 font-medium">
+                          ⚠️ Required to turn state green!
                         </p>
-                        <p className="text-xs text-red-600 dark:text-red-400 mt-1">
-                          Enter the state name (e.g., "Pennsylvania") to make the state turn green on the map.
-                        </p>
-                      </div>
-                    )}
+                      )}
+                    </div>
+                    <div>
+                      <label className="block text-sm font-bold mb-2">
+                        🌍 Country <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        value={editingLocation.country}
+                        onChange={(e) => {
+                          setEditingLocation({ ...editingLocation, country: e.target.value });
+                          triggerAutoGeocode();
+                        }}
+                        className="w-full px-4 py-2 bg-muted rounded-lg border-2 border-primary/20 focus:border-primary outline-none"
+                        placeholder="USA"
+                      />
+                    </div>
                   </div>
+
+                  {/* Visual Example */}
+                  {editingLocation.city && editingLocation.state && editingLocation.country === "USA" && (
+                    <div className="bg-green-500/10 border border-green-500/30 rounded-lg p-3">
+                      <p className="text-xs text-green-700 dark:text-green-300 font-bold">
+                        ✅ Perfect! This will show as:
+                      </p>
+                      <p className="text-sm font-semibold text-green-800 dark:text-green-200 mt-1">
+                        📍 {editingLocation.city}, {editingLocation.state}
+                      </p>
+                      <p className="text-xs text-green-600 dark:text-green-400 mt-1">
+                        And {editingLocation.state} will turn green on the map!
+                      </p>
+                    </div>
+                  )}
                 </div>
 
                 {/* Coordinates */}
@@ -1105,11 +1205,19 @@ export function TravelMap({ isOpen, onClose }: TravelMapProps) {
                     variant="default"
                     className="flex-1"
                     onClick={async () => {
+                      const cityName = editingLocation?.city || editingLocation?.name;
+                      
+                      // Validate city is entered
+                      if (!cityName?.trim()) {
+                        alert("⚠️ CITY REQUIRED!\n\nPlease enter a city name.");
+                        return;
+                      }
+                      
                       // Validate USA locations have state
                       if (editingLocation.country === "USA" && !editingLocation.state?.trim()) {
                         alert("⚠️ STATE REQUIRED FOR USA LOCATIONS!\n\n" +
                               "You must enter both:\n" +
-                              "• City Name: " + editingLocation.name + "\n" +
+                              "• City: " + cityName + "\n" +
                               "• State: (e.g., Pennsylvania, North Carolina)\n\n" +
                               "This is required to:\n" +
                               "✓ Turn the state GREEN on the map\n" +
@@ -1117,14 +1225,21 @@ export function TravelMap({ isOpen, onClose }: TravelMapProps) {
                         return;
                       }
                       
-                      console.log('💾 Saving location:', editingLocation);
-                      const saved = await saveLocationToDb(editingLocation);
+                      // Ensure city field is set
+                      const locationToSave = {
+                        ...editingLocation,
+                        city: cityName,
+                        name: cityName
+                      };
+                      
+                      console.log('💾 Saving location:', locationToSave);
+                      const saved = await saveLocationToDb(locationToSave);
                       if (saved) {
                         console.log('✅ Location saved successfully!');
                         setEditingLocation(null);
                       }
                     }}
-                    disabled={saving || !editingLocation.name?.trim() || !editingLocation.country?.trim() || (editingLocation.country === "USA" && !editingLocation.state?.trim())}
+                    disabled={saving || !(editingLocation?.city || editingLocation?.name)?.trim() || !editingLocation.country?.trim() || (editingLocation.country === "USA" && !editingLocation.state?.trim())}
                   >
                     {saving ? (
                       <>
