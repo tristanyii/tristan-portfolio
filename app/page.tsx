@@ -6,6 +6,7 @@ import { SpotifySection } from "@/components/spotify-section";
 import { SnorlaxCollection } from "@/components/snorlax-collection";
 import { MusicPlayer } from "@/components/music-player";
 import { HobbiesSection } from "@/components/hobbies-section";
+import { Nav } from "@/components/nav";
 
 export default function Home() {
   return (
@@ -18,33 +19,10 @@ export default function Home() {
       </div>
 
       {/* Navigation with glassmorphism */}
-      <nav className="border-b glass sticky top-0 z-50 shadow-lg">
-        <div className="container mx-auto flex h-16 items-center justify-between px-4">
-          <a href="#home" className="text-xl font-bold hover:opacity-80 transition-all hover:scale-105 flex items-center h-full bg-gradient-to-r from-primary via-purple-500 to-blue-500 bg-clip-text text-transparent animate-gradient">
-            Tristan Yi
-          </a>
-          <div className="flex gap-2 items-center">
-            <Button variant="ghost" size="sm" className="hover:bg-primary/20 transition-all hover:scale-105" asChild>
-              <a href="#home">Home</a>
-            </Button>
-            <Button variant="ghost" size="sm" className="hover:bg-primary/20 transition-all hover:scale-105" asChild>
-              <a href="#experience">Experience</a>
-            </Button>
-            <Button variant="ghost" size="sm" className="hover:bg-primary/20 transition-all hover:scale-105" asChild>
-              <a href="#projects">Projects</a>
-            </Button>
-            <Button variant="ghost" size="sm" className="hover:bg-primary/20 transition-all hover:scale-105" asChild>
-              <a href="#music">Music</a>
-            </Button>
-            <Button variant="ghost" size="sm" className="hover:bg-primary/20 transition-all hover:scale-105" asChild>
-              <a href="#hobbies">Hobbies</a>
-            </Button>
-          </div>
-        </div>
-      </nav>
+      <Nav />
 
       {/* Hero Section */}
-      <section id="home" className="container mx-auto px-4 py-32 scroll-mt-16 relative">
+      <section id="home" className="container mx-auto px-4 py-16 md:py-24 lg:py-32 scroll-mt-16 relative">
         {/* Animated background gradient */}
         <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-purple-500/5 to-blue-500/10 animate-gradient pointer-events-none" />
         
@@ -57,7 +35,7 @@ export default function Home() {
           {/* Content in the center */}
           <div className="flex flex-col items-center lg:items-start text-center lg:text-left space-y-6 flex-1">
             <div className="space-y-3 animate-slide-in-right">
-              <h1 className="text-5xl font-bold tracking-tight sm:text-6xl md:text-7xl relative">
+              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight relative">
                 Hi, I'm{" "}
                 <span className="relative inline-block">
                   <span className="bg-gradient-to-r from-primary via-purple-500 to-blue-500 bg-clip-text text-transparent animate-gradient">
@@ -67,10 +45,10 @@ export default function Home() {
                 </span>
           </h1>
               <div className="space-y-1">
-                <p className="text-xl text-muted-foreground md:text-2xl whitespace-nowrap">
+                <p className="text-lg sm:text-xl md:text-2xl text-muted-foreground">
                   Computer Science & Statistics @ Duke University
                 </p>
-                <p className="text-base text-muted-foreground/80">
+                <p className="text-sm sm:text-base text-muted-foreground/80">
                   Union, SC • Expected Graduation May 2027
                 </p>
               </div>

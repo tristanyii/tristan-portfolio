@@ -437,31 +437,31 @@ export function TravelMap({ isOpen, onClose }: TravelMapProps) {
 
         {/* Compact Header */}
         <div className="px-4 py-3 border-b backdrop-blur-lg bg-background/50">
-          <div className="container mx-auto flex items-center justify-between">
-            <div>
-              <h2 className="text-2xl font-bold bg-gradient-to-r from-primary via-purple-500 to-blue-500 bg-clip-text text-transparent">
+          <div className="container mx-auto flex items-center justify-between gap-4">
+            <div className="flex-1 min-w-0">
+              <h2 className="text-xl md:text-2xl font-bold bg-gradient-to-r from-primary via-purple-500 to-blue-500 bg-clip-text text-transparent truncate">
                 My Travel Adventures ✈️
               </h2>
-              <div className="flex gap-3 mt-1 flex-wrap">
+              <div className="flex gap-2 md:gap-3 mt-1 flex-wrap">
                 <Badge variant="secondary" className="text-xs">
-                  📍 {visitedCount} Cities
+                  📍 {visitedCount}
                 </Badge>
                 <Badge variant="secondary" className="text-xs">
-                  🌎 {visitedCountries} Countries
+                  🌎 {visitedCountries}
                 </Badge>
                 {visitedCountriesSet.has("USA") && (
                   <Badge variant="secondary" className="text-xs">
-                    🗺️ {visitedStates.size} US States
+                    🗺️ {visitedStates.size}
                   </Badge>
                 )}
               </div>
             </div>
-            <div className="flex gap-2 items-center">
+            <div className="flex gap-1 md:gap-2 items-center flex-shrink-0">
               {/* Admin Mode Indicator */}
               {adminMode && (
-                <Badge variant="destructive" className="animate-pulse">
+                <Badge variant="destructive" className="animate-pulse hidden md:flex">
                   <Settings className="h-3 w-3 mr-1" />
-                  Admin Mode
+                  Admin
                 </Badge>
               )}
               {/* View Mode Toggle */}
@@ -469,19 +469,20 @@ export function TravelMap({ isOpen, onClose }: TravelMapProps) {
                 variant={viewMode === "world" ? "default" : "outline"}
                 onClick={() => setViewMode("world")}
                 size="sm"
-                className="gap-1"
+                className="gap-1 px-2 md:px-3"
               >
                 <Globe className="h-3 w-3" />
-                World
+                <span className="hidden sm:inline">World</span>
               </Button>
               {visitedCountriesSet.has("USA") && (
                 <Button
                   variant={viewMode === "usa" ? "default" : "outline"}
                   onClick={() => setViewMode("usa")}
                   size="sm"
-                  className="gap-1"
+                  className="gap-1 px-2 md:px-3"
                 >
-                  🇺🇸 USA
+                  <span>🇺🇸</span>
+                  <span className="hidden sm:inline">USA</span>
                 </Button>
               )}
               {/* Secret Admin Button - only visible in admin mode */}
@@ -490,17 +491,17 @@ export function TravelMap({ isOpen, onClose }: TravelMapProps) {
                   variant="outline"
                   size="sm"
                   onClick={() => setAdminMode(false)}
-                  className="gap-1 border-red-500/50"
+                  className="gap-1 border-red-500/50 hidden md:flex"
                 >
                   <Settings className="h-3 w-3" />
-                  Exit Admin
+                  Exit
                 </Button>
               )}
               <Button
                 variant="ghost"
                 size="icon"
                 onClick={onClose}
-                className="rounded-full hover:bg-primary/10 h-8 w-8"
+                className="rounded-full hover:bg-primary/10 h-8 w-8 flex-shrink-0"
               >
                 <X className="h-5 w-5" />
               </Button>
@@ -511,13 +512,13 @@ export function TravelMap({ isOpen, onClose }: TravelMapProps) {
         {/* LARGE Interactive Map - Takes up most of the screen */}
         <div className="flex-1 relative overflow-hidden">
           <div className="absolute inset-0">
-            <div className="text-center pt-4 pb-2 absolute top-0 left-0 right-0 z-10 bg-gradient-to-b from-background/90 to-transparent">
-              <p className="text-xs text-muted-foreground">
+            <div className="text-center pt-2 md:pt-4 pb-2 absolute top-0 left-0 right-0 z-10 bg-gradient-to-b from-background/90 to-transparent px-4">
+              <p className="text-[10px] md:text-xs text-muted-foreground">
                 {adminMode 
-                  ? "🎯 Click anywhere on the map to add a new location!"
+                  ? "🎯 Click map to add location"
                   : viewMode === "world" 
-                    ? "🗺️ Click the red pins to see photos • Scroll to zoom • Drag to pan"
-                    : "🗺️ Click the red pins to see photos • Scroll to zoom • Drag to pan"}
+                    ? "🗺️ Click pins for photos"
+                    : "🗺️ Click pins for photos"}
               </p>
             </div>
             
@@ -572,8 +573,8 @@ export function TravelMap({ isOpen, onClose }: TravelMapProps) {
         </div>
 
         {/* Compact Visual State/Country Grid */}
-        <div className="border-t backdrop-blur-lg bg-background/80 p-3">
-          <div className="container mx-auto space-y-3">
+        <div className="border-t backdrop-blur-lg bg-background/80 p-2 md:p-3">
+          <div className="container mx-auto space-y-2 md:space-y-3">
             {(() => {
               // Group locations by country first, then by state
               const byCountry: { [country: string]: { [region: string]: TravelLocation[] } } = {};
@@ -601,7 +602,7 @@ export function TravelMap({ isOpen, onClose }: TravelMapProps) {
                   )}
                   
                   {/* Region Cards */}
-                  <div className="flex gap-2 overflow-x-auto pb-1">
+                  <div className="flex gap-2 overflow-x-auto pb-1 snap-x snap-mandatory">
                     {Object.entries(regions).map(([region, locations]) => {
                       const allPhotos = locations.flatMap(loc => loc.photos || []);
                       const photoCount = allPhotos.length;
@@ -611,14 +612,14 @@ export function TravelMap({ isOpen, onClose }: TravelMapProps) {
                       return (
                         <div
                           key={region}
-                          className={`relative flex-shrink-0 group ${
+                          className={`relative flex-shrink-0 group snap-start ${
                             selectedLocation && locations.some(loc => loc.id === selectedLocation.id)
                               ? 'ring-2 ring-primary rounded-lg'
                               : ''
                           }`}
                         >
                           {/* Region Card */}
-                          <div className="w-36 h-28 rounded-lg overflow-hidden border border-primary/20 hover:border-primary/50 hover:shadow-lg transition-all bg-muted/50 backdrop-blur cursor-pointer">
+                          <div className="w-32 h-24 md:w-36 md:h-28 rounded-lg overflow-hidden border border-primary/20 hover:border-primary/50 hover:shadow-lg transition-all bg-muted/50 backdrop-blur cursor-pointer">
                             {photoCount > 0 ? (
                               <div className={`grid h-full ${
                                 photoCount === 1 ? 'grid-cols-1' : 
@@ -757,23 +758,25 @@ export function TravelMap({ isOpen, onClose }: TravelMapProps) {
 
         {/* Selected Location Photo Gallery Modal */}
         {selectedLocation && (
-          <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in"
+          <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-2 md:p-4 animate-fade-in"
                onClick={() => setSelectedLocation(null)}>
-            <div className="max-w-4xl w-full max-h-[90vh] overflow-y-auto bg-background rounded-2xl shadow-2xl"
+            <div className="max-w-4xl w-full max-h-[95vh] md:max-h-[90vh] overflow-y-auto bg-background rounded-xl md:rounded-2xl shadow-2xl"
                  onClick={(e) => e.stopPropagation()}>
-              <div className="sticky top-0 bg-background/95 backdrop-blur-lg border-b p-6 z-10">
-                <div className="flex items-start justify-between">
-                  <div>
-                    <h3 className="text-3xl font-bold bg-gradient-to-r from-primary via-purple-500 to-blue-500 bg-clip-text text-transparent">
+              <div className="sticky top-0 bg-background/95 backdrop-blur-lg border-b p-4 md:p-6 z-10">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="flex-1 min-w-0">
+                    <h3 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-primary via-purple-500 to-blue-500 bg-clip-text text-transparent truncate">
                       {selectedLocation.name}
                     </h3>
-                    <p className="text-muted-foreground mt-1 flex items-center gap-2">
-                      <MapPin className="h-4 w-4 text-red-500" />
-                      {selectedLocation.state ? `${selectedLocation.state}, ` : ""}{selectedLocation.country}
-                      {selectedLocation.date && ` • ${selectedLocation.date}`}
+                    <p className="text-sm md:text-base text-muted-foreground mt-1 flex items-center gap-2">
+                      <MapPin className="h-3 w-3 md:h-4 md:w-4 text-red-500 flex-shrink-0" />
+                      <span className="truncate">
+                        {selectedLocation.state ? `${selectedLocation.state}, ` : ""}{selectedLocation.country}
+                        {selectedLocation.date && ` • ${selectedLocation.date}`}
+                      </span>
                     </p>
                   </div>
-                  <div className="flex gap-2">
+                  <div className="flex gap-1 md:gap-2 flex-shrink-0">
                     {/* Edit Button (Admin Mode) */}
                     {adminMode && (
                       <Button
@@ -783,19 +786,19 @@ export function TravelMap({ isOpen, onClose }: TravelMapProps) {
                           setEditingLocation(selectedLocation);
                           setSelectedLocation(null);
                         }}
-                        className="rounded-full hover:bg-primary/10 border-primary/50"
+                        className="rounded-full hover:bg-primary/10 border-primary/50 h-8 w-8 md:h-10 md:w-10"
                         title="Edit location"
                       >
-                        <Settings className="h-5 w-5" />
+                        <Settings className="h-4 w-4 md:h-5 md:w-5" />
                       </Button>
                     )}
                     <Button
                       variant="ghost"
                       size="icon"
                       onClick={() => setSelectedLocation(null)}
-                      className="rounded-full hover:bg-primary/10"
+                      className="rounded-full hover:bg-primary/10 h-8 w-8 md:h-10 md:w-10"
                     >
-                      <X className="h-5 w-5" />
+                      <X className="h-4 w-4 md:h-5 md:w-5" />
                     </Button>
                   </div>
                 </div>
@@ -804,14 +807,14 @@ export function TravelMap({ isOpen, onClose }: TravelMapProps) {
                 )}
               </div>
 
-              <div className="p-6">
+              <div className="p-4 md:p-6">
                 {/* Photo Gallery */}
                 {selectedLocation.photos && selectedLocation.photos.length > 0 ? (
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between mb-4">
+                  <div className="space-y-3 md:space-y-4">
+                    <div className="flex items-center justify-between mb-3 md:mb-4">
                       <div className="flex items-center gap-2">
-                        <Camera className="h-5 w-5 text-primary" />
-                        <h4 className="font-semibold text-lg">
+                        <Camera className="h-4 w-4 md:h-5 md:w-5 text-primary" />
+                        <h4 className="font-semibold text-base md:text-lg">
                           Photos ({selectedLocation.photos.length})
                         </h4>
                       </div>
@@ -823,14 +826,14 @@ export function TravelMap({ isOpen, onClose }: TravelMapProps) {
                             setEditingLocation(selectedLocation);
                             setSelectedLocation(null);
                           }}
-                          className="gap-2"
+                          className="gap-1 md:gap-2 text-xs md:text-sm"
                         >
-                          <ImageIcon className="h-4 w-4" />
-                          Manage Photos
+                          <ImageIcon className="h-3 w-3 md:h-4 md:w-4" />
+                          <span className="hidden sm:inline">Manage</span>
                         </Button>
                       )}
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
                       {selectedLocation.photos.map((photo, index) => (
                         <div key={index} className="group relative overflow-hidden rounded-xl aspect-video bg-muted">
                           <img
