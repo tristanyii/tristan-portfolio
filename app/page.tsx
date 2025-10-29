@@ -11,7 +11,7 @@ import { Nav } from "@/components/nav";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 overflow-x-hidden relative">
+    <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 overflow-x-hidden relative w-full max-w-full">
       {/* Animated background orbs */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl animate-pulse-slow" />
@@ -23,11 +23,11 @@ export default function Home() {
       <Nav />
 
       {/* Hero Section */}
-      <section id="home" className="container mx-auto px-4 py-16 md:py-24 lg:py-32 scroll-mt-16 relative">
+      <section id="home" className="container mx-auto px-4 py-16 md:py-24 lg:py-32 scroll-mt-16 relative overflow-hidden">
         {/* Animated background gradient */}
         <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-purple-500/5 to-blue-500/10 animate-gradient pointer-events-none" />
         
-        <div className="flex flex-col lg:flex-row items-center justify-start gap-8 lg:gap-16 max-w-7xl mx-auto relative z-10">
+        <div className="flex flex-col lg:flex-row items-center justify-start gap-6 lg:gap-12 max-w-7xl mx-auto relative z-10 w-full">
           {/* Snorlax on the far left */}
           <div className="flex-shrink-0 animate-slide-in-left lg:mr-8">
             <SnorlaxCollection />
@@ -35,8 +35,8 @@ export default function Home() {
 
           {/* Content in the center */}
           <div className="flex flex-col items-center lg:items-start text-center lg:text-left space-y-6 flex-1">
-            <div className="space-y-3 animate-slide-in-right">
-              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight relative">
+            <div className="space-y-3 animate-slide-in-right max-w-full">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight relative break-words">
                 Hi, I'm{" "}
                 <span className="relative inline-block">
                   <span className="bg-gradient-to-r from-primary via-purple-500 to-blue-500 bg-clip-text text-transparent animate-gradient">
@@ -46,7 +46,7 @@ export default function Home() {
                 </span>
           </h1>
               <div className="space-y-1">
-                <p className="text-lg sm:text-xl md:text-2xl text-muted-foreground sm:whitespace-nowrap">
+                <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-muted-foreground">
                   Computer Science & Statistics @ Duke University
                 </p>
                 <p className="text-sm sm:text-base text-muted-foreground/80">
