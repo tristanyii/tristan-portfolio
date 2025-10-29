@@ -55,7 +55,7 @@ export default function Home() {
               </div>
         </div>
             
-            <div className="flex gap-2 flex-wrap justify-center lg:justify-start animate-fade-in-delay">
+            <div className="flex gap-2 justify-center lg:justify-start animate-fade-in-delay">
               <Badge variant="secondary" className="text-sm px-4 py-2 hover:scale-110 transition-all cursor-default glass border-primary/20 hover:border-primary/40">
                 Software Engineer
               </Badge>
