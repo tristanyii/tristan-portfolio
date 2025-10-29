@@ -46,7 +46,7 @@ export default function Home() {
                 </span>
           </h1>
               <div className="space-y-1">
-                <p className="text-lg sm:text-xl md:text-2xl text-muted-foreground">
+                <p className="text-lg sm:text-xl md:text-2xl text-muted-foreground whitespace-nowrap">
                   Computer Science & Statistics @ Duke University
                 </p>
                 <p className="text-sm sm:text-base text-muted-foreground/80">
@@ -66,19 +66,19 @@ export default function Home() {
 
 
             <div className="flex flex-wrap gap-3 pt-4 justify-center lg:justify-start animate-fade-in-delay-3">
-              <Button size="lg" className="hover:scale-110 transition-all shadow-lg hover:shadow-2xl" asChild>
+              <Button size="lg" className="hover:scale-110 transition-all shadow-lg hover:shadow-2xl hover:shadow-primary/50" asChild>
                 <a href="mailto:triyi0513@gmail.com">
                   <Mail className="mr-2 h-5 w-5" />
                   Contact Me
                 </a>
               </Button>
-              <Button size="lg" variant="outline" className="hover:scale-110 transition-all glass hover:bg-primary/10" asChild>
+              <Button size="lg" variant="outline" className="hover:scale-110 transition-all glass hover:bg-primary/10 hover:border-primary/50" asChild>
                 <a href="https://github.com/tristanyii" target="_blank" rel="noopener noreferrer">
                   <Github className="mr-2 h-5 w-5" />
                   GitHub
                 </a>
               </Button>
-              <Button size="lg" variant="outline" className="hover:scale-110 transition-all glass hover:bg-primary/10" asChild>
+              <Button size="lg" variant="outline" className="hover:scale-110 transition-all glass hover:bg-primary/10 hover:border-primary/50" asChild>
                 <a href="https://linkedin.com/in/tristan-yi" target="_blank" rel="noopener noreferrer">
                   <Linkedin className="mr-2 h-5 w-5" />
                   LinkedIn
@@ -176,8 +176,9 @@ export default function Home() {
 
           <div className="grid gap-6">
             {/* Duke Code+ */}
-            <Card className="hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] border-l-4 border-l-primary/50 glass rounded-3xl">
-              <CardHeader>
+            <Card className="hover-lift hover:shadow-2xl hover:shadow-primary/10 transition-all duration-300 border-l-4 border-l-primary/50 glass rounded-3xl group relative overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <CardHeader className="relative z-10">
                 <div className="flex justify-between items-start flex-wrap gap-2">
                   <div>
                     <CardTitle className="text-xl">Software Engineer Intern</CardTitle>
@@ -214,8 +215,9 @@ export default function Home() {
             </Card>
 
             {/* Blue Devil Buddies */}
-            <Card className="hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] rounded-tl-3xl rounded-br-3xl border-t-4 border-t-blue-500/30">
-              <CardHeader>
+            <Card className="hover-lift hover:shadow-2xl hover:shadow-blue-500/10 transition-all duration-300 rounded-tl-3xl rounded-br-3xl border-t-4 border-t-blue-500/30 group relative overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <CardHeader className="relative z-10">
                 <div className="flex justify-between items-start flex-wrap gap-2">
                   <div>
                     <CardTitle className="text-xl">Software Engineer Intern</CardTitle>
@@ -250,8 +252,9 @@ export default function Home() {
             </Card>
 
             {/* AspinRock */}
-            <Card className="hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] rounded-2xl border-r-4 border-r-amber-500/30">
-              <CardHeader>
+            <Card className="hover-lift hover:shadow-2xl hover:shadow-amber-500/10 transition-all duration-300 rounded-2xl border-r-4 border-r-amber-500/30 group relative overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-amber-500/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <CardHeader className="relative z-10">
                 <div className="flex justify-between items-start flex-wrap gap-2">
                   <div>
                     <CardTitle className="text-xl">Software Developer Intern</CardTitle>
@@ -287,8 +290,9 @@ export default function Home() {
             </Card>
 
             {/* Research Assistant */}
-            <Card className="hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] rounded-tr-3xl rounded-bl-3xl border-b-4 border-b-indigo-500/30">
-              <CardHeader>
+            <Card className="hover-lift hover:shadow-2xl hover:shadow-indigo-500/10 transition-all duration-300 rounded-tr-3xl rounded-bl-3xl border-b-4 border-b-indigo-500/30 group relative overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <CardHeader className="relative z-10">
                 <div className="flex justify-between items-start flex-wrap gap-2">
                   <div>
                     <CardTitle className="text-xl">Research Assistant</CardTitle>
@@ -327,8 +331,9 @@ export default function Home() {
             <div className="mt-12">
               <h3 className="text-3xl font-bold mb-6 bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">Leadership</h3>
               <div className="grid gap-6 md:grid-cols-2">
-                <Card className="hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] rounded-3xl border-l-4 border-l-cyan-500/30">
-                  <CardHeader>
+                <Card className="hover-lift hover:shadow-2xl hover:shadow-cyan-500/10 transition-all duration-300 rounded-3xl border-l-4 border-l-cyan-500/30 group relative overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <CardHeader className="relative z-10">
                     <div className="flex justify-between items-start flex-wrap gap-2">
                       <div>
                         <CardTitle className="text-lg">Catalyst Marketing Executive</CardTitle>
@@ -356,8 +361,9 @@ export default function Home() {
                   </CardContent>
                 </Card>
 
-                <Card className="hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] rounded-2xl border-r-4 border-r-green-500/30">
-                  <CardHeader>
+                <Card className="hover-lift hover:shadow-2xl hover:shadow-green-500/10 transition-all duration-300 rounded-2xl border-r-4 border-r-green-500/30 group relative overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-br from-green-500/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <CardHeader className="relative z-10">
                     <div className="flex justify-between items-start flex-wrap gap-2">
                       <div>
                         <CardTitle className="text-lg">DukeLife Mentor</CardTitle>
@@ -429,9 +435,10 @@ export default function Home() {
 
           <div className="grid gap-6 md:grid-cols-2">
             {/* Excess - Deutsche Bank Hackathon */}
-            <Card className="hover:shadow-2xl transition-all duration-300 hover:scale-[1.05] group relative overflow-hidden glass border-2 border-yellow-500/20 rounded-tl-3xl rounded-br-3xl">
-              <div className="absolute inset-0 bg-gradient-to-br from-yellow-500/10 via-orange-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-              <div className="absolute top-0 right-0 w-32 h-32 bg-yellow-500/10 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity" />
+            <Card className="hover-lift card-shine hover:shadow-2xl hover:shadow-yellow-500/20 transition-all duration-300 group relative overflow-hidden glass border-2 border-yellow-500/20 rounded-tl-3xl rounded-br-3xl">
+              <div className="absolute inset-0 bg-gradient-to-br from-yellow-500/10 via-orange-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <div className="absolute top-0 right-0 w-32 h-32 bg-yellow-500/10 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <div className="absolute -top-1 -right-1 w-20 h-20 bg-yellow-500/20 rounded-full blur-xl animate-pulse-slow" />
               <CardHeader className="relative z-10">
                 <div className="flex justify-between items-start flex-wrap gap-2">
                   <div>
@@ -472,9 +479,9 @@ export default function Home() {
             </Card>
 
             {/* The Devil's Tracker */}
-            <Card className="hover:shadow-2xl transition-all duration-300 hover:scale-[1.05] group relative overflow-hidden glass rounded-tr-3xl rounded-bl-3xl border-t-4 border-t-red-500/30">
-              <div className="absolute inset-0 bg-gradient-to-br from-red-500/10 via-purple-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-              <div className="absolute top-0 right-0 w-32 h-32 bg-red-500/10 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity" />
+            <Card className="hover-lift card-shine hover:shadow-2xl hover:shadow-red-500/20 transition-all duration-300 group relative overflow-hidden glass rounded-tr-3xl rounded-bl-3xl border-t-4 border-t-red-500/30">
+              <div className="absolute inset-0 bg-gradient-to-br from-red-500/10 via-purple-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <div className="absolute top-0 right-0 w-32 h-32 bg-red-500/10 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               <CardHeader className="relative z-10">
                 <div className="flex justify-between items-start flex-wrap gap-2">
                   <div>
@@ -515,9 +522,9 @@ export default function Home() {
             </Card>
 
             {/* GoHelpMe - CUHackIt */}
-            <Card className="hover:shadow-2xl transition-all duration-300 hover:scale-[1.05] group relative overflow-hidden glass border-2 border-blue-500/20 rounded-3xl">
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-cyan-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-              <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity" />
+            <Card className="hover-lift card-shine hover:shadow-2xl hover:shadow-blue-500/20 transition-all duration-300 group relative overflow-hidden glass border-2 border-blue-500/20 rounded-3xl">
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-cyan-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               <CardHeader className="relative z-10">
                 <div className="flex justify-between items-start flex-wrap gap-2">
                   <div>
@@ -559,8 +566,8 @@ export default function Home() {
             </Card>
 
             {/* Personal Website */}
-            <Card className="hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] group relative overflow-hidden rounded-2xl border-l-4 border-l-purple-500/30">
-              <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+            <Card className="hover-lift card-shine hover:shadow-2xl hover:shadow-purple-500/20 transition-all duration-300 group relative overflow-hidden rounded-2xl border-l-4 border-l-purple-500/30">
+              <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               <CardHeader className="relative z-10">
                 <div className="flex justify-between items-start flex-wrap gap-2">
                   <div>
@@ -605,8 +612,9 @@ export default function Home() {
         
         <div className="space-y-12 max-w-5xl mx-auto relative z-10">
           <div className="text-center space-y-4">
-            <h2 className="text-4xl font-bold tracking-tight sm:text-5xl bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
+            <h2 className="text-4xl font-bold tracking-tight sm:text-5xl bg-gradient-to-r from-primary via-purple-500 to-blue-500 bg-clip-text text-transparent animate-gradient relative inline-block">
               Hobbies & Interests
+              <div className="absolute -bottom-1 left-1/4 right-1/4 h-1 bg-gradient-to-r from-primary via-purple-500 to-blue-500 animate-gradient rounded-full"></div>
             </h2>
             <p className="text-muted-foreground text-lg">What I do outside of coding</p>
           </div>

@@ -62,10 +62,11 @@ export function SkillsSection() {
         return (
           <Card 
             key={idx} 
-            className="relative overflow-hidden glass border-2 border-white/10 hover:border-primary/50 transition-all hover:scale-105 group"
+            className="hover-lift relative overflow-hidden glass border-2 border-white/10 hover:border-primary/50 transition-all duration-500 group"
           >
             {/* Background gradient */}
             <div className={`absolute top-0 right-0 w-32 h-32 rounded-full bg-gradient-to-br ${category.color} blur-3xl opacity-50 group-hover:opacity-100 group-hover:scale-150 transition-all duration-500`} />
+            <div className={`absolute bottom-0 left-0 w-24 h-24 rounded-full bg-gradient-to-tr ${category.color} blur-2xl opacity-30 group-hover:opacity-70 group-hover:scale-125 transition-all duration-700`} />
             
             <CardContent className="p-6 relative z-10">
               <div className="flex items-center gap-3 mb-4">
@@ -82,7 +83,10 @@ export function SkillsSection() {
                   <Badge 
                     key={skillIdx} 
                     variant="secondary" 
-                    className="text-xs hover:bg-primary/20 transition-colors cursor-default"
+                    className="text-xs hover:bg-primary/20 hover:scale-110 transition-all duration-200 cursor-default"
+                    style={{ 
+                      animationDelay: `${skillIdx * 50}ms`
+                    }}
                   >
                     {skill}
                   </Badge>

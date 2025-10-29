@@ -168,19 +168,19 @@ export function LocalMusicPlayer() {
       <div className="fixed bottom-8 right-8 z-50">
         {!isExpanded ? (
           /* Collapsed - Show Mini Player */
-          <button
-            onClick={() => {
-              if (!showPlayer) {
-                // First click: start music AND open menu
-                startMusic();
-              }
-              setIsExpanded(true);
-            }}
-            className="flex items-center gap-3 text-white px-5 py-3 rounded-full shadow-2xl hover:shadow-3xl transition-all hover:scale-105"
-            style={{
-              background: 'linear-gradient(135deg, #9333EA 0%, #7C3AED 50%, #6366F1 100%)'
-            }}
-          >
+                 <button
+                   onClick={() => {
+                     if (!showPlayer) {
+                       // First click: start music AND open menu
+                       startMusic();
+                     }
+                     setIsExpanded(true);
+                   }}
+                   className="flex items-center gap-3 text-white px-5 py-3 rounded-full shadow-2xl hover:shadow-3xl transition-all hover:scale-110 animate-pulse-glow"
+                   style={{
+                     background: 'linear-gradient(135deg, #9333EA 0%, #7C3AED 50%, #6366F1 100%)'
+                   }}
+                 >
             <div className="relative">
               <Music className={`h-6 w-6 ${isPlaying ? 'animate-pulse' : ''}`} />
               {isPlaying && (
@@ -221,17 +221,27 @@ export function LocalMusicPlayer() {
 
             {/* Album Art */}
             <div className="p-3">
-              {currentSong.cover ? (
-                <img
-                  src={currentSong.cover}
-                  alt={currentSong.title}
-                  className="w-full aspect-square rounded-lg object-cover shadow-lg"
-                />
-              ) : (
-                <div className="w-full aspect-square bg-gradient-to-br from-primary via-purple-500 to-blue-500 rounded-lg shadow-lg flex items-center justify-center">
-                  <Music className="h-16 w-16 text-white/80" />
-                </div>
-              )}
+              <div className="relative">
+                {currentSong.cover ? (
+                  <div className={`relative ${isPlaying ? 'animate-pulse-slow' : ''}`}>
+                    <img
+                      src={currentSong.cover}
+                      alt={currentSong.title}
+                      className="w-full aspect-square rounded-lg object-cover shadow-lg"
+                    />
+                    {isPlaying && (
+                      <div className="absolute inset-0 rounded-lg bg-gradient-to-br from-transparent via-transparent to-primary/20 animate-gradient pointer-events-none"></div>
+                    )}
+                  </div>
+                ) : (
+                  <div className="w-full aspect-square bg-gradient-to-br from-primary via-purple-500 to-blue-500 rounded-lg shadow-lg flex items-center justify-center animate-gradient">
+                    <Music className={`h-16 w-16 text-white/80 ${isPlaying ? 'animate-pulse' : ''}`} />
+                  </div>
+                )}
+                {isPlaying && (
+                  <div className="absolute -inset-2 bg-primary/20 rounded-lg blur-md animate-pulse-slow -z-10"></div>
+                )}
+              </div>
             </div>
 
             {/* Song Info */}

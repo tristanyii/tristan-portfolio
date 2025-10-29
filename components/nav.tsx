@@ -17,7 +17,7 @@ export function Nav() {
   ];
 
   return (
-    <nav className="border-b glass sticky top-0 z-50 shadow-lg">
+    <nav className="border-b glass sticky top-0 z-50 shadow-lg backdrop-blur-xl bg-background/80">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         <a 
           href="#home" 
@@ -29,22 +29,22 @@ export function Nav() {
         
         {/* Desktop Navigation */}
         <div className="hidden md:flex gap-2 items-center">
-          <Button variant="ghost" size="sm" className="hover:bg-primary/20 transition-all hover:scale-105" asChild>
+          <Button variant="ghost" size="sm" className="hover:bg-primary/20 hover:text-primary transition-all hover:scale-105" asChild>
             <a href="#home">Home</a>
           </Button>
-          <Button variant="ghost" size="sm" className="hover:bg-primary/20 transition-all hover:scale-105" asChild>
+          <Button variant="ghost" size="sm" className="hover:bg-primary/20 hover:text-primary transition-all hover:scale-105" asChild>
             <a href="#experience">Experience</a>
           </Button>
-          <Button variant="ghost" size="sm" className="hover:bg-primary/20 transition-all hover:scale-105" asChild>
+          <Button variant="ghost" size="sm" className="hover:bg-primary/20 hover:text-primary transition-all hover:scale-105" asChild>
             <a href="#skills">Skills</a>
           </Button>
-          <Button variant="ghost" size="sm" className="hover:bg-primary/20 transition-all hover:scale-105" asChild>
+          <Button variant="ghost" size="sm" className="hover:bg-primary/20 hover:text-primary transition-all hover:scale-105" asChild>
             <a href="#projects">Projects</a>
           </Button>
-          <Button variant="ghost" size="sm" className="hover:bg-primary/20 transition-all hover:scale-105" asChild>
+          <Button variant="ghost" size="sm" className="hover:bg-primary/20 hover:text-primary transition-all hover:scale-105" asChild>
             <a href="#music">Music</a>
           </Button>
-          <Button variant="ghost" size="sm" className="hover:bg-primary/20 transition-all hover:scale-105" asChild>
+          <Button variant="ghost" size="sm" className="hover:bg-primary/20 hover:text-primary transition-all hover:scale-105" asChild>
             <a href="#hobbies">Hobbies</a>
           </Button>
         </div>
