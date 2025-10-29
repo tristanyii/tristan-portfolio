@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 
+// Track which keys have exceeded quota (resets when server restarts)
+const exhaustedKeys = new Set<string>();
+
 export async function GET(request: NextRequest) {
   try {
     const query = request.nextUrl.searchParams.get('q');
@@ -10,26 +13,73 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Query required' }, { status: 400 });
     }
 
-    const apiKey = process.env.YOUTUBE_API_KEY;
+    // Get all available API keys
+    const apiKeys = [
+      process.env.YOUTUBE_API_KEY,
+      process.env.YOUTUBE_API_KEY_2,
+    ].filter(Boolean) as string[];
     
-    if (!apiKey) {
-      console.error('❌ YouTube API key not configured');
+    if (apiKeys.length === 0) {
+      console.error('❌ No YouTube API keys configured');
       return NextResponse.json({ error: 'YouTube API not configured' }, { status: 500 });
     }
 
-    console.log('✅ YouTube API key found, making request...');
+    console.log(`✅ Found ${apiKeys.length} YouTube API key(s), ${exhaustedKeys.size} exhausted`);
 
-    // Search YouTube for the video
-    const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(query)}&type=video&maxResults=1&key=${apiKey}`;
-    console.log('📡 Requesting:', url.replace(apiKey, 'HIDDEN'));
-    
-    const response = await fetch(url);
-    
-    console.log('📡 YouTube API response status:', response.status);
+    // Try each key that hasn't been exhausted
+    for (let i = 0; i < apiKeys.length; i++) {
+      const apiKey = apiKeys[i];
+      const keyName = `Key ${i + 1}`;
+      
+      if (exhaustedKeys.has(apiKey)) {
+        console.log(`⏭️ Skipping ${keyName} (quota exhausted)`);
+        continue;
+      }
 
-    if (!response.ok) {
+      console.log(`🔑 Trying ${keyName}...`);
+
+      // Search YouTube for the video
+      const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(query)}&type=video&maxResults=1&key=${apiKey}`;
+      
+      const response = await fetch(url);
+      
+      console.log(`📡 ${keyName} response status:`, response.status);
+
+      if (response.ok) {
+        const data = await response.json();
+
+        if (data.items && data.items.length > 0) {
+          const video = data.items[0];
+          console.log(`✅ ${keyName} success! Found video:`, video.id.videoId);
+          return NextResponse.json({
+            videoId: video.id.videoId,
+            title: video.snippet.title,
+          });
+        }
+
+        console.log(`⚠️ ${keyName} returned no videos`);
+        return NextResponse.json({ error: 'No video found' }, { status: 404 });
+      }
+
+      // Check if quota exceeded
+      if (response.status === 403) {
+        const errorText = await response.text();
+        try {
+          const errorData = JSON.parse(errorText);
+          if (errorData.error?.errors?.[0]?.reason === 'quotaExceeded') {
+            console.warn(`🚫 ${keyName} quota exhausted, marking as unavailable`);
+            exhaustedKeys.add(apiKey);
+            // Continue to next key
+            continue;
+          }
+        } catch {
+          // Not JSON or different error
+        }
+      }
+
+      // Other error, return it
       const errorText = await response.text();
-      console.error('❌ YouTube API error response:', errorText);
+      console.error(`❌ ${keyName} error:`, errorText);
       let errorData;
       try {
         errorData = JSON.parse(errorText);
@@ -42,20 +92,13 @@ export async function GET(request: NextRequest) {
       }, { status: response.status });
     }
 
-    const data = await response.json();
-    console.log('✅ YouTube API response:', JSON.stringify(data).substring(0, 200));
-
-    if (data.items && data.items.length > 0) {
-      const video = data.items[0];
-      console.log('✅ Found video:', video.id.videoId);
-      return NextResponse.json({
-        videoId: video.id.videoId,
-        title: video.snippet.title,
-      });
-    }
-
-    console.log('⚠️ No videos found in response');
-    return NextResponse.json({ error: 'No video found' }, { status: 404 });
+    // All keys exhausted
+    console.error('❌ All YouTube API keys have exceeded quota');
+    return NextResponse.json({ 
+      error: 'All API keys have exceeded quota',
+      message: 'Please try again tomorrow when quota resets'
+    }, { status: 429 });
+    
   } catch (error: any) {
     console.error('❌ Exception in YouTube API route:', error);
     console.error('Stack trace:', error.stack);

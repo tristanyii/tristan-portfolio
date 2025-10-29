@@ -17,6 +17,9 @@ interface VideoResult {
   title: string;
 }
 
+// Cache for YouTube video IDs (persists across component re-renders)
+const youtubeVideoCache: { [key: string]: string } = {};
+
 export function YouTubeMusicPlayer() {
   const [isOpen, setIsOpen] = useState(false);
   const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
@@ -50,12 +53,30 @@ export function YouTubeMusicPlayer() {
       const artist = track.artists[0]?.name || "";
       const song = track.name;
       const query = `${artist} ${song} official audio`;
+      const cacheKey = `${track.id}-${query}`;
       
+      // Check cache first
+      if (youtubeVideoCache[cacheKey]) {
+        console.log(`✅ YouTube cache hit for: ${track.name}`);
+        setCurrentVideo({
+          videoId: youtubeVideoCache[cacheKey],
+          title: track.name
+        });
+        setLoadingVideo(false);
+        return;
+      }
+      
+      console.log(`🔍 YouTube cache miss, fetching: ${track.name}`);
       const response = await fetch(`/api/youtube/search?q=${encodeURIComponent(query)}`);
       const data = await response.json();
       
       if (data.videoId) {
+        // Store in cache
+        youtubeVideoCache[cacheKey] = data.videoId;
+        console.log(`✅ Cached YouTube video for: ${track.name}`);
         setCurrentVideo(data);
+      } else if (response.status === 403) {
+        console.warn("⚠️ YouTube quota exceeded");
       }
     } catch (error) {
       console.error("Error searching YouTube:", error);

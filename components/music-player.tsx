@@ -21,6 +21,9 @@ declare global {
   }
 }
 
+// Cache for YouTube video IDs (persists across component re-renders)
+const youtubeCache: { [key: string]: string } = {};
+
 export function MusicPlayer() {
   const [isOpen, setIsOpen] = useState(false);
   const [tracks, setTracks] = useState<Track[]>([]);
@@ -74,24 +77,40 @@ export function MusicPlayer() {
         return;
       }
       
-      // Get YouTube IDs for the first 10 tracks
-      const tracksToFetch = spotifyData.slice(0, 10);
-      console.log(`🔍 Fetching YouTube IDs for ${tracksToFetch.length} tracks...`);
+      // Get YouTube IDs for the first 5 tracks (reduced from 10 to save quota)
+      const tracksToFetch = spotifyData.slice(0, 5);
+      console.log(`🔍 Checking ${tracksToFetch.length} tracks (with cache)...`);
       
       const tracksWithYoutube = await Promise.all(
         tracksToFetch.map(async (track: any) => {
+          const searchQuery = `${track.name} ${track.artists.map((a: any) => a.name).join(' ')}`;
+          const cacheKey = `${track.id}-${searchQuery}`;
+          
+          // Check cache first
+          if (youtubeCache[cacheKey]) {
+            console.log(`✅ Cache hit for: ${track.name}`);
+            return {
+              id: track.id,
+              name: track.name,
+              artists: track.artists.map((a: any) => a.name).join(", "),
+              album: track.album.name,
+              albumArt: track.album.images[0]?.url || "",
+              youtubeId: youtubeCache[cacheKey],
+            };
+          }
+          
           try {
-            const searchQuery = `${track.name} ${track.artists.map((a: any) => a.name).join(' ')}`;
-            console.log(`🔍 Searching YouTube for: "${searchQuery}"`);
+            console.log(`🔍 Cache miss, searching YouTube for: "${searchQuery}"`);
             const youtubeResponse = await fetch(`/api/youtube/search?q=${encodeURIComponent(searchQuery)}`);
-            
-            console.log(`📡 YouTube API response status: ${youtubeResponse.status}`);
             
             if (youtubeResponse.ok) {
               const youtubeData = await youtubeResponse.json();
-              console.log(`✅ Got YouTube data:`, youtubeData);
               
               if (youtubeData.videoId) {
+                // Store in cache
+                youtubeCache[cacheKey] = youtubeData.videoId;
+                console.log(`✅ Cached video ID for: ${track.name}`);
+                
                 return {
                   id: track.id,
                   name: track.name,
@@ -100,15 +119,13 @@ export function MusicPlayer() {
                   albumArt: track.album.images[0]?.url || "",
                   youtubeId: youtubeData.videoId,
                 };
-              } else {
-                console.warn(`⚠️ No videoId in response for ${track.name}`);
               }
-            } else {
-              const errorText = await youtubeResponse.text();
-              console.error(`❌ YouTube API error for ${track.name}:`, youtubeResponse.status, errorText);
+            } else if (youtubeResponse.status === 403) {
+              console.warn(`⚠️ Quota exceeded, skipping YouTube search for remaining tracks`);
+              // Stop trying after quota exceeded
             }
           } catch (err) {
-            console.error(`❌ Exception getting YouTube ID for ${track.name}:`, err);
+            console.error(`❌ Error for ${track.name}:`, err);
           }
           
           return {
