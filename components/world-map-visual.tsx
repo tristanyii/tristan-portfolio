@@ -84,7 +84,7 @@ export function WorldMapVisual({ visitedCountries, onCountryClick, cityMarkers =
           zoom={1}
           minZoom={0.5}
           maxZoom={8}
-          filterZoomEvent={(evt) => {
+          filterZoomEvent={(evt: any) => {
             // Enable pinch zoom on touch devices
             return true;
           }}
