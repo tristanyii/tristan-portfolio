@@ -1,7 +1,7 @@
 [
   {
     "id": "1",
-    "name": "Durham",
+    "name": "Durham, North Carolina",
     "city": "Durham",
     "country": "USA",
     "state": "North Carolina",
@@ -13,13 +13,12 @@
       "lng": -78.8986
     },
     "photos": [
-      "/Headshot.jpg",
       "/MirrorPic.jpg"
     ]
   },
   {
     "id": "2",
-    "name": "Union",
+    "name": "Union, South Carolina",
     "city": "Union",
     "country": "USA",
     "state": "South Carolina",
@@ -34,7 +33,7 @@
   },
   {
     "id": "3",
-    "name": "Charlotte",
+    "name": "Charlotte, North Carolina",
     "city": "Charlotte",
     "country": "USA",
     "state": "North Carolina",
@@ -45,13 +44,11 @@
       "lat": 35.2271,
       "lng": -80.8431
     },
-    "photos": [
-      "/Carowinds.jpg"
-    ]
+    "photos": []
   },
   {
     "id": "1761705940730",
-    "name": "Lancaster",
+    "name": "Lancaster, Pennsylvania",
     "city": "Lancaster",
     "country": "USA",
     "state": "Pennsylvania",
@@ -60,9 +57,20 @@
       "lat": 40.0379,
       "lng": -76.3055
     },
-    "photos": [
-      "/travel-photos/travel_1761709410509_IMG_0710.jpg"
-    ],
+    "photos": [],
+    "description": "Add your description here!"
+  },
+  {
+    "id": "1761715097719",
+    "name": "Seoul, South Korea",
+    "city": "Seoul",
+    "country": "South Korea",
+    "visited": true,
+    "coordinates": {
+      "lng": 126.978,
+      "lat": 37.5665
+    },
+    "photos": [],
     "description": "Add your description here!"
   }
 ]

@@ -281,8 +281,8 @@ export function TravelMap({ isOpen, onClose }: TravelMapProps) {
     // Create new location with clicked coordinates and detected country/state
     const newLocation: TravelLocation = {
       id: String(Date.now()),
-      name: "New Location",
-      city: "New Location",
+      name: "", // Will be auto-generated from city + state/country
+      city: "",
       country: countryName,
       state: stateName,
       visited: true,
@@ -432,7 +432,7 @@ export function TravelMap({ isOpen, onClose }: TravelMapProps) {
           <div className="absolute inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-sm">
             <div className="text-center space-y-4">
               <div className="animate-spin h-12 w-12 border-4 border-primary border-t-transparent rounded-full mx-auto" />
-              <p className="text-lg text-muted-foreground">Loading your travel adventures...</p>
+              <p className="text-lg text-muted-foreground">Loading places I've been...</p>
             </div>
           </div>
         )}
@@ -442,7 +442,7 @@ export function TravelMap({ isOpen, onClose }: TravelMapProps) {
           <div className="container mx-auto flex items-center justify-between gap-4">
             <div className="flex-1 min-w-0">
               <h2 className="text-xl md:text-2xl font-bold bg-gradient-to-r from-primary via-purple-500 to-blue-500 bg-clip-text text-transparent truncate">
-                My Travel Adventures ✈️
+                Places I've Been ✈️
               </h2>
               <div className="flex gap-2 md:gap-3 mt-1 flex-wrap">
                 <Badge variant="secondary" className="text-xs">
@@ -741,8 +741,8 @@ export function TravelMap({ isOpen, onClose }: TravelMapProps) {
                         onClick={() => {
                           const newLocation: TravelLocation = {
                             id: String(Date.now()),
-                            name: "New Location",
-                            city: "New Location",
+                            name: "", // Will be auto-generated from city + state/country
+                            city: "",
                             country: country,
                             visited: true,
                             coordinates: { lat: 35.9940, lng: -78.8986 },
@@ -1059,9 +1059,10 @@ export function TravelMap({ isOpen, onClose }: TravelMapProps) {
                     💡 How to Add a Location:
                   </p>
                   <ul className="text-xs text-blue-600 dark:text-blue-400 space-y-1.5 ml-4 list-disc">
-                    <li><strong>City:</strong> Enter the city you visited (e.g., "Lancaster", "Charlotte", "Tokyo")</li>
+                    <li><strong>City:</strong> Enter the city you visited (e.g., "Lancaster", "Charlotte", "Tokyo", "Seoul")</li>
                     <li><strong>State:</strong> REQUIRED for USA - enter the full state name (e.g., "Pennsylvania", "North Carolina") to turn it green on the map</li>
-                    <li><strong>Country:</strong> Enter the country (e.g., "USA", "Japan", "France")</li>
+                    <li><strong>Country:</strong> Enter the country (e.g., "USA", "South Korea", "Japan", "France") to turn it green on the world map</li>
+                    <li><strong>Display Name:</strong> Auto-generated as "City, State" (USA) or "City, Country" (international)</li>
                     <li>Coordinates auto-fill as you type. Click "Save Location" when done!</li>
                   </ul>
                 </div>
@@ -1081,17 +1082,16 @@ export function TravelMap({ isOpen, onClose }: TravelMapProps) {
                     </label>
                     <input
                       type="text"
-                      value={editingLocation.city || editingLocation.name}
+                      value={editingLocation.city || ""}
                       onChange={(e) => {
                         setEditingLocation({ 
                           ...editingLocation, 
-                          city: e.target.value,
-                          name: e.target.value // Keep name in sync with city
+                          city: e.target.value
                         });
                         triggerAutoGeocode();
                       }}
                       className="w-full px-4 py-3 bg-muted rounded-lg border-2 border-primary/30 focus:border-primary outline-none text-lg font-semibold"
-                      placeholder="e.g., Lancaster, Charlotte, Tokyo"
+                      placeholder="e.g., Lancaster, Charlotte, Tokyo, Seoul"
                     />
                     <p className="text-xs text-muted-foreground mt-1">
                       The city name only (e.g., "Lancaster" not "Lancaster, PA")
@@ -1141,18 +1141,25 @@ export function TravelMap({ isOpen, onClose }: TravelMapProps) {
                     </div>
                   </div>
 
-                  {/* Visual Example */}
-                  {editingLocation.city && editingLocation.state && editingLocation.country === "USA" && (
+                  {/* Display Name Preview */}
+                  {editingLocation.city && editingLocation.country && (
                     <div className="bg-green-500/10 border border-green-500/30 rounded-lg p-3">
                       <p className="text-xs text-green-700 dark:text-green-300 font-bold">
-                        ✅ Perfect! This will show as:
+                        ✅ Display Name (auto-generated):
                       </p>
                       <p className="text-sm font-semibold text-green-800 dark:text-green-200 mt-1">
-                        📍 {editingLocation.city}, {editingLocation.state}
+                        📍 {editingLocation.city}{editingLocation.country === "USA" && editingLocation.state ? `, ${editingLocation.state}` : editingLocation.country !== "USA" ? `, ${editingLocation.country}` : ""}
                       </p>
-                      <p className="text-xs text-green-600 dark:text-green-400 mt-1">
-                        And {editingLocation.state} will turn green on the map!
-                      </p>
+                      {editingLocation.country === "USA" && editingLocation.state && (
+                        <p className="text-xs text-green-600 dark:text-green-400 mt-1">
+                          {editingLocation.state} will turn green on the map!
+                        </p>
+                      )}
+                      {editingLocation.country !== "USA" && (
+                        <p className="text-xs text-green-600 dark:text-green-400 mt-1">
+                          {editingLocation.country} will turn green on the map!
+                        </p>
+                      )}
                     </div>
                   )}
                 </div>
@@ -1323,7 +1330,7 @@ export function TravelMap({ isOpen, onClose }: TravelMapProps) {
                     variant="default"
                     className="flex-1"
                     onClick={async () => {
-                      const cityName = editingLocation?.city || editingLocation?.name;
+                      const cityName = editingLocation?.city;
                       
                       // Validate city is entered
                       if (!cityName?.trim()) {
@@ -1343,11 +1350,16 @@ export function TravelMap({ isOpen, onClose }: TravelMapProps) {
                         return;
                       }
                       
-                      // Ensure city field is set
+                      // Auto-generate display name: "City, State" for USA or "City, Country" for others
+                      const displayName = editingLocation.country === "USA" && editingLocation.state
+                        ? `${cityName}, ${editingLocation.state}`
+                        : `${cityName}, ${editingLocation.country}`;
+                      
+                      // Ensure all fields are set correctly
                       const locationToSave = {
                         ...editingLocation,
                         city: cityName,
-                        name: cityName
+                        name: displayName // Auto-generated from city + state/country
                       };
                       
                       console.log('💾 Saving location:', locationToSave);
@@ -1357,7 +1369,7 @@ export function TravelMap({ isOpen, onClose }: TravelMapProps) {
                         setEditingLocation(null);
                       }
                     }}
-                    disabled={saving || !(editingLocation?.city || editingLocation?.name)?.trim() || !editingLocation.country?.trim() || (editingLocation.country === "USA" && !editingLocation.state?.trim())}
+                    disabled={saving || !editingLocation?.city?.trim() || !editingLocation.country?.trim() || (editingLocation.country === "USA" && !editingLocation.state?.trim())}
                   >
                     {saving ? (
                       <>

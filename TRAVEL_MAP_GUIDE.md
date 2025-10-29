@@ -25,7 +25,7 @@
 ### 4. **Secret Admin Panel** 🔐
 
 #### How to Access:
-1. Open your Travel Adventures map
+1. Open your Places I've Been map
 2. **Press the `Shift` key 5 times quickly** (within 2 seconds)
 3. You'll see a red "Admin Mode" badge appear in the top right
 4. Admin features will now be visible!

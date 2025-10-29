@@ -12,7 +12,7 @@ export async function GET() {
       }, { status: 200 });
     }
 
-    const data = await getTopArtists(8, 'short_term');
+    const data = await getTopArtists(8, 'medium_term'); // Last 6 months instead of 4 weeks
     return NextResponse.json(data);
   } catch (error: any) {
     console.error('❌ Error fetching top artists:', error);

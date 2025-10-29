@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Github, Linkedin, Mail, ArrowDown } from "lucide-react";
 import { SpotifySection } from "@/components/spotify-section";
 import { SnorlaxCollection } from "@/components/snorlax-collection";
-import { MusicPlayer } from "@/components/music-player";
+import { LocalMusicPlayer } from "@/components/local-music-player";
 import { HobbiesSection } from "@/components/hobbies-section";
 import { SkillsSection } from "@/components/skills-section";
 import { Nav } from "@/components/nav";
@@ -638,7 +638,7 @@ export default function Home() {
       </footer>
 
       {/* Music Player */}
-      <MusicPlayer />
+      <LocalMusicPlayer />
     </div>
   );
 }
