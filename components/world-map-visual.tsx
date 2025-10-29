@@ -90,8 +90,8 @@ export function WorldMapVisual({ visitedCountries, onCountryClick, cityMarkers =
           }}
         >
           <Geographies geography={geoUrl}>
-            {({ geographies, projection }) =>
-              geographies.map((geo) => {
+            {({ geographies, projection }: any) =>
+              geographies.map((geo: any) => {
                 const isoCode = geo.id;
                 const geoName = geo.properties.name;
                 // Try multiple ways to match country name
@@ -105,7 +105,7 @@ export function WorldMapVisual({ visitedCountries, onCountryClick, cityMarkers =
                     geography={geo}
                     onMouseEnter={() => setHoveredCountry(countryName)}
                     onMouseLeave={() => setHoveredCountry(null)}
-                    onClick={(event) => {
+                    onClick={(event: any) => {
                       if (adminMode && onMapClick) {
                         handleMapClick(geo, projection, countryName)(event);
                       } else if (isVisited) {

@@ -121,8 +121,8 @@ export function USAMapVisual({ visitedStates, onStateClick, cityMarkers = [], on
           }}
         >
           <Geographies geography={geoUrl}>
-            {({ geographies, projection }) =>
-              geographies.map((geo) => {
+            {({ geographies, projection }: any) =>
+              geographies.map((geo: any) => {
                 const stateId = geo.id;
                 const stateName = stateNames[stateId] || geo.properties.name;
                 const isVisited = visitedStates.has(stateName);
@@ -134,7 +134,7 @@ export function USAMapVisual({ visitedStates, onStateClick, cityMarkers = [], on
                     geography={geo}
                     onMouseEnter={() => setHoveredState(stateName)}
                     onMouseLeave={() => setHoveredState(null)}
-                    onClick={(event) => {
+                    onClick={(event: any) => {
                       if (adminMode && onMapClick) {
                         handleMapClick(geo, projection, stateName)(event);
                       } else if (isVisited) {
