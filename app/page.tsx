@@ -46,7 +46,7 @@ export default function Home() {
                 </span>
           </h1>
               <div className="space-y-1">
-                <p className="text-lg sm:text-xl md:text-2xl text-muted-foreground whitespace-nowrap">
+                <p className="text-lg sm:text-xl md:text-2xl text-muted-foreground sm:whitespace-nowrap">
                   Computer Science & Statistics @ Duke University
                 </p>
                 <p className="text-sm sm:text-base text-muted-foreground/80">
