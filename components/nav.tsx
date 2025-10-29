@@ -36,6 +36,9 @@ export function Nav() {
             <a href="#experience">Experience</a>
           </Button>
           <Button variant="ghost" size="sm" className="hover:bg-primary/20 transition-all hover:scale-105" asChild>
+            <a href="#skills">Skills</a>
+          </Button>
+          <Button variant="ghost" size="sm" className="hover:bg-primary/20 transition-all hover:scale-105" asChild>
             <a href="#projects">Projects</a>
           </Button>
           <Button variant="ghost" size="sm" className="hover:bg-primary/20 transition-all hover:scale-105" asChild>
@@ -77,6 +80,13 @@ export function Nav() {
               onClick={() => setMobileMenuOpen(false)}
             >
               Experience
+            </a>
+            <a
+              href="#skills"
+              className="block px-4 py-2 rounded-lg hover:bg-primary/20 transition-colors text-center"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Skills
             </a>
             <a
               href="#projects"

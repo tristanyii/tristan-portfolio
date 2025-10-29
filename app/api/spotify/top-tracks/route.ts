@@ -17,8 +17,8 @@ export async function GET() {
       topArtists,
       savedTracks
     ] = await Promise.all([
-      getTopTracks(50, 'medium_term').catch(() => ({ items: [] })),
-      getTopArtists(10, 'medium_term').catch(() => ({ items: [] })),
+      getTopTracks(50, 'short_term').catch(() => ({ items: [] })),
+      getTopArtists(10, 'short_term').catch(() => ({ items: [] })),
       getSavedTracks(50).catch(() => ({ items: [] })),
     ]);
 

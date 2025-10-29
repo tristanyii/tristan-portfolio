@@ -6,6 +6,7 @@ import { SpotifySection } from "@/components/spotify-section";
 import { SnorlaxCollection } from "@/components/snorlax-collection";
 import { MusicPlayer } from "@/components/music-player";
 import { HobbiesSection } from "@/components/hobbies-section";
+import { SkillsSection } from "@/components/skills-section";
 import { Nav } from "@/components/nav";
 
 export default function Home() {
@@ -386,6 +387,25 @@ export default function Home() {
               </div>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Skills Section */}
+      <section id="skills" className="container mx-auto px-4 py-24 scroll-mt-16 relative">
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-transparent to-purple-500/5 pointer-events-none" />
+        
+        <div className="space-y-12 max-w-6xl mx-auto relative z-10">
+          <div className="text-center space-y-4">
+            <h2 className="text-4xl font-bold tracking-tight sm:text-5xl bg-gradient-to-r from-primary via-purple-500 to-blue-500 bg-clip-text text-transparent animate-gradient relative inline-block">
+              Technical Skills 💻
+              <div className="absolute -bottom-1 left-1/4 right-1/4 h-1 bg-gradient-to-r from-primary via-purple-500 to-blue-500 animate-gradient rounded-full"></div>
+            </h2>
+            <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+              Technologies and tools I work with
+            </p>
+          </div>
+          
+          <SkillsSection />
         </div>
       </section>
 
