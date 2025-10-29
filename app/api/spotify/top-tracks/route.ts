@@ -3,6 +3,12 @@ import { getTopTracks, getTopArtists, getArtistTopTracks, getSavedTracks } from 
 
 export async function GET() {
   try {
+    // Check if environment variables are set
+    if (!process.env.SPOTIFY_CLIENT_ID || !process.env.SPOTIFY_CLIENT_SECRET || !process.env.SPOTIFY_REFRESH_TOKEN) {
+      console.error('❌ Missing Spotify environment variables');
+      return NextResponse.json([], { status: 200 }); // Return empty array
+    }
+
     console.log("🎵 Fetching tracks from multiple sources...");
     
     // Try multiple sources to find tracks with preview URLs
@@ -59,9 +65,9 @@ export async function GET() {
 
     // Return tracks directly as an array (not wrapped in items)
     return NextResponse.json([...tracksWithPreview, ...tracksWithoutPreview].slice(0, 50));
-  } catch (error) {
+  } catch (error: any) {
     console.error('❌ Error fetching tracks:', error);
-    return NextResponse.json({ error: 'Failed to fetch top tracks' }, { status: 500 });
+    return NextResponse.json([], { status: 200 }); // Return empty array on error
   }
 }
 

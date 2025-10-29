@@ -619,7 +619,15 @@ export function TravelMap({ isOpen, onClose }: TravelMapProps) {
                           }`}
                         >
                           {/* Region Card */}
-                          <div className="w-32 h-24 md:w-36 md:h-28 rounded-lg overflow-hidden border border-primary/20 hover:border-primary/50 hover:shadow-lg transition-all bg-muted/50 backdrop-blur cursor-pointer">
+                          <div 
+                            className="w-32 h-24 md:w-36 md:h-28 rounded-lg overflow-hidden border border-primary/20 hover:border-primary/50 hover:shadow-lg transition-all bg-muted/50 backdrop-blur cursor-pointer"
+                            onClick={() => {
+                              // Show the first location with photos, or just the first location
+                              const locationWithPhotos = locations.find(loc => loc.photos && loc.photos.length > 0);
+                              const locationToShow = locationWithPhotos || locations[0];
+                              setSelectedLocation(locationToShow);
+                            }}
+                          >
                             {photoCount > 0 ? (
                               <div className={`grid h-full ${
                                 photoCount === 1 ? 'grid-cols-1' : 
@@ -644,7 +652,7 @@ export function TravelMap({ isOpen, onClose }: TravelMapProps) {
                             )}
                             
                             {/* Gradient Overlay with Info */}
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent flex flex-col justify-end p-2.5">
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent flex flex-col justify-end p-2.5 pointer-events-none">
                               <p className="text-white font-bold text-sm truncate drop-shadow-lg">
                                 {displayName}
                               </p>

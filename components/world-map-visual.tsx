@@ -146,18 +146,23 @@ export function WorldMapVisual({ visitedCountries, onCountryClick, cityMarkers =
               <Marker key={marker.name} coordinates={marker.coordinates}>
                 <g
                   className="cursor-pointer"
-                  onClick={() => onMarkerClick?.(marker.name)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onMarkerClick?.(marker.name);
+                  }}
                   onMouseEnter={() => {
                     setHoveredCountry(null); // Clear country hover
                     setHoveredMarker(marker.name);
                   }}
                   onMouseLeave={() => setHoveredMarker(null)}
+                  onMouseDown={(e) => e.stopPropagation()}
+                  onTouchStart={(e) => e.stopPropagation()}
                   style={{
-                    pointerEvents: 'all',
+                    pointerEvents: 'bounding-box',
                   }}
                 >
-                  {/* Invisible hit area to prevent state hover interference */}
-                  <circle r={15} fill="transparent" style={{ pointerEvents: 'all' }} />
+                  {/* Invisible hit area for easier clicking */}
+                  <circle r={12} fill="transparent" />
                   
                   {/* Pin circle with pulse */}
                   <circle r={isHovered ? 6 : 4} fill={isHovered ? "#dc2626" : "#ef4444"} stroke="white" strokeWidth={2} />
