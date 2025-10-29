@@ -526,7 +526,13 @@ export function TravelMap({ isOpen, onClose }: TravelMapProps) {
                   }))}
                   onMarkerClick={(cityName) => {
                     const location = travelData.find(loc => loc.name === cityName);
-                    if (location) setSelectedLocation(location);
+                    if (location) {
+                      if (adminMode) {
+                        setEditingLocation(location);
+                      } else {
+                        setSelectedLocation(location);
+                      }
+                    }
                   }}
                   onMapClick={adminMode ? handleMapClick : undefined}
                   adminMode={adminMode}
@@ -542,7 +548,13 @@ export function TravelMap({ isOpen, onClose }: TravelMapProps) {
                   }))}
                   onMarkerClick={(cityName) => {
                     const location = travelData.find(loc => loc.name === cityName);
-                    if (location) setSelectedLocation(location);
+                    if (location) {
+                      if (adminMode) {
+                        setEditingLocation(location);
+                      } else {
+                        setSelectedLocation(location);
+                      }
+                    }
                   }}
                   onMapClick={adminMode ? handleMapClick : undefined}
                   adminMode={adminMode}
