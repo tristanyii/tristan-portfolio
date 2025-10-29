@@ -61,31 +61,25 @@ export async function GET(request: NextRequest) {
         return NextResponse.json({ error: 'No video found' }, { status: 404 });
       }
 
-      // Check if quota exceeded
-      if (response.status === 403) {
-        const errorText = await response.text();
-        try {
-          const errorData = JSON.parse(errorText);
-          if (errorData.error?.errors?.[0]?.reason === 'quotaExceeded') {
-            console.warn(`🚫 ${keyName} quota exhausted, marking as unavailable`);
-            exhaustedKeys.add(apiKey);
-            // Continue to next key
-            continue;
-          }
-        } catch {
-          // Not JSON or different error
-        }
-      }
-
-      // Other error, return it
+      // Handle errors
       const errorText = await response.text();
-      console.error(`❌ ${keyName} error:`, errorText);
       let errorData;
       try {
         errorData = JSON.parse(errorText);
       } catch {
         errorData = { message: errorText };
       }
+
+      // Check if quota exceeded
+      if (response.status === 403 && errorData.error?.errors?.[0]?.reason === 'quotaExceeded') {
+        console.warn(`🚫 ${keyName} quota exhausted, marking as unavailable`);
+        exhaustedKeys.add(apiKey);
+        // Continue to next key
+        continue;
+      }
+
+      // Other error, return it
+      console.error(`❌ ${keyName} error:`, errorText);
       return NextResponse.json({ 
         error: 'YouTube API request failed',
         details: errorData
