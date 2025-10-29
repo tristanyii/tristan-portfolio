@@ -137,7 +137,7 @@ export function PhotographyGallery({ isOpen, onClose }: PhotographyGalleryProps)
           <div className="relative max-w-7xl max-h-[90vh]">
             <img
               src={photos[selectedPhoto].src}
-              alt={photos[selectedPhoto].caption}
+              alt={`Photo from ${photos[selectedPhoto].location}`}
               className="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl"
               onClick={(e) => e.stopPropagation()}
             />
