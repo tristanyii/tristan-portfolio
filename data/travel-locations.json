@@ -72,5 +72,19 @@
     },
     "photos": [],
     "description": "Add your description here!"
+  },
+  {
+    "id": "1761862180178",
+    "name": "Miami, Florida",
+    "city": "Miami",
+    "country": "USA",
+    "state": "Florida",
+    "visited": true,
+    "coordinates": {
+      "lat": 25.8027174,
+      "lng": -80.201323
+    },
+    "photos": [],
+    "description": "Add your description here!"
   }
 ]

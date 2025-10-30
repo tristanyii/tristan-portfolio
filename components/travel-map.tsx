@@ -99,6 +99,8 @@ export function TravelMap({ isOpen, onClose }: TravelMapProps) {
   const [adminMode, setAdminMode] = useState(false);
   const [editingLocation, setEditingLocation] = useState<TravelLocation | null>(null);
   const [keySequence, setKeySequence] = useState<string[]>([]);
+  const [tapCount, setTapCount] = useState(0);
+  const [tapTimeout, setTapTimeout] = useState<NodeJS.Timeout | null>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [uploadingImages, setUploadingImages] = useState<string[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -394,6 +396,30 @@ export function TravelMap({ isOpen, onClose }: TravelMapProps) {
     }
   };
 
+  // Handle secret admin mode activation via taps (mobile-friendly)
+  const handleTitleTap = () => {
+    // Clear existing timeout
+    if (tapTimeout) {
+      clearTimeout(tapTimeout);
+    }
+
+    const newTapCount = tapCount + 1;
+    setTapCount(newTapCount);
+
+    // If 5 taps, activate admin mode
+    if (newTapCount >= 5) {
+      setAdminMode(true);
+      setTapCount(0);
+      return;
+    }
+
+    // Reset tap count after 1 second of no taps
+    const timeout = setTimeout(() => {
+      setTapCount(0);
+    }, 1000);
+    setTapTimeout(timeout);
+  };
+
   // Auto-geocode with debounce when location details change
   const triggerAutoGeocode = () => {
     // Clear existing timeout
@@ -412,14 +438,17 @@ export function TravelMap({ isOpen, onClose }: TravelMapProps) {
     setAutoGeocodeTimeout(timeout);
   };
 
-  // Cleanup timeout on unmount
+  // Cleanup timeouts on unmount
   useEffect(() => {
     return () => {
       if (autoGeocodeTimeout) {
         clearTimeout(autoGeocodeTimeout);
       }
+      if (tapTimeout) {
+        clearTimeout(tapTimeout);
+      }
     };
-  }, [autoGeocodeTimeout]);
+  }, [autoGeocodeTimeout, tapTimeout]);
 
   // Early return AFTER all hooks
   if (!isOpen) return null;
@@ -441,7 +470,11 @@ export function TravelMap({ isOpen, onClose }: TravelMapProps) {
         <div className="px-4 py-3 border-b backdrop-blur-lg bg-background/50">
           <div className="container mx-auto flex items-center justify-between gap-4">
             <div className="flex-1 min-w-0">
-              <h2 className="text-xl md:text-2xl font-bold bg-gradient-to-r from-primary via-purple-500 to-blue-500 bg-clip-text text-transparent truncate">
+              <h2 
+                className="text-xl md:text-2xl font-bold bg-gradient-to-r from-primary via-purple-500 to-blue-500 bg-clip-text text-transparent truncate cursor-pointer select-none"
+                onClick={handleTitleTap}
+                title="Tap 5 times quickly for admin mode"
+              >
                 Places I've Been ✈️
               </h2>
               <div className="flex gap-2 md:gap-3 mt-1 flex-wrap">
@@ -461,9 +494,9 @@ export function TravelMap({ isOpen, onClose }: TravelMapProps) {
             <div className="flex gap-1 md:gap-2 items-center flex-shrink-0">
               {/* Admin Mode Indicator */}
               {adminMode && (
-                <Badge variant="destructive" className="animate-pulse hidden md:flex">
+                <Badge variant="destructive" className="animate-pulse text-xs">
                   <Settings className="h-3 w-3 mr-1" />
-                  Admin
+                  <span className="hidden sm:inline">Admin</span>
                 </Badge>
               )}
               {/* View Mode Toggle */}
@@ -493,10 +526,10 @@ export function TravelMap({ isOpen, onClose }: TravelMapProps) {
                   variant="outline"
                   size="sm"
                   onClick={() => setAdminMode(false)}
-                  className="gap-1 border-red-500/50 hidden md:flex"
+                  className="gap-1 border-red-500/50 px-2"
                 >
                   <Settings className="h-3 w-3" />
-                  Exit
+                  <span className="hidden sm:inline">Exit</span>
                 </Button>
               )}
               <Button

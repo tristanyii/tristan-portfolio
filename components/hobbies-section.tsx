@@ -9,11 +9,7 @@ export function HobbiesSection() {
   const [isTravelMapOpen, setIsTravelMapOpen] = useState(false);
   const [isPhotographyOpen, setIsPhotographyOpen] = useState(false);
   const hobbies = [
-    { emoji: "⚽", title: "Sports", desc: "Pickup basketball, soccer, gym sessions. Always down for a game.", color: "from-green-500/20 to-emerald-500/10", rotation: "-rotate-1", available: false },
     { emoji: "📸", title: "Photography", desc: "View my photo collection from travels and everyday moments.", color: "from-purple-500/20 to-pink-500/10", rotation: "rotate-1", available: true },
-    { emoji: "🎵", title: "Music", desc: "Everything from indie to hip-hop. Currently obsessed with discovering new artists.", color: "from-blue-500/20 to-cyan-500/10", rotation: "-rotate-2", available: false },
-    { emoji: "🎮", title: "Gaming", desc: "Strategy games and competitive multiplayer when I need to unwind.", color: "from-red-500/20 to-orange-500/10", rotation: "rotate-2", available: false },
-    { emoji: "🍔", title: "Eating", desc: "Always hunting for the best local spots and new cuisines to try.", color: "from-yellow-500/20 to-amber-500/10", rotation: "rotate-1", available: false },
     { emoji: "✈️", title: "Traveling", desc: "Explore my travel map and photos from places I've visited.", color: "from-indigo-500/20 to-violet-500/10", rotation: "-rotate-1", available: true },
   ];
 
