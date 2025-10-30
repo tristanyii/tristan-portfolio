@@ -307,7 +307,8 @@ export function TravelMap({ isOpen, onClose }: TravelMapProps) {
       });
 
       if (!response.ok) {
-        throw new Error('Failed to save location');
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to save location');
       }
 
       // Reload locations to reflect the save
@@ -315,7 +316,8 @@ export function TravelMap({ isOpen, onClose }: TravelMapProps) {
       return true;
     } catch (error) {
       console.error('Error saving location:', error);
-      alert('Failed to save location. Please try again.');
+      const errorMessage = error instanceof Error ? error.message : 'Failed to save location. Please try again.';
+      alert(`❌ ${errorMessage}`);
       return false;
     } finally {
       setSaving(false);
@@ -1387,6 +1389,20 @@ export function TravelMap({ isOpen, onClose }: TravelMapProps) {
                       const displayName = editingLocation.country === "USA" && editingLocation.state
                         ? `${cityName}, ${editingLocation.state}`
                         : `${cityName}, ${editingLocation.country}`;
+                      
+                      // Validate coordinates
+                      if (!editingLocation.coordinates || 
+                          typeof editingLocation.coordinates.lat !== 'number' || 
+                          typeof editingLocation.coordinates.lng !== 'number' ||
+                          isNaN(editingLocation.coordinates.lat) ||
+                          isNaN(editingLocation.coordinates.lng)) {
+                        alert("⚠️ COORDINATES REQUIRED!\n\n" +
+                              "Please:\n" +
+                              "1. Click the 'Find on Map' button to auto-locate, OR\n" +
+                              "2. Manually enter coordinates, OR\n" +
+                              "3. Click directly on the map to set the location");
+                        return;
+                      }
                       
                       // Ensure all fields are set correctly
                       const locationToSave = {

@@ -8,6 +8,7 @@ import { LocalMusicPlayer } from "@/components/local-music-player";
 import { HobbiesSection } from "@/components/hobbies-section";
 import { SkillsSection } from "@/components/skills-section";
 import { Nav } from "@/components/nav";
+import Image from "next/image";
 
 export default function Home() {
   return (
@@ -82,8 +83,87 @@ export default function Home() {
               </Button>
             </div>
 
+            {/* Complete Tech Stack */}
+            <div className="w-full pt-8 space-y-6 animate-fade-in max-w-4xl">
+              <div className="relative">
+                <h3 className="text-lg font-bold tracking-wide uppercase text-center lg:text-left bg-gradient-to-r from-primary via-purple-500 to-blue-500 bg-clip-text text-transparent">
+                  Tech Stack
+                </h3>
+                <div className="absolute -bottom-1 left-0 lg:left-0 right-0 lg:right-auto h-0.5 w-full lg:w-24 bg-gradient-to-r from-primary via-purple-500 to-blue-500 rounded-full"></div>
+              </div>
+              
+              {/* Languages & Frameworks */}
+              <div className="space-y-3 group">
+                <div className="flex items-center gap-2 justify-center lg:justify-start">
+                  <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500/20 to-cyan-500/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                    <span className="text-sm">💻</span>
+                  </div>
+                  <p className="text-sm font-semibold text-foreground/90">Languages & Frameworks</p>
+                </div>
+                <div className="flex flex-wrap gap-2 justify-center lg:justify-start">
+                  {["Python", "Java", "C", "C#", "JavaScript", "TypeScript", "HTML/CSS", "React", "Swift", "Flask", "Next.js", "Node/Express", "Pandas", "BeautifulSoup", "Selenium", ".NET"].map((skill, idx) => (
+                    <Badge
+                      key={skill}
+                      variant="outline"
+                      className="relative px-3 py-1.5 text-xs font-medium glass border-blue-500/30 hover:border-blue-500 hover:scale-110 hover:shadow-lg hover:shadow-blue-500/20 transition-all duration-300 cursor-default group/badge overflow-hidden"
+                      style={{ animationDelay: `${idx * 30}ms` }}
+                    >
+                      <span className="relative z-10">{skill}</span>
+                      <div className="absolute inset-0 bg-gradient-to-r from-blue-500/0 via-blue-500/10 to-blue-500/0 opacity-0 group-hover/badge:opacity-100 transition-opacity duration-300"></div>
+                    </Badge>
+                  ))}
+                </div>
+              </div>
+
+              {/* Databases */}
+              <div className="space-y-3 group">
+                <div className="flex items-center gap-2 justify-center lg:justify-start">
+                  <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-500/20 to-pink-500/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                    <span className="text-sm">🗄️</span>
+                  </div>
+                  <p className="text-sm font-semibold text-foreground/90">Databases</p>
+                </div>
+                <div className="flex flex-wrap gap-2 justify-center lg:justify-start">
+                  {["SQL", "MongoDB", "Neo4j", "PostgreSQL", "Firebase"].map((skill, idx) => (
+                    <Badge
+                      key={skill}
+                      variant="outline"
+                      className="relative px-3 py-1.5 text-xs font-medium glass border-purple-500/30 hover:border-purple-500 hover:scale-110 hover:shadow-lg hover:shadow-purple-500/20 transition-all duration-300 cursor-default group/badge overflow-hidden"
+                      style={{ animationDelay: `${idx * 30}ms` }}
+                    >
+                      <span className="relative z-10">{skill}</span>
+                      <div className="absolute inset-0 bg-gradient-to-r from-purple-500/0 via-purple-500/10 to-purple-500/0 opacity-0 group-hover/badge:opacity-100 transition-opacity duration-300"></div>
+                    </Badge>
+                  ))}
+                </div>
+              </div>
+
+              {/* Tools & Technologies */}
+              <div className="space-y-3 group">
+                <div className="flex items-center gap-2 justify-center lg:justify-start">
+                  <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-green-500/20 to-emerald-500/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                    <span className="text-sm">🛠️</span>
+                  </div>
+                  <p className="text-sm font-semibold text-foreground/90">Tools & Technologies</p>
+                </div>
+                <div className="flex flex-wrap gap-2 justify-center lg:justify-start">
+                  {["RESTful APIs", "Docker", "AWS", "Git", "CI/CD"].map((skill, idx) => (
+                    <Badge
+                      key={skill}
+                      variant="outline"
+                      className="relative px-3 py-1.5 text-xs font-medium glass border-green-500/30 hover:border-green-500 hover:scale-110 hover:shadow-lg hover:shadow-green-500/20 transition-all duration-300 cursor-default group/badge overflow-hidden"
+                      style={{ animationDelay: `${idx * 30}ms` }}
+                    >
+                      <span className="relative z-10">{skill}</span>
+                      <div className="absolute inset-0 bg-gradient-to-r from-green-500/0 via-green-500/10 to-green-500/0 opacity-0 group-hover/badge:opacity-100 transition-opacity duration-300"></div>
+                    </Badge>
+                  ))}
+                </div>
+              </div>
+            </div>
+
             {/* Scroll indicator */}
-            <div className="pt-8 animate-bounce">
+            <div className="pt-6 animate-bounce">
               <a href="#experience" className="inline-block p-3 rounded-full glass hover:bg-primary/10 transition-all">
                 <ArrowDown className="h-8 w-8 text-muted-foreground/50 hover:text-primary transition-colors" />
               </a>
@@ -97,9 +177,13 @@ export default function Home() {
               <div className="absolute left-0 top-0 w-48 h-48 rotate-[-8deg] hover:rotate-[0deg] hover:scale-110 hover:z-40 transition-all duration-500 group z-10">
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/30 to-purple-500/30 rounded-2xl blur-xl opacity-40 group-hover:opacity-60 transition-opacity duration-500"></div>
                 <div className="relative w-full h-full rounded-2xl overflow-hidden border-4 border-white/90 shadow-2xl">
-                  <img 
+                  <Image 
                     src="/Headshot.jpg" 
                     alt="Tristan Yi"
+                    width={500}
+                    height={500}
+                    quality={95}
+                    priority
                     className="w-full h-full object-cover"
                   />
                 </div>
@@ -109,9 +193,12 @@ export default function Home() {
               <div className="absolute right-0 top-8 w-48 h-48 rotate-[6deg] hover:rotate-[0deg] hover:scale-110 hover:z-40 transition-all duration-500 group z-15">
                 <div className="absolute inset-0 bg-gradient-to-br from-blue-500/30 to-cyan-500/30 rounded-2xl blur-xl opacity-40 group-hover:opacity-60 transition-opacity duration-500"></div>
                 <div className="relative w-full h-full rounded-2xl overflow-hidden border-4 border-white/90 shadow-2xl">
-                  <img 
+                  <Image 
                     src="/MirrorPic.jpg" 
                     alt="Tristan Yi"
+                    width={500}
+                    height={500}
+                    quality={95}
                     className="w-full h-full object-cover"
                   />
                 </div>
@@ -121,9 +208,12 @@ export default function Home() {
               <div className="absolute left-4 top-36 w-48 h-48 rotate-[4deg] hover:rotate-[0deg] hover:scale-110 hover:z-40 transition-all duration-500 group z-20">
                 <div className="absolute inset-0 bg-gradient-to-br from-purple-500/30 to-pink-500/30 rounded-2xl blur-xl opacity-40 group-hover:opacity-60 transition-opacity duration-500"></div>
                 <div className="relative w-full h-full rounded-2xl overflow-hidden border-4 border-white/90 shadow-2xl">
-                  <img 
+                  <Image 
                     src="/Selfie.jpg" 
                     alt="Tristan Yi"
+                    width={500}
+                    height={500}
+                    quality={95}
                     className="w-full h-full object-cover"
                   />
                 </div>
@@ -133,9 +223,12 @@ export default function Home() {
               <div className="absolute right-4 top-44 w-48 h-48 rotate-[-5deg] hover:rotate-[0deg] hover:scale-110 hover:z-40 transition-all duration-500 group z-25">
                 <div className="absolute inset-0 bg-gradient-to-br from-yellow-500/30 to-orange-500/30 rounded-2xl blur-xl opacity-40 group-hover:opacity-60 transition-opacity duration-500"></div>
                 <div className="relative w-full h-full rounded-2xl overflow-hidden border-4 border-white/90 shadow-2xl">
-                  <img 
+                  <Image 
                     src="/Carowinds.jpg" 
                     alt="Tristan Yi"
+                    width={500}
+                    height={500}
+                    quality={95}
                     className="w-full h-full object-cover"
                   />
                 </div>
@@ -377,25 +470,6 @@ export default function Home() {
               </div>
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* Skills Section */}
-      <section id="skills" className="container mx-auto px-4 py-24 scroll-mt-16 relative">
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-transparent to-purple-500/5 pointer-events-none" />
-        
-        <div className="space-y-12 max-w-6xl mx-auto relative z-10">
-          <div className="text-center space-y-4">
-            <h2 className="text-4xl font-bold tracking-tight sm:text-5xl bg-gradient-to-r from-primary via-purple-500 to-blue-500 bg-clip-text text-transparent animate-gradient relative inline-block">
-              Technical Skills 💻
-              <div className="absolute -bottom-1 left-1/4 right-1/4 h-1 bg-gradient-to-r from-primary via-purple-500 to-blue-500 animate-gradient rounded-full"></div>
-            </h2>
-            <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-              Technologies and tools I work with
-            </p>
-          </div>
-          
-          <SkillsSection />
         </div>
       </section>
 

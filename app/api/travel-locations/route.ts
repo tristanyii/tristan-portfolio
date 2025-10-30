@@ -18,8 +18,15 @@ export async function POST(request: NextRequest) {
     const location = await request.json();
     
     // Validate required fields
-    if (!location.id || !location.name || !location.country || !location.coordinates) {
-      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
+    if (!location.id || !location.name || !location.country) {
+      console.error('Missing basic fields:', { id: location.id, name: location.name, country: location.country });
+      return NextResponse.json({ error: 'Missing required fields: id, name, or country' }, { status: 400 });
+    }
+    
+    // Validate coordinates
+    if (!location.coordinates || typeof location.coordinates.lat !== 'number' || typeof location.coordinates.lng !== 'number') {
+      console.error('Invalid coordinates:', location.coordinates);
+      return NextResponse.json({ error: 'Invalid or missing coordinates. Please set a location on the map or use the geocode button.' }, { status: 400 });
     }
     
     const savedLocation = await saveLocation(location);
