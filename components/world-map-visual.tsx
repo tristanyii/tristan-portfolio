@@ -73,15 +73,15 @@ export function WorldMapVisual({ visitedCountries, onCountryClick, cityMarkers =
       <ComposableMap
         projection="geoMercator"
         projectionConfig={{
-          scale: 70,
+          scale: 100,
         }}
         width={800}
         height={500}
         style={{ width: '100%', height: '100%', cursor: adminMode ? 'crosshair' : 'default' }}
       >
         <ZoomableGroup 
-          center={[0, 0]} 
-          zoom={1}
+          center={[0, 10]} 
+          zoom={1.15}
           minZoom={0.5}
           maxZoom={8}
           filterZoomEvent={(evt: any) => {

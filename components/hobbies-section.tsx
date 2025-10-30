@@ -1,9 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import dynamic from "next/dynamic";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { TravelMap } from "./travel-map";
-import { PhotographyGallery } from "./photography-gallery";
+
+// Lazy-load heavy modals only when opened
+const TravelMap = dynamic(() => import("./travel-map").then(m => m.TravelMap), { ssr: false });
+const PhotographyGallery = dynamic(() => import("./photography-gallery").then(m => m.PhotographyGallery), { ssr: false });
 
 export function HobbiesSection() {
   const [isTravelMapOpen, setIsTravelMapOpen] = useState(false);

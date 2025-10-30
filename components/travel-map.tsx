@@ -261,6 +261,7 @@ export function TravelMap({ isOpen, onClose }: TravelMapProps) {
   const visitedCountries = [...new Set(travelData.filter(loc => loc.visited).map(loc => loc.country))].length;
   const visitedStates = getVisitedUSStates(travelData);
   const visitedCountriesSet = getVisitedCountries(travelData);
+  const locationRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
   const handleRegionClick = (regionName: string, isState: boolean = false) => {
     // Find location(s) in this region
@@ -484,14 +485,14 @@ export function TravelMap({ isOpen, onClose }: TravelMapProps) {
               </h2>
               <div className="flex gap-2 md:gap-3 mt-1 flex-wrap">
                 <Badge variant="secondary" className="text-xs">
-                  📍 {visitedCount}
+                  📍 Places: {visitedCount}
                 </Badge>
                 <Badge variant="secondary" className="text-xs">
-                  🌎 {visitedCountries}
+                  🌎 Countries: {visitedCountries}
                 </Badge>
                 {visitedCountriesSet.has("USA") && (
                   <Badge variant="secondary" className="text-xs">
-                    🗺️ {visitedStates.size}
+                    🇺🇸 States: {visitedStates.size}
                   </Badge>
                 )}
               </div>
@@ -550,7 +551,7 @@ export function TravelMap({ isOpen, onClose }: TravelMapProps) {
         </div>
 
         {/* LARGE Interactive Map - Takes up most of the screen */}
-        <div className="flex-1 relative overflow-hidden">
+        <div className="flex-1 relative overflow-hidden min-h-[70vh] md:min-h-[75vh] lg:min-h-[80vh]">
           <div className="absolute inset-0">
             <div className="text-center pt-2 md:pt-4 pb-2 absolute top-0 left-0 right-0 z-10 bg-gradient-to-b from-background/90 to-transparent px-4">
               <p className="text-[10px] md:text-xs text-muted-foreground">
@@ -575,11 +576,8 @@ export function TravelMap({ isOpen, onClose }: TravelMapProps) {
                   onMarkerClick={(cityName) => {
                     const location = travelData.find(loc => loc.name === cityName);
                     if (location) {
-                      if (adminMode) {
-                        setEditingLocation(location);
-                      } else {
-                        setSelectedLocation(location);
-                      }
+                      // Always open the details modal; when in admin mode the modal shows Edit/Delete
+                      setSelectedLocation(location);
                     }
                   }}
                   onMapClick={adminMode ? handleMapClick : undefined}
@@ -597,11 +595,7 @@ export function TravelMap({ isOpen, onClose }: TravelMapProps) {
                   onMarkerClick={(cityName) => {
                     const location = travelData.find(loc => loc.name === cityName);
                     if (location) {
-                      if (adminMode) {
-                        setEditingLocation(location);
-                      } else {
-                        setSelectedLocation(location);
-                      }
+                      setSelectedLocation(location);
                     }
                   }}
                   onMapClick={adminMode ? handleMapClick : undefined}
@@ -829,10 +823,31 @@ export function TravelMap({ isOpen, onClose }: TravelMapProps) {
                 </div>
               </div>
 
+              {/* Quick nav chips for locations in this region */}
+              <div className="px-4 md:px-6 pt-3">
+                <div className="flex gap-2 overflow-x-auto no-scrollbar pb-2">
+                  {selectedRegionLocations.map((loc) => (
+                    <button
+                      key={loc.id}
+                      onClick={() => locationRefs.current[loc.id]?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+                      className="whitespace-nowrap text-xs md:text-sm px-3 py-1.5 rounded-full border bg-background hover:bg-primary/5"
+                    >
+                      {loc.city || loc.name}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
               <div className="p-4 md:p-6 space-y-8">
                 {/* Show each location with its photos */}
                 {selectedRegionLocations.map((location) => (
-                  <div key={location.id} className="space-y-4">
+                  <div
+                    key={location.id}
+                    ref={(el) => {
+                      locationRefs.current[location.id] = el;
+                    }}
+                    className="space-y-4"
+                  >
                     {/* Location Header */}
                     <div className="flex items-start justify-between">
                       <div>
@@ -848,18 +863,30 @@ export function TravelMap({ isOpen, onClose }: TravelMapProps) {
                         )}
                       </div>
                       {adminMode && (
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => {
-                            setEditingLocation(location);
-                            setSelectedRegionLocations(null);
-                          }}
-                          className="gap-1"
-                        >
-                          <Settings className="h-3 w-3" />
-                          <span className="hidden sm:inline">Edit</span>
-                        </Button>
+                        <div className="flex gap-2">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => {
+                              setEditingLocation(location);
+                              setSelectedRegionLocations(null);
+                            }}
+                            className="gap-1"
+                          >
+                            <Settings className="h-3 w-3" />
+                            <span className="hidden sm:inline">Edit</span>
+                          </Button>
+                          <Button
+                            variant="destructive"
+                            size="sm"
+                            onClick={() => deleteLocationFromDb(location.id)}
+                            className="gap-1"
+                            title="Delete location"
+                          >
+                            <Trash2 className="h-3 w-3" />
+                            <span className="hidden sm:inline">Delete</span>
+                          </Button>
+                        </div>
                       )}
                     </div>
 
@@ -875,10 +902,12 @@ export function TravelMap({ isOpen, onClose }: TravelMapProps) {
                               setLightboxPhoto(photo);
                             }}
                           >
-                            <img
+                          <img
                               src={photo}
                               alt={`${location.name} photo ${index + 1}`}
-                              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                            loading="lazy"
+                            decoding="async"
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
                               <div className="absolute bottom-0 left-0 right-0 p-3">
@@ -905,11 +934,11 @@ export function TravelMap({ isOpen, onClose }: TravelMapProps) {
 
         {/* Selected Location Photo Gallery Modal */}
         {selectedLocation && (
-          <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-2 md:p-4 animate-fade-in"
+          <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm overflow-y-auto p-2 md:p-8 animate-fade-in"
                onClick={() => setSelectedLocation(null)}>
-            <div className="max-w-4xl w-full max-h-[95vh] md:max-h-[90vh] overflow-y-auto bg-background rounded-xl md:rounded-2xl shadow-2xl"
+            <div className="max-w-7xl w-full mx-auto bg-background rounded-xl md:rounded-2xl shadow-2xl"
                  onClick={(e) => e.stopPropagation()}>
-              <div className="sticky top-0 bg-background/95 backdrop-blur-lg border-b p-4 md:p-6 z-10">
+              <div className="p-4 md:p-8 border-b">
                 <div className="flex items-start justify-between gap-2">
                   <div className="flex-1 min-w-0">
                     <h3 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-primary via-purple-500 to-blue-500 bg-clip-text text-transparent truncate">
@@ -925,20 +954,27 @@ export function TravelMap({ isOpen, onClose }: TravelMapProps) {
                   </div>
                   <div className="flex gap-1 md:gap-2 flex-shrink-0">
                     {/* Edit Button (Admin Mode) */}
-                    {adminMode && (
-                      <Button
-                        variant="outline"
-                        size="icon"
-                        onClick={() => {
-                          setEditingLocation(selectedLocation);
-                          setSelectedLocation(null);
-                        }}
-                        className="rounded-full hover:bg-primary/10 border-primary/50 h-8 w-8 md:h-10 md:w-10"
-                        title="Edit location"
-                      >
-                        <Settings className="h-4 w-4 md:h-5 md:w-5" />
-                      </Button>
-                    )}
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      onClick={() => {
+                        setEditingLocation(selectedLocation);
+                        setSelectedLocation(null);
+                      }}
+                      className="rounded-full hover:bg-primary/10 border-primary/50 h-8 w-8 md:h-10 md:w-10"
+                      title="Edit location"
+                    >
+                      <Settings className="h-4 w-4 md:h-5 md:w-5" />
+                    </Button>
+                    <Button
+                      variant="destructive"
+                      size="icon"
+                      onClick={() => deleteLocationFromDb(selectedLocation.id)}
+                      className="rounded-full h-8 w-8 md:h-10 md:w-10"
+                      title="Delete location"
+                    >
+                      <Trash2 className="h-4 w-4 md:h-5 md:w-5" />
+                    </Button>
                     <Button
                       variant="ghost"
                       size="icon"
@@ -954,7 +990,7 @@ export function TravelMap({ isOpen, onClose }: TravelMapProps) {
                 )}
               </div>
 
-              <div className="p-4 md:p-6">
+              <div className="p-4 md:p-8">
                 {/* Photo Gallery */}
                 {selectedLocation.photos && selectedLocation.photos.length > 0 ? (
                   <div className="space-y-3 md:space-y-4">
@@ -980,11 +1016,11 @@ export function TravelMap({ isOpen, onClose }: TravelMapProps) {
                         </Button>
                       )}
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                       {selectedLocation.photos.map((photo, index) => (
                         <div 
                           key={index} 
-                          className="group relative overflow-hidden rounded-xl aspect-video bg-muted cursor-pointer"
+                          className="group relative overflow-hidden rounded-2xl bg-muted cursor-pointer h-[22rem] sm:h-[24rem] md:h-[26rem] lg:h-[28rem]"
                           onClick={(e) => {
                             e.stopPropagation();
                             setLightboxPhoto(photo);
@@ -994,6 +1030,8 @@ export function TravelMap({ isOpen, onClose }: TravelMapProps) {
                             src={photo}
                             alt={`${selectedLocation.name} photo ${index + 1}`}
                             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                            loading="lazy"
+                            decoding="async"
                           />
                           <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
                             <div className="absolute bottom-0 left-0 right-0 p-4">

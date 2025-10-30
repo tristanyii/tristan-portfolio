@@ -61,7 +61,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <div className="mesh-gradient-bg" />
+        <div className="mesh-gradient-bg hidden md:block" />
         <Providers>{children}</Providers>
       </body>
     </html>

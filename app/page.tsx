@@ -2,9 +2,11 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Github, Linkedin, Mail, ArrowDown } from "lucide-react";
-import { SpotifySection } from "@/components/spotify-section";
+import dynamic from "next/dynamic";
 import { SnorlaxCollection } from "@/components/snorlax-collection";
-import { LocalMusicPlayer } from "@/components/local-music-player";
+import { Reveal } from "@/components/reveal";
+const SpotifySection = dynamic(() => import("@/components/spotify-section").then(m => m.SpotifySection), { ssr: true, loading: () => null });
+import { ClientLocalMusicPlayer } from "@/components/client-local-music";
 import { HobbiesSection } from "@/components/hobbies-section";
 import { SkillsSection } from "@/components/skills-section";
 import { Nav } from "@/components/nav";
@@ -201,6 +203,7 @@ export default function Home() {
       </section>
 
       {/* Experience Section */}
+      <Reveal>
       <section id="experience" className="container mx-auto px-4 py-24 scroll-mt-16 relative">
         <div className="absolute inset-0 bg-gradient-to-l from-primary/5 via-transparent to-transparent pointer-events-none" />
         
@@ -434,8 +437,10 @@ export default function Home() {
           </div>
         </div>
       </section>
+      </Reveal>
 
       {/* Projects Section */}
+      <Reveal delayMs={80}>
       <section id="projects" className="container mx-auto px-4 py-24 scroll-mt-16 relative">
         <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-transparent to-primary/5 pointer-events-none" />
         
@@ -616,8 +621,10 @@ export default function Home() {
           </div>
         </div>
       </section>
+      </Reveal>
 
       {/* Music Section */}
+      <Reveal delayMs={120}>
       <section id="music" className="container mx-auto px-4 py-24 scroll-mt-16 relative">
         <div className="absolute inset-0 bg-gradient-to-bl from-green-500/5 via-transparent to-blue-500/5 pointer-events-none" />
         
@@ -625,8 +632,10 @@ export default function Home() {
           <SpotifySection />
         </div>
       </section>
+      </Reveal>
 
       {/* Hobbies Section */}
+      <Reveal delayMs={160}>
       <section id="hobbies" className="container mx-auto px-4 py-24 scroll-mt-16 relative">
         <div className="absolute inset-0 bg-gradient-to-tr from-primary/5 via-transparent to-transparent pointer-events-none" />
         
@@ -642,6 +651,7 @@ export default function Home() {
           <HobbiesSection />
         </div>
       </section>
+      </Reveal>
 
       {/* Footer */}
       <footer className="border-t mt-24 backdrop-blur-sm bg-background/50">
@@ -666,7 +676,7 @@ export default function Home() {
       </footer>
 
       {/* Music Player */}
-      <LocalMusicPlayer />
+      <ClientLocalMusicPlayer />
     </div>
   );
 }

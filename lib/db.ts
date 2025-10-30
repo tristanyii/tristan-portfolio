@@ -112,7 +112,7 @@ export async function deleteLocation(id: string): Promise<boolean> {
     // Delete the location
     await sql`
       DELETE FROM travel_locations
-      WHERE id = ${id}
+      WHERE trim(id::text) = trim(${id}::text)
     `;
     
     console.log(`Successfully deleted location ${id}`);
