@@ -12,22 +12,13 @@ import Image from "next/image";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 overflow-x-hidden relative w-full max-w-full">
-      {/* Animated background orbs with swirly motion */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl animate-swirly-float" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-wave" style={{ animationDelay: '1s' }} />
-        <div className="absolute top-1/2 right-1/3 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl animate-swirly-float" style={{ animationDelay: '2s' }} />
-        <div className="absolute bottom-1/3 left-1/3 w-80 h-80 bg-purple-500/5 rounded-full blur-3xl animate-wave" style={{ animationDelay: '3s' }} />
-      </div>
+    <div className="min-h-screen bg-background overflow-x-hidden relative w-full max-w-full">
 
       {/* Navigation with glassmorphism */}
       <Nav />
 
       {/* Hero Section */}
-      <section id="home" className="container mx-auto px-4 py-16 md:py-24 lg:py-32 scroll-mt-16 relative overflow-hidden">
-        {/* Animated background gradient */}
-        <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-purple-500/5 to-blue-500/10 animate-gradient pointer-events-none" />
+      <section id="home" className="container mx-auto px-4 py-12 md:py-20 lg:py-24 scroll-mt-16 relative overflow-hidden">
         
         <div className="flex flex-col lg:flex-row items-center justify-start gap-6 lg:gap-12 max-w-7xl mx-auto relative z-10 w-full">
           {/* Snorlax on the far left */}
@@ -83,84 +74,7 @@ export default function Home() {
               </Button>
             </div>
 
-            {/* Complete Tech Stack */}
-            <div className="w-full pt-8 space-y-6 animate-fade-in max-w-4xl">
-              <div className="relative">
-                <h3 className="text-lg font-bold tracking-wide uppercase text-center lg:text-left bg-gradient-to-r from-primary via-purple-500 to-blue-500 bg-clip-text text-transparent">
-                  Tech Stack
-                </h3>
-                <div className="absolute -bottom-1 left-0 lg:left-0 right-0 lg:right-auto h-0.5 w-full lg:w-24 bg-gradient-to-r from-primary via-purple-500 to-blue-500 rounded-full"></div>
-              </div>
-              
-              {/* Languages & Frameworks */}
-              <div className="space-y-3 group">
-                <div className="flex items-center gap-2 justify-center lg:justify-start">
-                  <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500/20 to-cyan-500/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                    <span className="text-sm">💻</span>
-                  </div>
-                  <p className="text-sm font-semibold text-foreground/90">Languages & Frameworks</p>
-                </div>
-                <div className="flex flex-wrap gap-2 justify-center lg:justify-start">
-                  {["Python", "Java", "C", "C#", "JavaScript", "TypeScript", "HTML/CSS", "React", "Swift", "Flask", "Next.js", "Node/Express", "Pandas", "BeautifulSoup", "Selenium", ".NET"].map((skill, idx) => (
-                    <Badge
-                      key={skill}
-                      variant="outline"
-                      className="relative px-3 py-1.5 text-xs font-medium glass border-blue-500/30 hover:border-blue-500 hover:scale-110 hover:shadow-lg hover:shadow-blue-500/20 transition-all duration-300 cursor-default group/badge overflow-hidden"
-                      style={{ animationDelay: `${idx * 30}ms` }}
-                    >
-                      <span className="relative z-10">{skill}</span>
-                      <div className="absolute inset-0 bg-gradient-to-r from-blue-500/0 via-blue-500/10 to-blue-500/0 opacity-0 group-hover/badge:opacity-100 transition-opacity duration-300"></div>
-                    </Badge>
-                  ))}
-                </div>
-              </div>
-
-              {/* Databases */}
-              <div className="space-y-3 group">
-                <div className="flex items-center gap-2 justify-center lg:justify-start">
-                  <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-500/20 to-pink-500/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                    <span className="text-sm">🗄️</span>
-                  </div>
-                  <p className="text-sm font-semibold text-foreground/90">Databases</p>
-                </div>
-                <div className="flex flex-wrap gap-2 justify-center lg:justify-start">
-                  {["SQL", "MongoDB", "Neo4j", "PostgreSQL", "Firebase"].map((skill, idx) => (
-                    <Badge
-                      key={skill}
-                      variant="outline"
-                      className="relative px-3 py-1.5 text-xs font-medium glass border-purple-500/30 hover:border-purple-500 hover:scale-110 hover:shadow-lg hover:shadow-purple-500/20 transition-all duration-300 cursor-default group/badge overflow-hidden"
-                      style={{ animationDelay: `${idx * 30}ms` }}
-                    >
-                      <span className="relative z-10">{skill}</span>
-                      <div className="absolute inset-0 bg-gradient-to-r from-purple-500/0 via-purple-500/10 to-purple-500/0 opacity-0 group-hover/badge:opacity-100 transition-opacity duration-300"></div>
-                    </Badge>
-                  ))}
-                </div>
-              </div>
-
-              {/* Tools & Technologies */}
-              <div className="space-y-3 group">
-                <div className="flex items-center gap-2 justify-center lg:justify-start">
-                  <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-green-500/20 to-emerald-500/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                    <span className="text-sm">🛠️</span>
-                  </div>
-                  <p className="text-sm font-semibold text-foreground/90">Tools & Technologies</p>
-                </div>
-                <div className="flex flex-wrap gap-2 justify-center lg:justify-start">
-                  {["RESTful APIs", "Docker", "AWS", "Git", "CI/CD"].map((skill, idx) => (
-                    <Badge
-                      key={skill}
-                      variant="outline"
-                      className="relative px-3 py-1.5 text-xs font-medium glass border-green-500/30 hover:border-green-500 hover:scale-110 hover:shadow-lg hover:shadow-green-500/20 transition-all duration-300 cursor-default group/badge overflow-hidden"
-                      style={{ animationDelay: `${idx * 30}ms` }}
-                    >
-                      <span className="relative z-10">{skill}</span>
-                      <div className="absolute inset-0 bg-gradient-to-r from-green-500/0 via-green-500/10 to-green-500/0 opacity-0 group-hover/badge:opacity-100 transition-opacity duration-300"></div>
-                    </Badge>
-                  ))}
-                </div>
-              </div>
-            </div>
+            {/* Tech Stack moved to its own section to declutter hero */}
 
             {/* Scroll indicator */}
             <div className="pt-6 animate-bounce">
@@ -170,12 +84,12 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Scattered Photo Grid - Right Side */}
+          {/* Scattered Photo Grid - Right Side (reverted) */}
           <div className="hidden lg:block flex-shrink-0 animate-fade-in">
             <div className="relative w-[400px] h-[480px]">
               {/* Photo 1 - Top Left */}
-              <div className="absolute left-0 top-0 w-48 h-48 rotate-[-8deg] hover:rotate-[0deg] hover:scale-110 hover:z-40 transition-all duration-500 group z-10">
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/30 to-purple-500/30 rounded-2xl blur-xl opacity-40 group-hover:opacity-60 transition-opacity duration-500"></div>
+              <div className="absolute left-0 top-0 w-48 h-48 rotate-[-8deg] hover:rotate-0 hover:scale-110 hover:z-40 transition-all duration-500 group z-10">
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/30 to-purple-500/30 rounded-2xl blur-xl opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
                 <div className="relative w-full h-full rounded-2xl overflow-hidden border-4 border-white/90 shadow-2xl">
                   <Image 
                     src="/Headshot.jpg" 
@@ -190,8 +104,8 @@ export default function Home() {
               </div>
 
               {/* Photo 2 - Top Right */}
-              <div className="absolute right-0 top-8 w-48 h-48 rotate-[6deg] hover:rotate-[0deg] hover:scale-110 hover:z-40 transition-all duration-500 group z-15">
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/30 to-cyan-500/30 rounded-2xl blur-xl opacity-40 group-hover:opacity-60 transition-opacity duration-500"></div>
+              <div className="absolute right-0 top-8 w-48 h-48 rotate-[6deg] hover:rotate-0 hover:scale-110 hover:z-40 transition-all duration-500 group z-15">
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/30 to-cyan-500/30 rounded-2xl blur-xl opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
                 <div className="relative w-full h-full rounded-2xl overflow-hidden border-4 border-white/90 shadow-2xl">
                   <Image 
                     src="/MirrorPic.jpg" 
@@ -205,8 +119,8 @@ export default function Home() {
               </div>
 
               {/* Photo 3 - Middle Left */}
-              <div className="absolute left-4 top-36 w-48 h-48 rotate-[4deg] hover:rotate-[0deg] hover:scale-110 hover:z-40 transition-all duration-500 group z-20">
-                <div className="absolute inset-0 bg-gradient-to-br from-purple-500/30 to-pink-500/30 rounded-2xl blur-xl opacity-40 group-hover:opacity-60 transition-opacity duration-500"></div>
+              <div className="absolute left-4 top-36 w-48 h-48 rotate-[4deg] hover:rotate-0 hover:scale-110 hover:z-40 transition-all duration-500 group z-20">
+                <div className="absolute inset-0 bg-gradient-to-br from-purple-500/30 to-pink-500/30 rounded-2xl blur-xl opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
                 <div className="relative w-full h-full rounded-2xl overflow-hidden border-4 border-white/90 shadow-2xl">
                   <Image 
                     src="/Selfie.jpg" 
@@ -220,8 +134,8 @@ export default function Home() {
               </div>
 
               {/* Photo 4 - Middle Right */}
-              <div className="absolute right-4 top-44 w-48 h-48 rotate-[-5deg] hover:rotate-[0deg] hover:scale-110 hover:z-40 transition-all duration-500 group z-25">
-                <div className="absolute inset-0 bg-gradient-to-br from-yellow-500/30 to-orange-500/30 rounded-2xl blur-xl opacity-40 group-hover:opacity-60 transition-opacity duration-500"></div>
+              <div className="absolute right-4 top-44 w-48 h-48 rotate-[-5deg] hover:rotate-0 hover:scale-110 hover:z-40 transition-all duration-500 group z-25">
+                <div className="absolute inset-0 bg-gradient-to-br from-yellow-500/30 to-orange-500/30 rounded-2xl blur-xl opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
                 <div className="relative w-full h-full rounded-2xl overflow-hidden border-4 border-white/90 shadow-2xl">
                   <Image 
                     src="/Carowinds.jpg" 
@@ -233,6 +147,54 @@ export default function Home() {
                   />
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Tech Stack Section (separate, simpler) */}
+      <section id="techstack" className="container mx-auto px-4 pt-1 md:pt-4 pb-12 md:pb-16 -mt-20 md:-mt-28 scroll-mt-16">
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-6 md:mb-8">
+            <h3 className="text-3xl font-bold">Tech Stack</h3>
+            <p className="text-muted-foreground mt-2">A quick snapshot of the tools I use most.</p>
+          </div>
+
+          <div className="relative rounded-2xl border bg-card/60 backdrop-blur p-6 md:p-8 shadow-md overflow-hidden">
+            <div className="pointer-events-none absolute inset-x-0 -top-16 h-32 bg-gradient-to-b from-primary/15 to-transparent blur-2xl" />
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              <Card className="border-none shadow-none bg-transparent">
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-sm font-semibold text-muted-foreground">💻 Languages & Frameworks</CardTitle>
+                </CardHeader>
+                <CardContent className="flex flex-wrap gap-2">
+                  {["TypeScript","JavaScript","Python","Java","C","C#","React","Next.js","Swift","Flask","HTML/CSS"].map((s)=>(
+                    <Badge key={s} variant="outline" className="text-xs bg-background/60 hover:bg-primary/5 transition-colors">{s}</Badge>
+                  ))}
+                </CardContent>
+              </Card>
+
+              <Card className="border-none shadow-none bg-transparent">
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-sm font-semibold text-muted-foreground">🗄️ Databases</CardTitle>
+                </CardHeader>
+                <CardContent className="flex flex-wrap gap-2">
+                  {["PostgreSQL","MongoDB","Neo4j","SQL","Firebase"].map((s)=>(
+                    <Badge key={s} variant="outline" className="text-xs bg-background/60 hover:bg-primary/5 transition-colors">{s}</Badge>
+                  ))}
+                </CardContent>
+              </Card>
+
+              <Card className="border-none shadow-none bg-transparent">
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-sm font-semibold text-muted-foreground">⚙️ Tools</CardTitle>
+                </CardHeader>
+                <CardContent className="flex flex-wrap gap-2">
+                  {["Docker","AWS","Git","CI/CD","REST APIs"].map((s)=>(
+                    <Badge key={s} variant="outline" className="text-xs bg-background/60 hover:bg-primary/5 transition-colors">{s}</Badge>
+                  ))}
+                </CardContent>
+              </Card>
             </div>
           </div>
         </div>

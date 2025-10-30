@@ -1,9 +1,9 @@
-import { promises as fs } from 'fs';
-import path from 'path';
+import { neon } from '@neondatabase/serverless';
 
 export interface TravelLocation {
   id: string;
   name: string;
+  city?: string;
   country: string;
   state?: string;
   visited: boolean;
@@ -13,69 +13,146 @@ export interface TravelLocation {
   coordinates: { lat: number; lng: number };
 }
 
-const DB_PATH = path.join(process.cwd(), 'data', 'travel-locations.json');
-
-// Ensure data directory exists
-async function ensureDataDir() {
-  const dataDir = path.join(process.cwd(), 'data');
-  try {
-    await fs.access(dataDir);
-  } catch {
-    await fs.mkdir(dataDir, { recursive: true });
+// Get database connection
+function getDb() {
+  if (!process.env.POSTGRES_URL) {
+    throw new Error('POSTGRES_URL environment variable is not set');
   }
+  return neon(process.env.POSTGRES_URL);
 }
 
 // Read all locations
 export async function getAllLocations(): Promise<TravelLocation[]> {
   try {
-    await ensureDataDir();
-    const data = await fs.readFile(DB_PATH, 'utf-8');
-    return JSON.parse(data);
+    const sql = getDb();
+    const rows = await sql`
+      SELECT id, name, city, country, state, visited, date, description, photos, lat, lng
+      FROM travel_locations
+      ORDER BY created_at DESC
+    `;
+    
+    return rows.map((row: any) => {
+      const lat = typeof row.lat === 'string' ? parseFloat(row.lat) : row.lat;
+      const lng = typeof row.lng === 'string' ? parseFloat(row.lng) : row.lng;
+      
+      return {
+        id: row.id,
+        name: row.name,
+        city: row.city,
+        country: row.country,
+        state: row.state,
+        visited: row.visited,
+        date: row.date,
+        description: row.description,
+        photos: row.photos || [],
+        coordinates: {
+          lat: Number(lat),
+          lng: Number(lng),
+        },
+      };
+    });
   } catch (error) {
-    // If file doesn't exist, return empty array
+    console.error('Error fetching locations:', error);
     return [];
   }
 }
 
-// Save all locations
-async function saveLocations(locations: TravelLocation[]): Promise<void> {
-  await ensureDataDir();
-  await fs.writeFile(DB_PATH, JSON.stringify(locations, null, 2), 'utf-8');
-}
-
 // Add or update a location
 export async function saveLocation(location: TravelLocation): Promise<TravelLocation> {
-  const locations = await getAllLocations();
-  const existingIndex = locations.findIndex(loc => loc.id === location.id);
+  const sql = getDb();
   
-  if (existingIndex >= 0) {
-    // Update existing
-    locations[existingIndex] = location;
-  } else {
-    // Add new
-    locations.push(location);
-  }
+  await sql`
+    INSERT INTO travel_locations (
+      id, name, city, country, state, visited, date, description, photos, lat, lng
+    ) VALUES (
+      ${location.id},
+      ${location.name},
+      ${location.city || null},
+      ${location.country},
+      ${location.state || null},
+      ${location.visited !== false},
+      ${location.date || null},
+      ${location.description || null},
+      ${location.photos || []},
+      ${location.coordinates.lat},
+      ${location.coordinates.lng}
+    )
+    ON CONFLICT (id) DO UPDATE SET
+      name = EXCLUDED.name,
+      city = EXCLUDED.city,
+      country = EXCLUDED.country,
+      state = EXCLUDED.state,
+      visited = EXCLUDED.visited,
+      date = EXCLUDED.date,
+      description = EXCLUDED.description,
+      photos = EXCLUDED.photos,
+      lat = EXCLUDED.lat,
+      lng = EXCLUDED.lng,
+      updated_at = CURRENT_TIMESTAMP
+  `;
   
-  await saveLocations(locations);
   return location;
 }
 
 // Delete a location
 export async function deleteLocation(id: string): Promise<boolean> {
-  const locations = await getAllLocations();
-  const filteredLocations = locations.filter(loc => loc.id !== id);
-  
-  if (filteredLocations.length === locations.length) {
-    return false; // Location not found
+  try {
+    const sql = getDb();
+    
+    // First check if the location exists
+    const existing = await sql`
+      SELECT id FROM travel_locations WHERE id = ${id}
+    `;
+    
+    if (existing.length === 0) {
+      console.error(`Location with id ${id} not found`);
+      return false;
+    }
+    
+    // Delete the location
+    await sql`
+      DELETE FROM travel_locations
+      WHERE id = ${id}
+    `;
+    
+    console.log(`Successfully deleted location ${id}`);
+    return true;
+  } catch (error) {
+    console.error('Error deleting location:', error);
+    return false;
   }
-  
-  await saveLocations(filteredLocations);
-  return true;
 }
 
 // Get a single location by ID
 export async function getLocationById(id: string): Promise<TravelLocation | null> {
-  const locations = await getAllLocations();
-  return locations.find(loc => loc.id === id) || null;
+  const sql = getDb();
+  
+  const rows = await sql`
+    SELECT id, name, city, country, state, visited, date, description, photos, lat, lng
+    FROM travel_locations
+    WHERE id = ${id}
+  `;
+  
+  if (rows.length === 0) return null;
+  
+  const row = rows[0];
+  const lat = typeof row.lat === 'string' ? parseFloat(row.lat) : row.lat;
+  const lng = typeof row.lng === 'string' ? parseFloat(row.lng) : row.lng;
+  
+  return {
+    id: row.id,
+    name: row.name,
+    city: row.city,
+    country: row.country,
+    state: row.state,
+    visited: row.visited,
+    date: row.date,
+    description: row.description,
+    photos: row.photos || [],
+    coordinates: {
+      lat: Number(lat),
+      lng: Number(lng),
+    },
+  };
 }
 

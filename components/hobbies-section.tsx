@@ -20,9 +20,9 @@ export function HobbiesSection() {
       
       <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
         {hobbies.map((hobby, idx) => (
-          <div
-            key={idx}
-            className={`group ${hobby.available ? 'cursor-pointer' : 'cursor-default'} ${hobby.rotation} hover:rotate-0 ${hobby.available ? 'hover:scale-105' : 'hover:scale-102'} transition-all duration-500`}
+        <div
+          key={idx}
+          className={`group relative ${hobby.available ? 'cursor-pointer' : 'cursor-default'} ${hobby.rotation} hover:rotate-0 ${hobby.available ? 'hover:scale-105' : 'hover:scale-102'} transition-all duration-500`}
             onClick={() => {
               if (hobby.available) {
                 if (hobby.title === "Traveling") {
@@ -64,6 +64,18 @@ export function HobbiesSection() {
               </div>
             </CardContent>
           </Card>
+          {/* External twisty arrow pointing to the card */}
+          {hobby.available && (
+            <svg
+              className="pointer-events-none absolute -left-10 top-1/2 -translate-y-1/2 w-24 h-24 text-primary/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 animate-twisty-bounce"
+              viewBox="0 0 200 200"
+              fill="none"
+              aria-hidden="true"
+            >
+              <path d="M10 110 C 50 70, 90 130, 130 100 S 160 90, 185 100" stroke="currentColor" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M160 88 L186 100 L162 114" stroke="currentColor" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+            </svg>
+          )}
         </div>
       ))}
     </div>

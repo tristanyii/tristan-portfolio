@@ -14,22 +14,22 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Tristan Yi | CS & Stats @ Duke",
+  title: "Tristan Yi's Portfolio",
   description: "Personal website of Tristan Yi - Computer Science and Statistics student at Duke University",
   icons: {
     icon: "/snorlax-pixel.gif",
   },
   openGraph: {
-    title: "Tristan Yi Portfolio",
+    title: "Tristan Yi's Portfolio",
     description: "Personal portfolio of Tristan Yi - Computer Science and Statistics student at Duke University",
     url: "https://tristanyi.vercel.app",
-    siteName: "Tristan Yi Portfolio",
+    siteName: "Tristan Yi's Portfolio",
     images: [
       {
         url: "/og-image.jpg", // You'll need to create this image
         width: 1200,
         height: 630,
-        alt: "Tristan Yi Portfolio",
+        alt: "Tristan Yi's Portfolio",
       },
     ],
     locale: "en_US",
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Tristan Yi Portfolio",
+    title: "Tristan Yi's Portfolio",
     description: "Personal portfolio of Tristan Yi - Computer Science and Statistics student at Duke University",
     images: ["/og-image.jpg"], // Same image as OpenGraph
   },

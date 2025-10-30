@@ -29,6 +29,16 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Invalid or missing coordinates. Please set a location on the map or use the geocode button.' }, { status: 400 });
     }
     
+    // Check for duplicates by name (but allow updates with same ID)
+    const allLocations = await getAllLocations();
+    const duplicate = allLocations.find(loc => loc.name === location.name && loc.id !== location.id);
+    if (duplicate) {
+      console.warn(`Duplicate location detected: ${location.name} (existing ID: ${duplicate.id})`);
+      return NextResponse.json({ 
+        error: `Location "${location.name}" already exists! Please edit the existing one or choose a different name.` 
+      }, { status: 409 });
+    }
+    
     const savedLocation = await saveLocation(location);
     return NextResponse.json({ location: savedLocation });
   } catch (error) {
@@ -43,20 +53,27 @@ export async function DELETE(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
     
+    console.log('🗑️  DELETE request for location ID:', id);
+    
     if (!id) {
+      console.error('No ID provided in delete request');
       return NextResponse.json({ error: 'Location ID required' }, { status: 400 });
     }
     
     const deleted = await deleteLocation(id);
     
     if (!deleted) {
-      return NextResponse.json({ error: 'Location not found' }, { status: 404 });
+      console.error(`Failed to delete location ${id} - not found`);
+      return NextResponse.json({ error: 'Location not found or already deleted' }, { status: 404 });
     }
     
+    console.log(`✅ Successfully deleted location ${id}`);
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error('Error deleting location:', error);
-    return NextResponse.json({ error: 'Failed to delete location' }, { status: 500 });
+    console.error('Error in DELETE endpoint:', error);
+    return NextResponse.json({ 
+      error: error instanceof Error ? error.message : 'Failed to delete location' 
+    }, { status: 500 });
   }
 }
 

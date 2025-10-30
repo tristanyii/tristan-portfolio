@@ -121,6 +121,7 @@ export function TravelMap({ isOpen, onClose }: TravelMapProps) {
     try {
       const response = await fetch('/api/travel-locations');
       const data = await response.json();
+      
       if (data.locations && data.locations.length > 0) {
         setTravelData(data.locations);
       } else {
@@ -335,7 +336,8 @@ export function TravelMap({ isOpen, onClose }: TravelMapProps) {
       });
 
       if (!response.ok) {
-        throw new Error('Failed to delete location');
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to delete location');
       }
 
       await loadLocations();
@@ -343,7 +345,8 @@ export function TravelMap({ isOpen, onClose }: TravelMapProps) {
       setEditingLocation(null);
     } catch (error) {
       console.error('Error deleting location:', error);
-      alert('Failed to delete location. Please try again.');
+      const errorMessage = error instanceof Error ? error.message : 'Failed to delete location. Please try again.';
+      alert(`❌ ${errorMessage}`);
     } finally {
       setSaving(false);
     }
