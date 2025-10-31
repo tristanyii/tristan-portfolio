@@ -115,6 +115,40 @@ export function LocalMusicPlayer() {
     setIsPlaying(!isPlaying);
   };
 
+  // Hide the floating player UI but keep audio playing
+  const hidePlayer = () => {
+    setIsExpanded(false);
+    setShowPlayer(false);
+  };
+
+  // Close/exit the floating player and stop audio
+  const closeAndPause = () => {
+    setIsExpanded(false);
+    setShowPlayer(false);
+    if (audioRef.current) {
+      audioRef.current.pause();
+    }
+    setIsPlaying(false);
+  };
+
+  // Allow external sections to close the player (e.g., from Music section "Exit")
+  useEffect(() => {
+    const handler = () => hidePlayer();
+    window.addEventListener("music:close", handler as EventListener);
+    return () => window.removeEventListener("music:close", handler as EventListener);
+  }, []);
+
+  // Close on Escape key
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        hidePlayer();
+      }
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, []);
+
   const nextSong = () => {
     const nextIndex = (currentSongIndex + 1) % playlist.length;
     setCurrentSongIndex(nextIndex);
@@ -224,7 +258,7 @@ export function LocalMusicPlayer() {
               <Button
                 variant="ghost"
                 size="icon"
-                onClick={() => setIsExpanded(false)}
+                onClick={closeAndPause}
                 className="h-7 w-7 rounded-full"
               >
                 <X className="h-3.5 w-3.5" />

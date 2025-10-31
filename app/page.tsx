@@ -11,6 +11,7 @@ import { HobbiesSection } from "@/components/hobbies-section";
 import { SkillsSection } from "@/components/skills-section";
 import { Nav } from "@/components/nav";
 import Image from "next/image";
+import { MusicExitButton } from "@/components/music-exit-button";
 
 export default function Home() {
   return (
@@ -629,6 +630,7 @@ export default function Home() {
         <div className="absolute inset-0 bg-gradient-to-bl from-green-500/5 via-transparent to-blue-500/5 pointer-events-none" />
         
         <div className="space-y-12 max-w-6xl mx-auto relative z-10">
+          <div className="flex justify-end"><MusicExitButton /></div>
           <SpotifySection />
         </div>
       </section>
