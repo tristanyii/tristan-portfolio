@@ -119,10 +119,28 @@
   body {
     @apply bg-background text-foreground;
   }
-  /* Use distinctive display font for headings */
-  h1, h2, h3, .font-display {
+  /* Duke University Gothic (supply /public/fonts/duke-gothic.woff2|woff) */
+  @font-face {
+    font-family: 'DukeGothic';
+    src: url('/fonts/duke-gothic.woff2') format('woff2'),
+         url('/fonts/duke-gothic.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+  .font-duke {
+    font-family: 'DukeGothic', var(--font-display), var(--font-geist-sans), serif;
+    letter-spacing: 0.01em;
+  }
+  /* Use distinctive display font for headings and CardTitle */
+  h1, h2, h3, .font-display, [data-slot="card-title"] {
     font-family: var(--font-display), var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
     letter-spacing: -0.01em;
+  }
+
+  /* Ensure code blocks use the mono font consistently */
+  code, pre, kbd, samp {
+    font-family: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   }
   html {
     scroll-behavior: smooth;
@@ -262,6 +280,18 @@
     }
   }
 
+  /* Even smoother, subtler bounce for scroll indicator */
+  @keyframes bounce-smoother {
+    0%, 100% {
+      transform: translateY(0);
+      opacity: 0.85;
+    }
+    50% {
+      transform: translateY(6px);
+      opacity: 1;
+    }
+  }
+
   @keyframes pulse-ring {
     0%, 100% {
       box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
@@ -277,6 +307,10 @@
 
   .animate-bounce-slow {
     animation: bounce-slow 2s ease-in-out infinite;
+  }
+
+  .animate-bounce-smoother {
+    animation: bounce-smoother 2.2s cubic-bezier(0.22, 1, 0.36, 1) infinite;
   }
 
   .pulse-ring {
@@ -327,6 +361,25 @@
   .animate-rotate-slow {
     animation: rotate-slow 20s linear infinite;
   }
+
+  /* Hex clip for unique avatar/card shapes */
+  .clip-hex {
+    clip-path: polygon(25% 5%, 75% 5%, 100% 50%, 75% 95%, 25% 95%, 0 50%);
+  }
+  .hex-ring {
+    position: absolute;
+    inset: -8px;
+    background: conic-gradient(from 0deg, rgba(139,92,246,.5), rgba(59,130,246,.5), rgba(99,102,241,.5), rgba(139,92,246,.5));
+    filter: blur(10px);
+    border-radius: 24px;
+    z-index: -1;
+    animation: rotate-slow 18s linear infinite;
+    opacity: .6;
+  }
+  .wobble {
+    transition: transform .6s cubic-bezier(.22,1,.36,1);
+  }
+  .wobble:hover { transform: rotate(-2deg) scale(1.04); }
 
   .animate-shimmer {
     background: linear-gradient(

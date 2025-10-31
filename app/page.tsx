@@ -41,7 +41,7 @@ export default function Home() {
                 </span>
           </h1>
               <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-muted-foreground">
-                Computer Science @ Duke University
+                Computer Science @ <span className="font-duke text-foreground">Duke University</span>
               </p>
         </div>
             
@@ -79,7 +79,7 @@ export default function Home() {
             {/* Tech Stack moved to its own section to declutter hero */}
 
             {/* Scroll indicator */}
-            <div className="pt-6 animate-bounce">
+            <div className="pt-6 animate-bounce-smoother">
               <a href="#experience" className="inline-block p-3 rounded-full glass hover:bg-primary/10 transition-all">
                 <ArrowDown className="h-8 w-8 text-muted-foreground/50 hover:text-primary transition-colors" />
               </a>
