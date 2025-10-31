@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Sun, Moon } from "lucide-react";
 import { useState } from "react";
 
 export function Nav() {
@@ -43,6 +43,22 @@ export function Nav() {
           </Button>
           <Button variant="ghost" size="sm" className="hover:bg-primary/20 hover:text-primary transition-all hover:scale-105" asChild>
             <a href="#hobbies">Hobbies</a>
+          </Button>
+          {/* Theme toggle */}
+          <Button
+            variant="ghost"
+            size="icon"
+            aria-label="Toggle theme"
+            className="rounded-full"
+            onClick={() => {
+              const root = document.documentElement;
+              const nextIsDark = !root.classList.contains("dark");
+              root.classList.toggle("dark", nextIsDark);
+              localStorage.setItem("theme", nextIsDark ? "dark" : "light");
+            }}
+          >
+            <Sun className="h-4 w-4 hidden dark:inline" />
+            <Moon className="h-4 w-4 dark:hidden" />
           </Button>
         </div>
 
@@ -99,6 +115,24 @@ export function Nav() {
             >
               Hobbies
             </a>
+          </div>
+          {/* Mobile theme toggle */}
+          <div className="container mx-auto px-4 pb-4 flex justify-center">
+            <Button
+              variant="outline"
+              size="sm"
+              className="rounded-full"
+              onClick={() => {
+                const root = document.documentElement;
+                const nextIsDark = !root.classList.contains("dark");
+                root.classList.toggle("dark", nextIsDark);
+                localStorage.setItem("theme", nextIsDark ? "dark" : "light");
+              }}
+            >
+              <Sun className="h-4 w-4 mr-2 hidden dark:inline" />
+              <Moon className="h-4 w-4 mr-2 dark:hidden" />
+              Toggle Theme
+            </Button>
           </div>
         </div>
       )}

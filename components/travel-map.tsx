@@ -215,20 +215,11 @@ export function TravelMap({ isOpen, onClose }: TravelMapProps) {
           }
         } catch {}
         
-        // Update selectedLocation if it exists in the reloaded data
+        // Do NOT auto-select any location on load. Only refresh selection if already set.
         if (selectedLocation) {
           const updatedSelected = normalizedLocations.find((loc: TravelLocation) => loc.id === selectedLocation.id);
           if (updatedSelected) {
             setSelectedLocation(updatedSelected);
-          }
-        } else {
-          // Auto-select first location with photos, or first location if none have photos
-          const locationWithPhotos = normalizedLocations.find((loc: TravelLocation) => loc.visited && loc.photos && loc.photos.length > 0);
-          const firstLocation = normalizedLocations.find((loc: TravelLocation) => loc.visited);
-          if (locationWithPhotos) {
-            setSelectedLocation(locationWithPhotos);
-          } else if (firstLocation) {
-            setSelectedLocation(firstLocation);
           }
         }
       } else {
@@ -816,15 +807,17 @@ export function TravelMap({ isOpen, onClose }: TravelMapProps) {
                         <Settings className="h-3.5 w-3.5" />
                       </Button>
                     )}
-                    <Button
-                      variant="destructive"
-                      size="icon"
-                      onClick={() => deleteLocationFromDb(selectedLocation.id)}
-                      className="rounded-full h-7 w-7"
-                      title="Delete location"
-                    >
-                      <Trash2 className="h-3.5 w-3.5" />
-                    </Button>
+                    {adminMode && (
+                      <Button
+                        variant="destructive"
+                        size="icon"
+                        onClick={() => deleteLocationFromDb(selectedLocation.id)}
+                        className="rounded-full h-7 w-7"
+                        title="Delete location"
+                      >
+                        <Trash2 className="h-3.5 w-3.5" />
+                      </Button>
+                    )}
                     <Button
                       variant="ghost"
                       size="icon"
@@ -1297,16 +1290,18 @@ export function TravelMap({ isOpen, onClose }: TravelMapProps) {
                           <Settings className="h-3 w-3" />
                           <span className="hidden sm:inline">Edit</span>
                         </Button>
-                          <Button
-                            variant="destructive"
-                            size="sm"
-                            onClick={() => deleteLocationFromDb(location.id)}
-                            className="gap-1"
-                            title="Delete location"
-                          >
-                            <Trash2 className="h-3 w-3" />
-                            <span className="hidden sm:inline">Delete</span>
-                          </Button>
+                          {adminMode && (
+                            <Button
+                              variant="destructive"
+                              size="sm"
+                              onClick={() => deleteLocationFromDb(location.id)}
+                              className="gap-1"
+                              title="Delete location"
+                            >
+                              <Trash2 className="h-3 w-3" />
+                              <span className="hidden sm:inline">Delete</span>
+                            </Button>
+                          )}
                         </div>
                       )}
                     </div>
@@ -1738,8 +1733,8 @@ export function TravelMap({ isOpen, onClose }: TravelMapProps) {
                     )}
                   </Button>
                   
-                  {/* Delete button if editing existing location */}
-                  {editingLocation.id && travelData.find(loc => loc.id === editingLocation.id) && (
+                  {/* Delete button if editing existing location (Admin only) */}
+                  {adminMode && editingLocation.id && travelData.find(loc => loc.id === editingLocation.id) && (
                     <Button
                       variant="outline"
                       onClick={() => deleteLocationFromDb(editingLocation.id)}
