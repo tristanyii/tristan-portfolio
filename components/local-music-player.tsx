@@ -32,6 +32,18 @@ const playlist: Song[] = [
     file: "/Daniel Caesar - Call On Me (Official Lyric Video).mp3",
     cover: "/maxresdefault.jpg",
   },
+  {
+    title: "Moon River",
+    artist: "Frank Ocean",
+    file: "/Frank Ocean - Moon River.mp3",
+    cover: "/maxresdefault (1).jpg",
+  },
+  {
+    title: "Clementine",
+    artist: "grentperez",
+    file: "/grentperez - Clementine (Official Lyric Video).mp3",
+    cover: "/images (1).jpeg",
+  },
   // Add more songs here...
 ];
 

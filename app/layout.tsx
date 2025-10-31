@@ -1,15 +1,23 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Plus_Jakarta_Sans, JetBrains_Mono, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/providers";
 
-const geistSans = Geist({
+// Modern, friendly sans for body text
+const geistSans = Plus_Jakarta_Sans({
   variable: "--font-geist-sans",
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
+// Clean mono for code snippets
+const geistMono = JetBrains_Mono({
   variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
+
+// Distinct display font for headings
+const displayFont = Space_Grotesk({
+  variable: "--font-display",
   subsets: ["latin"],
 });
 
@@ -59,7 +67,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${displayFont.variable} antialiased`}
       >
         <div className="mesh-gradient-bg hidden md:block" />
         <Providers>{children}</Providers>
