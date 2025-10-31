@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     siteName: "Tristan Yi's Portfolio",
     images: [
       {
-        url: "/og-image.jpg", // You'll need to create this image
+        url: "/backgorund.jpg",
         width: 1200,
         height: 630,
         alt: "Tristan Yi's Portfolio",
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Tristan Yi's Portfolio",
     description: "Personal portfolio of Tristan Yi - Computer Science and Statistics student at Duke University",
-    images: ["/og-image.jpg"], // Same image as OpenGraph
+    images: ["/backgorund.jpg"],
   },
   metadataBase: new URL("https://tristanyi.vercel.app"),
 };
