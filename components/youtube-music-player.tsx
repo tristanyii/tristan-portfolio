@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Music, X, ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
@@ -41,9 +41,6 @@ const saveVideoCacheToStorage = (cache: { [key: string]: string }) => {
   }
 };
 
-// Cache for YouTube video IDs (persists across sessions via localStorage)
-const youtubeVideoCache: { [key: string]: string } = loadVideoCacheFromStorage();
-
 export function YouTubeMusicPlayer() {
   const [isOpen, setIsOpen] = useState(false);
   const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
@@ -51,6 +48,15 @@ export function YouTubeMusicPlayer() {
   const [loading, setLoading] = useState(true);
   const [currentVideo, setCurrentVideo] = useState<VideoResult | null>(null);
   const [loadingVideo, setLoadingVideo] = useState(false);
+  // Cache for YouTube video IDs (initialized client-side only to prevent hydration mismatch)
+  const youtubeVideoCacheRef = useRef<{ [key: string]: string }>({});
+  const [isClient, setIsClient] = useState(false);
+
+  // Initialize cache on client-side only
+  useEffect(() => {
+    setIsClient(true);
+    youtubeVideoCacheRef.current = loadVideoCacheFromStorage();
+  }, []);
 
   // Fetch tracks on mount
   useEffect(() => {
@@ -79,11 +85,11 @@ export function YouTubeMusicPlayer() {
       const query = `${artist} ${song} official audio`;
       const cacheKey = `${track.id}-${query}`;
       
-      // Check cache first
-      if (youtubeVideoCache[cacheKey]) {
+      // Check cache first (only if client-side is ready)
+      if (isClient && youtubeVideoCacheRef.current[cacheKey]) {
         console.log(`✅ YouTube cache hit for: ${track.name}`);
         setCurrentVideo({
-          videoId: youtubeVideoCache[cacheKey],
+          videoId: youtubeVideoCacheRef.current[cacheKey],
           title: track.name
         });
         setLoadingVideo(false);
@@ -95,10 +101,12 @@ export function YouTubeMusicPlayer() {
       const data = await response.json();
       
       if (data.videoId) {
-        // Store in cache and localStorage
-        youtubeVideoCache[cacheKey] = data.videoId;
-        saveVideoCacheToStorage(youtubeVideoCache);
-        console.log(`✅ Cached YouTube video for: ${track.name} (saved to localStorage)`);
+        // Store in cache and localStorage (only if client-side is ready)
+        if (isClient) {
+          youtubeVideoCacheRef.current[cacheKey] = data.videoId;
+          saveVideoCacheToStorage(youtubeVideoCacheRef.current);
+          console.log(`✅ Cached YouTube video for: ${track.name} (saved to localStorage)`);
+        }
         setCurrentVideo(data);
       } else if (response.status === 403) {
         console.warn("⚠️ YouTube quota exceeded");

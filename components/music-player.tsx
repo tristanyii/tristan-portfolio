@@ -45,9 +45,6 @@ const saveCacheToStorage = (cache: { [key: string]: string }) => {
   }
 };
 
-// Cache for YouTube video IDs (persists across sessions via localStorage)
-const youtubeCache: { [key: string]: string } = loadCacheFromStorage();
-
 export function MusicPlayer() {
   const [isOpen, setIsOpen] = useState(false);
   const [tracks, setTracks] = useState<Track[]>([]);
@@ -57,6 +54,15 @@ export function MusicPlayer() {
   const [error, setError] = useState<string | null>(null);
   const playerRef = useRef<any>(null);
   const [playerReady, setPlayerReady] = useState(false);
+  // Cache for YouTube video IDs (initialized client-side only to prevent hydration mismatch)
+  const youtubeCacheRef = useRef<{ [key: string]: string }>({});
+  const [isClient, setIsClient] = useState(false);
+
+  // Initialize cache on client-side only
+  useEffect(() => {
+    setIsClient(true);
+    youtubeCacheRef.current = loadCacheFromStorage();
+  }, []);
 
   // Load YouTube IFrame API
   useEffect(() => {
@@ -110,8 +116,8 @@ export function MusicPlayer() {
           const searchQuery = `${track.name} ${track.artists.map((a: any) => a.name).join(' ')}`;
           const cacheKey = `${track.id}-${searchQuery}`;
           
-          // Check cache first
-          if (youtubeCache[cacheKey]) {
+          // Check cache first (only if client-side is ready)
+          if (isClient && youtubeCacheRef.current[cacheKey]) {
             console.log(`✅ Cache hit for: ${track.name}`);
             return {
               id: track.id,
@@ -119,7 +125,7 @@ export function MusicPlayer() {
               artists: track.artists.map((a: any) => a.name).join(", "),
               album: track.album.name,
               albumArt: track.album.images[0]?.url || "",
-              youtubeId: youtubeCache[cacheKey],
+              youtubeId: youtubeCacheRef.current[cacheKey],
             };
           }
           
@@ -131,10 +137,12 @@ export function MusicPlayer() {
               const youtubeData = await youtubeResponse.json();
               
               if (youtubeData.videoId) {
-                // Store in cache and localStorage
-                youtubeCache[cacheKey] = youtubeData.videoId;
-                saveCacheToStorage(youtubeCache);
-                console.log(`✅ Cached video ID for: ${track.name} (saved to localStorage)`);
+                // Store in cache and localStorage (only if client-side is ready)
+                if (isClient) {
+                  youtubeCacheRef.current[cacheKey] = youtubeData.videoId;
+                  saveCacheToStorage(youtubeCacheRef.current);
+                  console.log(`✅ Cached video ID for: ${track.name} (saved to localStorage)`);
+                }
                 
                 return {
                   id: track.id,

@@ -26,24 +26,42 @@ export function PhotographyGallery({ isOpen, onClose }: PhotographyGalleryProps)
     <div className="fixed inset-0 z-50 bg-black/95 backdrop-blur-md overflow-y-auto">
       {/* Header */}
       <div className="sticky top-0 z-50 bg-black/80 backdrop-blur-lg border-b border-white/10">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="p-2 rounded-lg bg-gradient-to-br from-purple-500/20 to-pink-500/20">
-              <Camera className="h-6 w-6 text-purple-400" />
+        <div className="container mx-auto px-4 py-4">
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-3">
+              <div className="p-2 rounded-lg bg-gradient-to-br from-purple-500/20 to-pink-500/20">
+                <Camera className="h-6 w-6 text-purple-400" />
+              </div>
+              <div>
+                <h2 className="text-2xl font-bold text-white">Photography</h2>
+                <p className="text-sm text-gray-400">Captured moments through my lens</p>
+              </div>
             </div>
-            <div>
-              <h2 className="text-2xl font-bold text-white">Photography</h2>
-              <p className="text-sm text-gray-400">Captured moments through my lens</p>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={onClose}
+              className="rounded-full hover:bg-white/10 text-white"
+            >
+              <X className="h-6 w-6" />
+            </Button>
+          </div>
+          
+          {/* Camera Gear */}
+          <div className="flex flex-wrap items-center gap-4 md:gap-6 text-sm">
+            <div className="flex items-center gap-2 px-3 py-1.5 bg-white/5 rounded-lg border border-white/10 hover:border-purple-500/50 transition-colors">
+              <span className="text-purple-400 font-semibold">Camera:</span>
+              <span className="text-gray-300">Canon R50</span>
+            </div>
+            <div className="flex items-center gap-2 px-3 py-1.5 bg-white/5 rounded-lg border border-white/10 hover:border-purple-500/50 transition-colors">
+              <span className="text-purple-400 font-semibold">Lenses:</span>
+              <div className="flex flex-wrap gap-2">
+                <span className="text-gray-300">Sigma 10-18mm f/2.8</span>
+                <span className="text-gray-400">•</span>
+                <span className="text-gray-300">Canon 18-45mm f/4.5-6.3</span>
+              </div>
             </div>
           </div>
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={onClose}
-            className="rounded-full hover:bg-white/10 text-white"
-          >
-            <X className="h-6 w-6" />
-          </Button>
         </div>
       </div>
 

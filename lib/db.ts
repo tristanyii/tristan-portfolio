@@ -35,6 +35,60 @@ export async function getAllLocations(): Promise<TravelLocation[]> {
       const lat = typeof row.lat === 'string' ? parseFloat(row.lat) : row.lat;
       const lng = typeof row.lng === 'string' ? parseFloat(row.lng) : row.lng;
       
+      // Ensure photos are properly parsed - handle both array of strings and array of objects
+      let photos = row.photos || [];
+      
+      // If photos is a string (JSON), parse it
+      if (typeof photos === 'string') {
+        try {
+          photos = JSON.parse(photos);
+        } catch (e) {
+          console.error('Error parsing photos JSON:', e);
+          photos = [];
+        }
+      }
+      
+      // Process photos array - PostgreSQL TEXT[] might return objects as JSON strings
+      if (Array.isArray(photos) && photos.length > 0) {
+        photos = photos.map((photo: any) => {
+          // If photo is a string, check if it's JSON
+          if (typeof photo === 'string') {
+            // Check if it looks like JSON (starts with { and contains url)
+            if (photo.trim().startsWith('{') && photo.includes('"url"')) {
+              try {
+                const parsed = JSON.parse(photo);
+                return { url: parsed.url || '', description: parsed.description || '' };
+              } catch (e) {
+                console.warn('Failed to parse photo JSON string:', photo);
+                // If parsing fails, treat as simple URL string
+                return { url: photo, description: '' };
+              }
+            }
+            // Plain string URL
+            return { url: photo, description: '' };
+          }
+          
+          // If photo is already an object
+          if (photo && typeof photo === 'object') {
+            // If it has url property, return as is
+            if ('url' in photo) {
+              const url = photo.url || '';
+              if (url) {
+                return { url: url, description: photo.description || '' };
+              }
+            }
+            // Try to find URL in other properties
+            const url = photo.url || photo.path || photo.src || '';
+            if (url) {
+              return { url: url, description: photo.description || '' };
+            }
+          }
+          
+          console.warn('Invalid photo format:', photo);
+          return null;
+        }).filter((p: any) => p !== null && p.url && p.url.trim());
+      }
+      
       return {
         id: row.id,
         name: row.name,
@@ -44,7 +98,7 @@ export async function getAllLocations(): Promise<TravelLocation[]> {
         visited: row.visited,
         date: row.date,
         description: row.description,
-        photos: row.photos || [],
+        photos: photos,
         coordinates: {
           lat: Number(lat),
           lng: Number(lng),
@@ -139,6 +193,46 @@ export async function getLocationById(id: string): Promise<TravelLocation | null
   const lat = typeof row.lat === 'string' ? parseFloat(row.lat) : row.lat;
   const lng = typeof row.lng === 'string' ? parseFloat(row.lng) : row.lng;
   
+  // Parse photos the same way as getAllLocations
+  let photos = row.photos || [];
+  if (typeof photos === 'string') {
+    try {
+      photos = JSON.parse(photos);
+    } catch (e) {
+      console.error('Error parsing photos JSON:', e);
+      photos = [];
+    }
+  }
+  
+  if (Array.isArray(photos) && photos.length > 0) {
+    photos = photos.map((photo: any) => {
+      if (typeof photo === 'string') {
+        if (photo.trim().startsWith('{') && photo.includes('"url"')) {
+          try {
+            const parsed = JSON.parse(photo);
+            return { url: parsed.url || '', description: parsed.description || '' };
+          } catch (e) {
+            return { url: photo, description: '' };
+          }
+        }
+        return { url: photo, description: '' };
+      }
+      if (photo && typeof photo === 'object') {
+        if ('url' in photo) {
+          const url = photo.url || '';
+          if (url) {
+            return { url: url, description: photo.description || '' };
+          }
+        }
+        const url = photo.url || photo.path || photo.src || '';
+        if (url) {
+          return { url: url, description: photo.description || '' };
+        }
+      }
+      return null;
+    }).filter((p: any) => p !== null && p.url && p.url.trim());
+  }
+  
   return {
     id: row.id,
     name: row.name,
@@ -148,7 +242,7 @@ export async function getLocationById(id: string): Promise<TravelLocation | null
     visited: row.visited,
     date: row.date,
     description: row.description,
-    photos: row.photos || [],
+    photos: photos,
     coordinates: {
       lat: Number(lat),
       lng: Number(lng),
