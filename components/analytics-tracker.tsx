@@ -7,6 +7,17 @@ export function AnalyticsTracker() {
   const pathname = usePathname();
 
   useEffect(() => {
+    // Check if visit has already been logged in this session
+    if (typeof window === 'undefined') return;
+    
+    const sessionKey = 'analytics_visit_logged';
+    const hasLoggedVisit = sessionStorage.getItem(sessionKey);
+    
+    // Only track if this is the first visit in this session
+    if (hasLoggedVisit) {
+      return; // Skip tracking - already logged in this session
+    }
+
     // Track page view
     const trackVisit = async () => {
       try {
@@ -24,6 +35,9 @@ export function AnalyticsTracker() {
             referrer,
           }),
         });
+        
+        // Mark visit as logged for this session
+        sessionStorage.setItem(sessionKey, 'true');
       } catch (error) {
         // Silently fail - analytics shouldn't break the site
         console.error('Analytics tracking error:', error);
