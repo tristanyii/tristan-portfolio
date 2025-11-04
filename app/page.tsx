@@ -86,77 +86,11 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Mobile Photo Grid */}
-          <div className="lg:hidden w-full mt-8 animate-fade-in">
-            <div className="grid grid-cols-2 gap-4 max-w-md mx-auto">
-              {/* Photo 1 */}
-              <div className="relative w-full aspect-square group">
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/30 to-purple-500/30 rounded-2xl blur-xl opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
-                <div className="relative w-full h-full rounded-2xl overflow-hidden border-4 border-white/90 shadow-2xl">
-                  <Image 
-                    src="/Headshot.jpg" 
-                    alt="Tristan Yi"
-                    width={500}
-                    height={500}
-                    quality={95}
-                    priority
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-              </div>
-
-              {/* Photo 2 */}
-              <div className="relative w-full aspect-square group">
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/30 to-cyan-500/30 rounded-2xl blur-xl opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
-                <div className="relative w-full h-full rounded-2xl overflow-hidden border-4 border-white/90 shadow-2xl">
-                  <Image 
-                    src="/MirrorPic.jpg" 
-                    alt="Tristan Yi"
-                    width={500}
-                    height={500}
-                    quality={95}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-              </div>
-
-              {/* Photo 3 */}
-              <div className="relative w-full aspect-square group">
-                <div className="absolute inset-0 bg-gradient-to-br from-purple-500/30 to-pink-500/30 rounded-2xl blur-xl opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
-                <div className="relative w-full h-full rounded-2xl overflow-hidden border-4 border-white/90 shadow-2xl">
-                  <Image 
-                    src="/Selfie.jpg" 
-                    alt="Tristan Yi"
-                    width={500}
-                    height={500}
-                    quality={95}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-              </div>
-
-              {/* Photo 4 */}
-              <div className="relative w-full aspect-square group">
-                <div className="absolute inset-0 bg-gradient-to-br from-yellow-500/30 to-orange-500/30 rounded-2xl blur-xl opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
-                <div className="relative w-full h-full rounded-2xl overflow-hidden border-4 border-white/90 shadow-2xl">
-                  <Image 
-                    src="/Carowinds.jpg" 
-                    alt="Tristan Yi"
-                    width={500}
-                    height={500}
-                    quality={95}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Desktop Scattered Photo Grid - Right Side */}
-          <div className="hidden lg:block flex-shrink-0 animate-fade-in">
-            <div className="relative w-[400px] h-[480px]">
+          {/* Scattered Photo Grid - Mobile & Desktop (same layout) */}
+          <div className="flex-shrink-0 animate-fade-in mt-8 lg:mt-0">
+            <div className="relative w-[280px] h-[340px] mx-auto lg:w-[400px] lg:h-[480px]">
               {/* Photo 1 - Top Left */}
-              <div className="absolute left-0 top-0 w-48 h-48 rotate-[-8deg] hover:rotate-0 hover:scale-110 hover:z-40 transition-all duration-500 group z-10">
+              <div className="absolute left-0 top-0 w-32 h-32 lg:w-48 lg:h-48 rotate-[-8deg] hover:rotate-0 hover:scale-110 hover:z-40 transition-all duration-500 group z-10">
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/30 to-purple-500/30 rounded-2xl blur-xl opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
                 <div className="relative w-full h-full rounded-2xl overflow-hidden border-4 border-white/90 shadow-2xl">
                   <Image 
@@ -172,7 +106,7 @@ export default function Home() {
               </div>
 
               {/* Photo 2 - Top Right */}
-              <div className="absolute right-0 top-8 w-48 h-48 rotate-[6deg] hover:rotate-0 hover:scale-110 hover:z-40 transition-all duration-500 group z-15">
+              <div className="absolute right-0 top-2 lg:top-8 w-32 h-32 lg:w-48 lg:h-48 rotate-[6deg] hover:rotate-0 hover:scale-110 hover:z-40 transition-all duration-500 group z-15">
                 <div className="absolute inset-0 bg-gradient-to-br from-blue-500/30 to-cyan-500/30 rounded-2xl blur-xl opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
                 <div className="relative w-full h-full rounded-2xl overflow-hidden border-4 border-white/90 shadow-2xl">
                   <Image 
@@ -187,7 +121,7 @@ export default function Home() {
               </div>
 
               {/* Photo 3 - Middle Left */}
-              <div className="absolute left-4 top-36 w-48 h-48 rotate-[4deg] hover:rotate-0 hover:scale-110 hover:z-40 transition-all duration-500 group z-20">
+              <div className="absolute left-2 lg:left-4 top-24 lg:top-36 w-32 h-32 lg:w-48 lg:h-48 rotate-[4deg] hover:rotate-0 hover:scale-110 hover:z-40 transition-all duration-500 group z-20">
                 <div className="absolute inset-0 bg-gradient-to-br from-purple-500/30 to-pink-500/30 rounded-2xl blur-xl opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
                 <div className="relative w-full h-full rounded-2xl overflow-hidden border-4 border-white/90 shadow-2xl">
                   <Image 
@@ -202,7 +136,7 @@ export default function Home() {
               </div>
 
               {/* Photo 4 - Middle Right */}
-              <div className="absolute right-4 top-44 w-48 h-48 rotate-[-5deg] hover:rotate-0 hover:scale-110 hover:z-40 transition-all duration-500 group z-25">
+              <div className="absolute right-2 lg:right-4 top-28 lg:top-44 w-32 h-32 lg:w-48 lg:h-48 rotate-[-5deg] hover:rotate-0 hover:scale-110 hover:z-40 transition-all duration-500 group z-25">
                 <div className="absolute inset-0 bg-gradient-to-br from-yellow-500/30 to-orange-500/30 rounded-2xl blur-xl opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
                 <div className="relative w-full h-full rounded-2xl overflow-hidden border-4 border-white/90 shadow-2xl">
                   <Image 
