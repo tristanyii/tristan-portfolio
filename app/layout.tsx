@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from "next";
 import { Plus_Jakarta_Sans, JetBrains_Mono, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/providers";
+import { AnalyticsTracker } from "@/components/analytics-tracker";
+import { AnalyticsUnlock } from "@/components/analytics-unlock";
 
 // Modern, friendly sans for body text
 const geistSans = Plus_Jakarta_Sans({
@@ -70,7 +72,11 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} ${displayFont.variable} antialiased`}
       >
         <div className="mesh-gradient-bg hidden md:block" />
-        <Providers>{children}</Providers>
+        <Providers>
+          <AnalyticsTracker />
+          <AnalyticsUnlock />
+          {children}
+        </Providers>
       </body>
     </html>
   );
