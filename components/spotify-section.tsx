@@ -26,6 +26,7 @@ export function SpotifySection() {
   const [topTracks, setTopTracks] = useState<Track[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const [timeRange, setTimeRange] = useState<'short_term' | 'medium_term'>('medium_term');
 
   // Custom genre mappings
   const genreMap: { [key: string]: string } = {
@@ -48,13 +49,13 @@ export function SpotifySection() {
 
   useEffect(() => {
     fetchSpotifyData();
-  }, []);
+  }, [timeRange]);
 
   const fetchSpotifyData = async () => {
     setLoading(true);
     try {
       const [artistsRes, tracksRes] = await Promise.all([
-        fetch("/api/spotify/top-artists"),
+        fetch(`/api/spotify/top-artists?time_range=${timeRange}`),
         fetch("/api/spotify/top-tracks"),
       ]);
       
@@ -124,7 +125,27 @@ export function SpotifySection() {
           My Music Taste 🎵
           <div className="absolute -bottom-1 left-1/4 right-1/4 h-1 bg-gradient-to-r from-primary via-purple-500 to-blue-500 animate-gradient rounded-full"></div>
         </h2>
-        <p className="text-muted-foreground text-lg">Artists I'm currently listening to on Spotify (last 6 months)</p>
+        <div className="flex items-center justify-center gap-2">
+          <p className="text-muted-foreground text-lg">
+            Artists I'm currently listening to on Spotify ({timeRange === 'medium_term' ? 'last 6 months' : 'last 4 weeks'})
+          </p>
+          <div className="flex gap-2 ml-3">
+            <Button
+              variant={timeRange === 'short_term' ? 'default' : 'outline'}
+              size="sm"
+              onClick={() => setTimeRange('short_term')}
+            >
+              4 weeks
+            </Button>
+            <Button
+              variant={timeRange === 'medium_term' ? 'default' : 'outline'}
+              size="sm"
+              onClick={() => setTimeRange('medium_term')}
+            >
+              6 months
+            </Button>
+          </div>
+        </div>
         <Button variant="outline" asChild>
           <a 
             href="https://open.spotify.com/user/kjq94n4jsrovc840u9qvpx0o5" 

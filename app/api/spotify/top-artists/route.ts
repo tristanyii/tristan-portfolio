@@ -1,7 +1,7 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { getTopArtists } from "@/lib/spotify";
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   try {
     // Check if environment variables are set
     if (!process.env.SPOTIFY_CLIENT_ID || !process.env.SPOTIFY_CLIENT_SECRET || !process.env.SPOTIFY_REFRESH_TOKEN) {
@@ -12,7 +12,9 @@ export async function GET() {
       }, { status: 200 });
     }
 
-    const data = await getTopArtists(8, 'medium_term'); // Last 6 months instead of 4 weeks
+    const { searchParams } = new URL(req.url);
+    const timeRange = searchParams.get('time_range') || 'medium_term';
+    const data = await getTopArtists(8, timeRange as 'short_term' | 'medium_term' | 'long_term');
     return NextResponse.json(data);
   } catch (error: any) {
     console.error('❌ Error fetching top artists:', error);
