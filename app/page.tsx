@@ -86,7 +86,73 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Scattered Photo Grid - Right Side (reverted) */}
+          {/* Mobile Photo Grid */}
+          <div className="lg:hidden w-full mt-8 animate-fade-in">
+            <div className="grid grid-cols-2 gap-4 max-w-md mx-auto">
+              {/* Photo 1 */}
+              <div className="relative w-full aspect-square group">
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/30 to-purple-500/30 rounded-2xl blur-xl opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
+                <div className="relative w-full h-full rounded-2xl overflow-hidden border-4 border-white/90 shadow-2xl">
+                  <Image 
+                    src="/Headshot.jpg" 
+                    alt="Tristan Yi"
+                    width={500}
+                    height={500}
+                    quality={95}
+                    priority
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              </div>
+
+              {/* Photo 2 */}
+              <div className="relative w-full aspect-square group">
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/30 to-cyan-500/30 rounded-2xl blur-xl opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
+                <div className="relative w-full h-full rounded-2xl overflow-hidden border-4 border-white/90 shadow-2xl">
+                  <Image 
+                    src="/MirrorPic.jpg" 
+                    alt="Tristan Yi"
+                    width={500}
+                    height={500}
+                    quality={95}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              </div>
+
+              {/* Photo 3 */}
+              <div className="relative w-full aspect-square group">
+                <div className="absolute inset-0 bg-gradient-to-br from-purple-500/30 to-pink-500/30 rounded-2xl blur-xl opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
+                <div className="relative w-full h-full rounded-2xl overflow-hidden border-4 border-white/90 shadow-2xl">
+                  <Image 
+                    src="/Selfie.jpg" 
+                    alt="Tristan Yi"
+                    width={500}
+                    height={500}
+                    quality={95}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              </div>
+
+              {/* Photo 4 */}
+              <div className="relative w-full aspect-square group">
+                <div className="absolute inset-0 bg-gradient-to-br from-yellow-500/30 to-orange-500/30 rounded-2xl blur-xl opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
+                <div className="relative w-full h-full rounded-2xl overflow-hidden border-4 border-white/90 shadow-2xl">
+                  <Image 
+                    src="/Carowinds.jpg" 
+                    alt="Tristan Yi"
+                    width={500}
+                    height={500}
+                    quality={95}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Desktop Scattered Photo Grid - Right Side */}
           <div className="hidden lg:block flex-shrink-0 animate-fade-in">
             <div className="relative w-[400px] h-[480px]">
               {/* Photo 1 - Top Left */}

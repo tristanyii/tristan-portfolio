@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { BarChart3, Users, Globe, Monitor, RefreshCw, Calendar, TrendingUp, Lock } from 'lucide-react';
+import { BarChart3, Users, Globe, Monitor, RefreshCw, Calendar, TrendingUp, Lock, Trash2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 interface AnalyticsStats {
@@ -41,6 +41,7 @@ export default function AnalyticsPage() {
   const [error, setError] = useState<string | null>(null);
   const [unlocked, setUnlocked] = useState(false);
   const [keySequence, setKeySequence] = useState<string[]>([]);
+  const [resetting, setResetting] = useState(false);
   const router = useRouter();
 
   // Check cookie on mount (client-side only)
@@ -99,6 +100,29 @@ export default function AnalyticsPage() {
       setError(err.message || 'Failed to load analytics');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleReset = async () => {
+    if (!confirm('Are you sure you want to delete ALL analytics data? This action cannot be undone.')) {
+      return;
+    }
+    
+    setResetting(true);
+    setError(null);
+    try {
+      const response = await fetch('/api/analytics/stats', {
+        method: 'DELETE',
+      });
+      if (!response.ok) {
+        throw new Error('Failed to reset analytics');
+      }
+      // Refresh stats after reset
+      await fetchStats();
+    } catch (err: any) {
+      setError(err.message || 'Failed to reset analytics');
+    } finally {
+      setResetting(false);
     }
   };
 
@@ -191,6 +215,15 @@ export default function AnalyticsPage() {
             >
               <RefreshCw className={`h-4 w-4 mr-2 ${loading ? 'animate-spin' : ''}`} />
               Refresh
+            </Button>
+            <Button
+              variant="destructive"
+              size="sm"
+              onClick={handleReset}
+              disabled={resetting || loading}
+            >
+              <Trash2 className={`h-4 w-4 mr-2 ${resetting ? 'animate-spin' : ''}`} />
+              Reset
             </Button>
           </div>
         </div>

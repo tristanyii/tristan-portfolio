@@ -276,3 +276,20 @@ export async function getAnalyticsStats(days: number = 30): Promise<AnalyticsSta
   }
 }
 
+// Delete all analytics data
+export async function resetAnalytics(): Promise<void> {
+  try {
+    const sql = getDb();
+    if (!sql) {
+      throw new Error('Database not configured');
+    }
+    
+    await sql`
+      DELETE FROM analytics_events
+    `;
+  } catch (error) {
+    console.error('Error resetting analytics:', error);
+    throw error;
+  }
+}
+

@@ -1,11 +1,27 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Menu, X, Sun, Moon } from "lucide-react";
-import { useState } from "react";
+import { Menu, X, Sun, Moon, BarChart3 } from "lucide-react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 export function Nav() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [analyticsUnlocked, setAnalyticsUnlocked] = useState(false);
+  const router = useRouter();
+
+  // Check if analytics is unlocked
+  useEffect(() => {
+    if (typeof document === 'undefined') return;
+    const checkUnlock = () => {
+      const isUnlocked = document.cookie.split(';').some(c => c.trim().startsWith('analytics_unlocked=true'));
+      setAnalyticsUnlocked(isUnlocked);
+    };
+    checkUnlock();
+    // Check periodically
+    const interval = setInterval(checkUnlock, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   const navItems = [
     { href: "/", label: "Home", hash: "#home" },
@@ -43,6 +59,14 @@ export function Nav() {
           <Button variant="ghost" size="sm" className="hover:bg-primary/20 hover:text-primary transition-all hover:scale-105" asChild>
             <a href="#hobbies">Hobbies</a>
           </Button>
+          {analyticsUnlocked && (
+            <Button variant="ghost" size="sm" className="hover:bg-primary/20 hover:text-primary transition-all hover:scale-105" asChild>
+              <a href="/analytics" className="flex items-center gap-1">
+                <BarChart3 className="h-4 w-4" />
+                Analytics
+              </a>
+            </Button>
+          )}
           {/* Theme toggle */}
           <Button
             variant="ghost"
@@ -114,6 +138,16 @@ export function Nav() {
             >
               Hobbies
             </a>
+            {analyticsUnlocked && (
+              <a
+                href="/analytics"
+                className="block px-4 py-2 rounded-lg hover:bg-primary/20 transition-colors text-center flex items-center justify-center gap-2"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <BarChart3 className="h-4 w-4" />
+                Analytics
+              </a>
+            )}
           </div>
           {/* Mobile theme toggle */}
           <div className="container mx-auto px-4 pb-4 flex justify-center">
