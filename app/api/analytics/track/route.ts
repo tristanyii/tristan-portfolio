@@ -47,17 +47,17 @@ export async function POST(req: NextRequest) {
     // Get country/city from headers (if available via Vercel/Cloudflare)
     const country = req.headers.get('x-vercel-ip-country') || 
                     req.headers.get('cf-ipcountry') || 
-                    null;
-    const city = req.headers.get('x-vercel-ip-city') || null;
+                    undefined;
+    const city = req.headers.get('x-vercel-ip-city') || undefined;
     
     await logVisit({
       page: page || 'Unknown',
       path: path || '/',
-      referrer: referrer || null,
-      user_agent: userAgent,
-      ip: ip !== 'unknown' ? ip : null,
-      country: country || null,
-      city: city || null,
+      referrer: referrer || undefined,
+      user_agent: userAgent || undefined,
+      ip: ip !== 'unknown' ? ip : undefined,
+      country: country || undefined,
+      city: city || undefined,
       device_type: deviceType,
       browser,
       os,
