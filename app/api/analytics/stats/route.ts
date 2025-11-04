@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getAnalyticsStats } from '@/lib/analytics';
 
+// Force dynamic rendering - database operations and cookies require runtime access
+export const dynamic = 'force-dynamic';
+
 export async function GET(req: NextRequest) {
   try {
     // Check for analytics_unlocked cookie

@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { logVisit } from '@/lib/analytics';
 
+// Force dynamic rendering - database operations and request headers require runtime access
+export const dynamic = 'force-dynamic';
+
 // Simple user agent parser
 function parseUserAgent(userAgent: string) {
   let browser = 'Unknown';

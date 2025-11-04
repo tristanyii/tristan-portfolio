@@ -1,7 +1,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Github, Linkedin, Mail, ArrowDown } from "lucide-react";
+import { Github, Linkedin, Mail, ArrowDown, ExternalLink } from "lucide-react";
 import dynamic from "next/dynamic";
 import { SnorlaxCollection } from "@/components/snorlax-collection";
 import { Reveal } from "@/components/reveal";
@@ -245,13 +245,14 @@ export default function Home() {
                   href="https://codeplus.duke.edu/project/philanthropy-intelligence-using-aiml-connect-research-and-donors/" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="inline-block mt-4 hover:opacity-80 transition-opacity"
+                  className="inline-flex items-center gap-2 mt-4 px-3 py-2 rounded-lg border border-primary/20 bg-primary/5 hover:bg-primary/10 hover:border-primary/40 hover:scale-105 transition-all duration-200 cursor-pointer group"
                 >
                   <img 
                     src="/Code+ Logo.png" 
                     alt="Duke Code+ Program" 
                     className="h-8 w-auto"
                   />
+                  <ExternalLink className="h-4 w-4 text-primary/60 group-hover:text-primary transition-colors" />
                 </a>
               </CardContent>
             </Card>
@@ -282,13 +283,14 @@ export default function Home() {
                   href="https://dukestudentgovernment.org/affiliates/blue-devil-buddies/" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="inline-block mt-4 hover:opacity-80 transition-opacity"
+                  className="inline-flex items-center gap-2 mt-4 px-3 py-2 rounded-lg border border-blue-500/20 bg-blue-500/5 hover:bg-blue-500/10 hover:border-blue-500/40 hover:scale-105 transition-all duration-200 cursor-pointer group"
                 >
                   <img 
                     src="/BlueDevilBuddies.png" 
                     alt="Blue Devil Buddies" 
                     className="h-8 w-auto"
                   />
+                  <ExternalLink className="h-4 w-4 text-blue-500/60 group-hover:text-blue-500 transition-colors" />
                 </a>
               </CardContent>
             </Card>
@@ -320,13 +322,14 @@ export default function Home() {
                   href="https://www.aspinrock.com/individual" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="inline-block mt-4 hover:opacity-80 transition-opacity"
+                  className="inline-flex items-center gap-2 mt-4 px-3 py-2 rounded-lg border border-amber-500/20 bg-amber-500/5 hover:bg-amber-500/10 hover:border-amber-500/40 hover:scale-105 transition-all duration-200 cursor-pointer group"
                 >
                   <img 
                     src="/aspinrock1_logo.jpeg" 
                     alt="Aspin Rock" 
                     className="h-8 w-auto"
                   />
+                  <ExternalLink className="h-4 w-4 text-amber-500/60 group-hover:text-amber-500 transition-colors" />
                 </a>
               </CardContent>
             </Card>
@@ -358,13 +361,14 @@ export default function Home() {
                   href="http://fuqua.duke.edu/" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="inline-block mt-4 hover:opacity-80 transition-opacity"
+                  className="inline-flex items-center gap-2 mt-4 px-3 py-2 rounded-lg border border-indigo-500/20 bg-indigo-500/5 hover:bg-indigo-500/10 hover:border-indigo-500/40 hover:scale-105 transition-all duration-200 cursor-pointer group"
                 >
                   <img 
                     src="/DukeFuqua.png" 
                     alt="Duke Fuqua School of Business" 
                     className="h-8 w-auto"
                   />
+                  <ExternalLink className="h-4 w-4 text-indigo-500/60 group-hover:text-indigo-500 transition-colors" />
                 </a>
               </CardContent>
             </Card>
@@ -392,13 +396,14 @@ export default function Home() {
                       href="https://www.instagram.com/dukecatalyst/" 
                       target="_blank" 
                       rel="noopener noreferrer"
-                      className="inline-block mt-4 hover:opacity-80 transition-opacity"
+                      className="inline-flex items-center gap-2 mt-4 px-3 py-2 rounded-lg border border-cyan-500/20 bg-cyan-500/5 hover:bg-cyan-500/10 hover:border-cyan-500/40 hover:scale-105 transition-all duration-200 cursor-pointer group"
                     >
                       <img 
                         src="/Catalyst.png" 
                         alt="Duke Catalyst" 
                         className="h-8 w-auto"
                       />
+                      <ExternalLink className="h-4 w-4 text-cyan-500/60 group-hover:text-cyan-500 transition-colors" />
                     </a>
                   </CardContent>
                 </Card>
@@ -422,13 +427,14 @@ export default function Home() {
                       href="https://dukelife.duke.edu/" 
                       target="_blank" 
                       rel="noopener noreferrer"
-                      className="inline-block mt-4 hover:opacity-80 transition-opacity"
+                      className="inline-flex items-center gap-2 mt-4 px-3 py-2 rounded-lg border border-green-500/20 bg-green-500/5 hover:bg-green-500/10 hover:border-green-500/40 hover:scale-105 transition-all duration-200 cursor-pointer group"
                     >
                       <img 
                         src="/DukeLife.png" 
                         alt="DukeLife" 
                         className="h-8 w-auto"
                       />
+                      <ExternalLink className="h-4 w-4 text-green-500/60 group-hover:text-green-500 transition-colors" />
                     </a>
                   </CardContent>
                 </Card>
@@ -492,13 +498,14 @@ export default function Home() {
                   href="https://github.com/tristanyii/deutchebank-hackathon" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="inline-block mt-4 hover:opacity-80 transition-opacity"
+                  className="inline-flex items-center gap-2 mt-4 px-3 py-2 rounded-lg border border-yellow-500/20 bg-yellow-500/5 hover:bg-yellow-500/10 hover:border-yellow-500/40 hover:scale-105 transition-all duration-200 cursor-pointer group"
                 >
                   <img 
                     src="/Deutsche Bank.png" 
                     alt="Deutsche Bank Hackathon" 
                     className="h-8 w-auto"
                   />
+                  <ExternalLink className="h-4 w-4 text-yellow-500/60 group-hover:text-yellow-500 transition-colors" />
                 </a>
               </CardContent>
             </Card>
@@ -533,15 +540,16 @@ export default function Home() {
                 </div>
                 <a 
                   href="https://github.com/tristanyii/poker-tracker-catalyst" 
-            target="_blank"
-            rel="noopener noreferrer"
-                  className="inline-block mt-4 hover:opacity-80 transition-opacity"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 mt-4 px-3 py-2 rounded-lg border border-red-500/20 bg-red-500/5 hover:bg-red-500/10 hover:border-red-500/40 hover:scale-105 transition-all duration-200 cursor-pointer group"
                 >
                   <img 
                     src="/DevilsTracker.png" 
                     alt="The Devil's Tracker - Duke Project" 
                     className="h-8 w-auto"
                   />
+                  <ExternalLink className="h-4 w-4 text-red-500/60 group-hover:text-red-500 transition-colors" />
                 </a>
               </CardContent>
             </Card>
@@ -577,15 +585,16 @@ export default function Home() {
                 </div>
                 <a 
                   href="https://devpost.com/software/gohelpme" 
-            target="_blank"
-            rel="noopener noreferrer"
-                  className="inline-block mt-4 hover:opacity-80 transition-opacity"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 mt-4 px-3 py-2 rounded-lg border border-blue-500/20 bg-blue-500/5 hover:bg-blue-500/10 hover:border-blue-500/40 hover:scale-105 transition-all duration-200 cursor-pointer group"
                 >
                   <img 
                     src="/GoHelpMe.jpeg" 
                     alt="GoHelpMe - CUHackIt Winner" 
                     className="h-12 w-auto rounded-lg"
                   />
+                  <ExternalLink className="h-4 w-4 text-blue-500/60 group-hover:text-blue-500 transition-colors" />
                 </a>
               </CardContent>
             </Card>

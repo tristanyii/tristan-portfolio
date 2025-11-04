@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
 import { getTopTracks, getTopArtists, getArtistTopTracks, getSavedTracks } from "@/lib/spotify";
 
+// Force dynamic rendering - Spotify API requires runtime access
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
   try {
     // Check if environment variables are set

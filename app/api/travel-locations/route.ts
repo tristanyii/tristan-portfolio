@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getAllLocations, saveLocation, deleteLocation } from '@/lib/db';
 
+// Force dynamic rendering - database operations require runtime access
+export const dynamic = 'force-dynamic';
+
 // GET - Fetch all locations
 export async function GET() {
   try {
