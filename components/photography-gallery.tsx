@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { X, Camera, ZoomIn } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -11,6 +11,26 @@ interface PhotographyGalleryProps {
 
 export function PhotographyGallery({ isOpen, onClose }: PhotographyGalleryProps) {
   const [selectedPhoto, setSelectedPhoto] = useState<number | null>(null);
+
+  // Escape key to close gallery or exit fullscreen
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        if (selectedPhoto !== null) {
+          // If photo is selected, close fullscreen first
+          setSelectedPhoto(null);
+        } else {
+          // Otherwise close the gallery
+          onClose();
+        }
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, selectedPhoto, onClose]);
 
   const photos = [
     { src: "/IMG_6411.jpg", location: "China" },

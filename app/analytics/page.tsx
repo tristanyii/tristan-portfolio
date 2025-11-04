@@ -86,6 +86,20 @@ export default function AnalyticsPage() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [unlocked]);
 
+  // Escape key to go back to homepage (only when unlocked)
+  useEffect(() => {
+    if (typeof window === 'undefined' || !unlocked) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        router.push('/');
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [unlocked, router]);
+
   const fetchStats = async () => {
     setLoading(true);
     setError(null);
