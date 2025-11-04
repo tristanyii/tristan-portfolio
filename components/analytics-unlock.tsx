@@ -22,8 +22,10 @@ export function AnalyticsUnlock() {
         
         // Check if we have 10 Shifts in a row
         if (keySequence.length === 10 && keySequence.every(k => k === 'Shift')) {
-          // Set cookie to unlock analytics
-          document.cookie = 'analytics_unlocked=true; path=/; max-age=3600'; // 1 hour
+          // Set cookie to unlock analytics (with SameSite for security)
+          if (typeof document !== 'undefined') {
+            document.cookie = 'analytics_unlocked=true; path=/; max-age=3600; SameSite=Lax'; // 1 hour
+          }
           // Redirect to analytics
           router.push('/analytics');
           keySequence = [];

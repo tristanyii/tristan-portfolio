@@ -43,13 +43,18 @@ export default function AnalyticsPage() {
   const [keySequence, setKeySequence] = useState<string[]>([]);
   const router = useRouter();
 
-  // Check cookie on mount
+  // Check cookie on mount (client-side only)
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+    
     if (isUnlocked()) {
       setUnlocked(true);
     } else {
-      // If not unlocked, redirect to home
-      router.push('/');
+      // Small delay before redirect to avoid flash
+      const timer = setTimeout(() => {
+        router.push('/');
+      }, 100);
+      return () => clearTimeout(timer);
     }
   }, [router]);
 
@@ -62,8 +67,10 @@ export default function AnalyticsPage() {
         setKeySequence(prev => {
           const next = [...prev, 'Shift'].slice(-10);
           if (next.length === 10 && next.every(k => k === 'Shift')) {
-            // Set cookie
-            document.cookie = 'analytics_unlocked=true; path=/; max-age=3600'; // 1 hour
+            // Set cookie (with SameSite for security)
+            if (typeof document !== 'undefined') {
+              document.cookie = 'analytics_unlocked=true; path=/; max-age=3600; SameSite=Lax'; // 1 hour
+            }
             setUnlocked(true);
             return [];
           }
@@ -101,7 +108,8 @@ export default function AnalyticsPage() {
     }
   }, [days, unlocked]);
 
-  if (!unlocked) {
+  // Show loading or locked screen while checking
+  if (typeof window === 'undefined' || !unlocked) {
     return (
       <div className="min-h-screen bg-background p-8">
         <div className="max-w-3xl mx-auto">
@@ -117,9 +125,11 @@ export default function AnalyticsPage() {
               <p className="text-sm text-muted-foreground">
                 This page is hidden from public view. Press Shift 10 times anywhere on the site to unlock.
               </p>
-              <p className="text-xs text-muted-foreground mt-2">
-                Progress: {keySequence.length}/10
-              </p>
+              {typeof window !== 'undefined' && (
+                <p className="text-xs text-muted-foreground mt-2">
+                  Progress: {keySequence.length}/10
+                </p>
+              )}
             </CardContent>
           </Card>
         </div>
