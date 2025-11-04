@@ -14,8 +14,8 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
     
-    const { searchParams } = new URL(req.url);
-    const days = parseInt(searchParams.get('days') || '30', 10);
+    // Use nextUrl instead of req.url to avoid static generation issues
+    const days = parseInt(req.nextUrl.searchParams.get('days') || '30', 10);
     
     const stats = await getAnalyticsStats(days);
     return NextResponse.json(stats);

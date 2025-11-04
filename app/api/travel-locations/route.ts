@@ -53,8 +53,8 @@ export async function POST(request: NextRequest) {
 // DELETE - Remove a location
 export async function DELETE(request: NextRequest) {
   try {
-    const { searchParams } = new URL(request.url);
-    const id = searchParams.get('id');
+    // Use nextUrl instead of request.url to avoid static generation issues
+    const id = request.nextUrl.searchParams.get('id');
     
     console.log('🗑️  DELETE request for location ID:', id);
     

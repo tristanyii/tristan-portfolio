@@ -15,8 +15,8 @@ export async function GET(req: NextRequest) {
       }, { status: 200 });
     }
 
-    const { searchParams } = new URL(req.url);
-    const timeRange = searchParams.get('time_range') || 'medium_term';
+    // Use nextUrl instead of req.url to avoid static generation issues
+    const timeRange = req.nextUrl.searchParams.get('time_range') || 'medium_term';
     const data = await getTopArtists(8, timeRange as 'short_term' | 'medium_term' | 'long_term');
     return NextResponse.json(data);
   } catch (error: any) {

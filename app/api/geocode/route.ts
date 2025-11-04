@@ -5,10 +5,10 @@ export const dynamic = 'force-dynamic';
 
 export async function GET(request: NextRequest) {
   try {
-    const { searchParams } = new URL(request.url);
-    const city = searchParams.get('city');
-    const country = searchParams.get('country');
-    const state = searchParams.get('state');
+    // Use nextUrl instead of request.url to avoid static generation issues
+    const city = request.nextUrl.searchParams.get('city');
+    const country = request.nextUrl.searchParams.get('country');
+    const state = request.nextUrl.searchParams.get('state');
 
     if (!city) {
       return NextResponse.json({ error: 'City is required' }, { status: 400 });
