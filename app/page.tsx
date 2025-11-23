@@ -247,10 +247,13 @@ export default function Home() {
                   rel="noopener noreferrer"
                   className="relative z-20 inline-flex items-center gap-2 mt-4 px-3 py-2 rounded-lg border border-primary/20 bg-primary/5 hover:bg-primary/10 hover:border-primary/40 hover:scale-105 transition-all duration-200 cursor-pointer group"
                 >
-                  <img 
+                  <Image 
                     src="/Code+ Logo.png" 
                     alt="Duke Code+ Program" 
+                    width={120}
+                    height={32}
                     className="h-8 w-auto pointer-events-none select-none"
+                    unoptimized
                   />
                   <ExternalLink className="h-4 w-4 text-primary/60 group-hover:text-primary transition-colors" />
                 </a>
