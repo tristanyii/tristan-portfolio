@@ -33,11 +33,8 @@ export default function Home() {
             <div className="space-y-3 animate-slide-in-right max-w-full">
               <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight relative break-words">
                 Hi, I'm{" "}
-                <span className="relative inline-block">
-                  <span className="bg-gradient-to-r from-primary via-purple-500 to-blue-500 bg-clip-text text-transparent animate-gradient">
-                    Tristan Yi
-                  </span>
-                  <span className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-primary via-purple-500 to-blue-500 animate-gradient rounded-full"></span>
+                <span className="text-foreground">
+                  Tristan Yi
                 </span>
           </h1>
               <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-muted-foreground">
@@ -46,29 +43,29 @@ export default function Home() {
         </div>
             
             <div className="flex gap-2 justify-center lg:justify-start animate-fade-in-delay">
-              <Badge variant="secondary" className="text-sm px-4 py-2 hover:scale-110 hover:rotate-2 transition-all duration-300 cursor-default glass border-primary/20 hover:border-primary/40">
+              <Badge variant="secondary" className="text-sm px-4 py-2 cursor-default">
                 Software Engineer
               </Badge>
-              <Badge variant="secondary" className="text-sm px-4 py-2 hover:scale-110 hover:-rotate-2 transition-all duration-300 cursor-default glass border-purple-500/20 hover:border-purple-500/40">
+              <Badge variant="secondary" className="text-sm px-4 py-2 cursor-default">
                 First-Gen College Student
               </Badge>
             </div>
 
 
             <div className="flex flex-wrap gap-3 pt-4 justify-center lg:justify-start animate-fade-in-delay-3">
-              <Button size="lg" className="hover:scale-110 transition-all shadow-lg hover:shadow-2xl hover:shadow-primary/50" asChild>
+              <Button size="lg" asChild>
                 <a href="mailto:triyi0513@gmail.com">
                   <Mail className="mr-2 h-5 w-5" />
                   Contact Me
                 </a>
               </Button>
-              <Button size="lg" variant="outline" className="hover:scale-110 transition-all glass hover:bg-primary/10 hover:border-primary/50" asChild>
+              <Button size="lg" variant="outline" asChild>
                 <a href="https://github.com/tristanyii" target="_blank" rel="noopener noreferrer">
                   <Github className="mr-2 h-5 w-5" />
                   GitHub
                 </a>
               </Button>
-              <Button size="lg" variant="outline" className="hover:scale-110 transition-all glass hover:bg-primary/10 hover:border-primary/50" asChild>
+              <Button size="lg" variant="outline" asChild>
                 <a href="https://linkedin.com/in/tristan-yi" target="_blank" rel="noopener noreferrer">
                   <Linkedin className="mr-2 h-5 w-5" />
                   LinkedIn
@@ -79,9 +76,9 @@ export default function Home() {
             {/* Tech Stack moved to its own section to declutter hero */}
 
             {/* Scroll indicator */}
-            <div className="pt-6 animate-bounce-smoother">
-              <a href="#experience" className="inline-block p-3 rounded-full glass hover:bg-primary/10 transition-all">
-                <ArrowDown className="h-8 w-8 text-muted-foreground/50 hover:text-primary transition-colors" />
+            <div className="pt-6">
+              <a href="#experience" className="inline-block p-3 rounded-full hover:bg-muted transition-all">
+                <ArrowDown className="h-8 w-8 text-muted-foreground hover:text-foreground transition-colors" />
               </a>
             </div>
           </div>
@@ -90,9 +87,8 @@ export default function Home() {
           <div className="flex-shrink-0 animate-fade-in mt-8 lg:mt-0">
             <div className="relative w-[280px] h-[340px] mx-auto lg:w-[400px] lg:h-[480px]">
               {/* Photo 1 - Top Left */}
-              <div className="absolute left-0 top-0 w-32 h-32 lg:w-48 lg:h-48 rotate-[-8deg] hover:rotate-0 hover:scale-110 hover:z-40 transition-all duration-500 group z-10">
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/30 to-purple-500/30 rounded-2xl blur-xl opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
-                <div className="relative w-full h-full rounded-2xl overflow-hidden border-4 border-white/90 shadow-2xl">
+              <div className="absolute left-0 top-0 w-32 h-32 lg:w-48 lg:h-48 rotate-[-8deg] hover:rotate-0 hover:scale-105 transition-all duration-300 group z-10">
+                <div className="relative w-full h-full rounded-2xl overflow-hidden border border-border shadow-lg">
                   <Image 
                     src="/Headshot.jpg" 
                     alt="Tristan Yi"
@@ -106,9 +102,8 @@ export default function Home() {
               </div>
 
               {/* Photo 2 - Top Right */}
-              <div className="absolute right-0 top-2 lg:top-8 w-32 h-32 lg:w-48 lg:h-48 rotate-[6deg] hover:rotate-0 hover:scale-110 hover:z-40 transition-all duration-500 group z-15">
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/30 to-cyan-500/30 rounded-2xl blur-xl opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
-                <div className="relative w-full h-full rounded-2xl overflow-hidden border-4 border-white/90 shadow-2xl">
+              <div className="absolute right-0 top-2 lg:top-8 w-32 h-32 lg:w-48 lg:h-48 rotate-[6deg] hover:rotate-0 hover:scale-105 transition-all duration-300 group z-15">
+                <div className="relative w-full h-full rounded-2xl overflow-hidden border border-border shadow-lg">
                   <Image 
                     src="/MirrorPic.jpg" 
                     alt="Tristan Yi"
@@ -121,9 +116,8 @@ export default function Home() {
               </div>
 
               {/* Photo 3 - Middle Left */}
-              <div className="absolute left-2 lg:left-4 top-24 lg:top-36 w-32 h-32 lg:w-48 lg:h-48 rotate-[4deg] hover:rotate-0 hover:scale-110 hover:z-40 transition-all duration-500 group z-20">
-                <div className="absolute inset-0 bg-gradient-to-br from-purple-500/30 to-pink-500/30 rounded-2xl blur-xl opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
-                <div className="relative w-full h-full rounded-2xl overflow-hidden border-4 border-white/90 shadow-2xl">
+              <div className="absolute left-2 lg:left-4 top-24 lg:top-36 w-32 h-32 lg:w-48 lg:h-48 rotate-[4deg] hover:rotate-0 hover:scale-105 transition-all duration-300 group z-20">
+                <div className="relative w-full h-full rounded-2xl overflow-hidden border border-border shadow-lg">
                   <Image 
                     src="/Selfie.jpg" 
                     alt="Tristan Yi"
@@ -136,9 +130,8 @@ export default function Home() {
               </div>
 
               {/* Photo 4 - Middle Right */}
-              <div className="absolute right-2 lg:right-4 top-28 lg:top-44 w-32 h-32 lg:w-48 lg:h-48 rotate-[-5deg] hover:rotate-0 hover:scale-110 hover:z-40 transition-all duration-500 group z-25">
-                <div className="absolute inset-0 bg-gradient-to-br from-yellow-500/30 to-orange-500/30 rounded-2xl blur-xl opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
-                <div className="relative w-full h-full rounded-2xl overflow-hidden border-4 border-white/90 shadow-2xl">
+              <div className="absolute right-2 lg:right-4 top-28 lg:top-44 w-32 h-32 lg:w-48 lg:h-48 rotate-[-5deg] hover:rotate-0 hover:scale-105 transition-all duration-300 group z-25">
+                <div className="relative w-full h-full rounded-2xl overflow-hidden border border-border shadow-lg">
                   <Image 
                     src="/Carowinds.jpg" 
                     alt="Tristan Yi"
@@ -162,8 +155,7 @@ export default function Home() {
             <p className="text-muted-foreground mt-2">A quick snapshot of the tools I use most.</p>
           </div>
 
-          <div className="relative rounded-2xl border bg-card/60 backdrop-blur p-6 md:p-8 shadow-md overflow-hidden">
-            <div className="pointer-events-none absolute inset-x-0 -top-16 h-32 bg-gradient-to-b from-primary/15 to-transparent blur-2xl" />
+          <div className="relative rounded-2xl border bg-card p-6 md:p-8 shadow-sm overflow-hidden">
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               <Card className="border-none shadow-none bg-transparent">
                 <CardHeader className="pb-2">
@@ -205,47 +197,75 @@ export default function Home() {
       {/* Experience Section */}
       <Reveal>
       <section id="experience" className="container mx-auto px-4 py-24 scroll-mt-16 relative">
-        <div className="absolute inset-0 bg-gradient-to-l from-primary/5 via-transparent to-transparent pointer-events-none" />
-        
         <div className="space-y-12 max-w-5xl mx-auto relative z-10">
           <div className="text-center space-y-4">
-            <h2 className="text-4xl font-bold tracking-tight sm:text-5xl bg-gradient-to-r from-primary via-purple-500 to-blue-500 bg-clip-text text-transparent animate-gradient relative inline-block">
+            <h2 className="text-4xl font-bold tracking-tight sm:text-5xl text-foreground">
               Experience
-              <div className="absolute -bottom-1 left-1/4 right-1/4 h-1 bg-gradient-to-r from-primary via-purple-500 to-blue-500 animate-gradient rounded-full"></div>
             </h2>
             <p className="text-muted-foreground text-lg">My professional and academic journey</p>
           </div>
 
           <div className="grid gap-6">
+            {/* Kalshi */}
+            <Card className="hover-lift transition-all duration-300">
+              <CardHeader>
+                <div className="flex justify-between items-start flex-wrap gap-2">
+                  <div>
+                    <CardTitle className="text-xl">Market Platforms</CardTitle>
+                    <CardDescription className="text-base">Kalshi • NYC, NY • Remote</CardDescription>
+                  </div>
+                  <Badge variant="secondary">Jan. 2026 - Present</Badge>
+                </div>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <p className="text-muted-foreground">Mention Markets</p>
+                <a 
+                  href="https://kalshi.com/" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="relative z-20 inline-flex items-center gap-2 mt-4 px-3 py-2 rounded-lg border border-border hover:border-foreground/20 transition-all duration-200 cursor-pointer group"
+                >
+                  <Image 
+                    src="/kalshi.png" 
+                    alt="Kalshi" 
+                    width={80}
+                    height={32}
+                    className="h-8 w-auto pointer-events-none select-none"
+                    unoptimized
+                  />
+                  <ExternalLink className="h-4 w-4 text-muted-foreground group-hover:text-foreground transition-colors" />
+                </a>
+              </CardContent>
+            </Card>
+
             {/* Duke Code+ */}
-            <Card className="hover-lift hover:shadow-2xl hover:shadow-primary/10 transition-all duration-300 border-l-4 border-l-primary/50 glass rounded-3xl group relative overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
-              <CardHeader className="relative z-10">
+            <Card className="hover-lift transition-all duration-300">
+              <CardHeader>
                 <div className="flex justify-between items-start flex-wrap gap-2">
                   <div>
                     <CardTitle className="text-xl">Software Engineer Intern</CardTitle>
                     <CardDescription className="text-base">Duke Code+ Program • Durham, NC</CardDescription>
                   </div>
-                  <Badge className="bg-green-600/10 text-green-600 border-green-600/20">May 2025 - Present</Badge>
+                  <Badge variant="secondary">May 2025 - Jan. 2026</Badge>
                 </div>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="flex flex-wrap gap-2 mb-2">
-                  <Badge variant="outline" className="hover:bg-primary/5 transition-colors">Flask</Badge>
-                  <Badge variant="outline" className="hover:bg-primary/5 transition-colors">Python</Badge>
-                  <Badge variant="outline" className="hover:bg-primary/5 transition-colors">Neo4j</Badge>
-                  <Badge variant="outline" className="hover:bg-primary/5 transition-colors">Selenium</Badge>
+                  <Badge variant="outline">Flask</Badge>
+                  <Badge variant="outline">Python</Badge>
+                  <Badge variant="outline">Neo4j</Badge>
+                  <Badge variant="outline">Selenium</Badge>
                 </div>
                 <ul className="list-disc list-inside space-y-3 text-muted-foreground">
-                  <li className="hover:text-foreground transition-colors">Selected as <strong>1 of 4 interns</strong> from <strong>300+ applicants</strong> to build an AI-powered fundraising platform using Flask and Python, projected to drive <strong>$10M+</strong> in gifts by connecting philanthropists with Duke research initiatives</li>
-                  <li className="hover:text-foreground transition-colors">Increased donor-research match accuracy by <strong>40%</strong> by embedding donor interests with Sentence Transformers and mapping <strong>2K+</strong> alumni relationships in Neo4j to surface high-value connections for targeted outreach</li>
-                  <li className="hover:text-foreground transition-colors">Accelerate donor data acquisition by <strong>95%</strong> by building a Selenium pipeline to scrape <strong>13K+</strong> records and enriching profiles with DukeGPT insights spanning board roles, affiliations, and career history</li>
+                  <li>Selected as <strong>1 of 4 interns</strong> from <strong>300+ applicants</strong> to build an AI-powered fundraising platform using Flask and Python, projected to drive <strong>$10M+</strong> in gifts by connecting philanthropists with Duke research initiatives</li>
+                  <li>Increased donor-research match accuracy by <strong>40%</strong> by embedding donor interests with Sentence Transformers and mapping <strong>2K+</strong> alumni relationships in Neo4j to surface high-value connections for targeted outreach</li>
+                  <li>Accelerate donor data acquisition by <strong>95%</strong> by building a Selenium pipeline to scrape <strong>13K+</strong> records and enriching profiles with DukeGPT insights spanning board roles, affiliations, and career history</li>
                 </ul>
                 <a 
                   href="https://codeplus.duke.edu/project/philanthropy-intelligence-using-aiml-connect-research-and-donors/" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="relative z-20 inline-flex items-center gap-2 mt-4 px-3 py-2 rounded-lg border border-primary/20 bg-primary/5 hover:bg-primary/10 hover:border-primary/40 hover:scale-105 transition-all duration-200 cursor-pointer group"
+                  className="inline-flex items-center gap-2 mt-4 px-3 py-2 rounded-lg border border-border hover:border-foreground/20 transition-all duration-200 cursor-pointer group"
                 >
                   <Image 
                     src="/CodePlusLogo.png" 
@@ -255,15 +275,14 @@ export default function Home() {
                     className="h-8 w-auto pointer-events-none select-none"
                     unoptimized
                   />
-                  <ExternalLink className="h-4 w-4 text-primary/60 group-hover:text-primary transition-colors" />
+                  <ExternalLink className="h-4 w-4 text-muted-foreground group-hover:text-foreground transition-colors" />
                 </a>
               </CardContent>
             </Card>
 
             {/* Blue Devil Buddies */}
-            <Card className="hover-lift hover:shadow-2xl hover:shadow-blue-500/10 transition-all duration-300 rounded-tl-3xl rounded-br-3xl border-t-4 border-t-blue-500/30 group relative overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
-              <CardHeader className="relative z-10">
+            <Card className="hover-lift transition-all duration-300">
+              <CardHeader>
                 <div className="flex justify-between items-start flex-wrap gap-2">
                   <div>
                     <CardTitle className="text-xl">Software Engineer Intern</CardTitle>
@@ -274,34 +293,33 @@ export default function Home() {
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="flex flex-wrap gap-2 mb-2">
-                  <Badge variant="outline" className="hover:bg-primary/5 transition-colors">Python</Badge>
-                  <Badge variant="outline" className="hover:bg-primary/5 transition-colors">Pandas</Badge>
-                  <Badge variant="outline" className="hover:bg-primary/5 transition-colors">Data Processing</Badge>
+                  <Badge variant="outline">Python</Badge>
+                  <Badge variant="outline">Pandas</Badge>
+                  <Badge variant="outline">Data Processing</Badge>
                 </div>
                 <ul className="list-disc list-inside space-y-3 text-muted-foreground">
-                  <li className="hover:text-foreground transition-colors">Developing Duke's largest mentorship program through a Python-based matching system that pairs mentors and freshmen by shared interests and backgrounds, scaling to support <strong>12.5K+</strong> participants</li>
-                  <li className="hover:text-foreground transition-colors">Improving match accuracy and reducing manual processing time by <strong>80%</strong> by cleaning and standardizing <strong>100K+</strong> survey responses across multiple semesters with Pandas</li>
+                  <li>Developing Duke's largest mentorship program through a Python-based matching system that pairs mentors and freshmen by shared interests and backgrounds, scaling to support <strong>12.5K+</strong> participants</li>
+                  <li>Improving match accuracy and reducing manual processing time by <strong>80%</strong> by cleaning and standardizing <strong>100K+</strong> survey responses across multiple semesters with Pandas</li>
                 </ul>
                 <a 
                   href="https://dukestudentgovernment.org/affiliates/blue-devil-buddies/" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="relative z-20 inline-flex items-center gap-2 mt-4 px-3 py-2 rounded-lg border border-blue-500/20 bg-blue-500/5 hover:bg-blue-500/10 hover:border-blue-500/40 hover:scale-105 transition-all duration-200 cursor-pointer group"
+                  className="inline-flex items-center gap-2 mt-4 px-3 py-2 rounded-lg border border-border hover:border-foreground/20 transition-all duration-200 cursor-pointer group"
                 >
                   <img 
                     src="/BlueDevilBuddies.png" 
                     alt="Blue Devil Buddies" 
                     className="h-8 w-auto pointer-events-none select-none"
                   />
-                  <ExternalLink className="h-4 w-4 text-blue-500/60 group-hover:text-blue-500 transition-colors" />
+                  <ExternalLink className="h-4 w-4 text-muted-foreground group-hover:text-foreground transition-colors" />
                 </a>
               </CardContent>
             </Card>
 
             {/* AspinRock */}
-            <Card className="hover-lift hover:shadow-2xl hover:shadow-amber-500/10 transition-all duration-300 rounded-2xl border-r-4 border-r-amber-500/30 group relative overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-br from-amber-500/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
-              <CardHeader className="relative z-10">
+            <Card className="hover-lift transition-all duration-300">
+              <CardHeader>
                 <div className="flex justify-between items-start flex-wrap gap-2">
                   <div>
                     <CardTitle className="text-xl">Software Developer Intern</CardTitle>
@@ -312,35 +330,34 @@ export default function Home() {
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="flex flex-wrap gap-2 mb-2">
-                  <Badge variant="outline" className="hover:bg-primary/5 transition-colors">Python</Badge>
-                  <Badge variant="outline" className="hover:bg-primary/5 transition-colors">Pandas</Badge>
-                  <Badge variant="outline" className="hover:bg-primary/5 transition-colors">OpenAI API</Badge>
-                  <Badge variant="outline" className="hover:bg-primary/5 transition-colors">RESTful APIs</Badge>
+                  <Badge variant="outline">Python</Badge>
+                  <Badge variant="outline">Pandas</Badge>
+                  <Badge variant="outline">OpenAI API</Badge>
+                  <Badge variant="outline">RESTful APIs</Badge>
                 </div>
                 <ul className="list-disc list-inside space-y-3 text-muted-foreground">
-                  <li className="hover:text-foreground transition-colors">Collaborated with fellow first-gen students in Duke's Spring Forward Program to deliver financial forecasting tools; Optimized AI-driven stock forecasts using Python and OpenAI API, improving accuracy by <strong>35%</strong> through data tuning</li>
-                  <li className="hover:text-foreground transition-colors">Implemented a financial data pipeline using Python, Pandas, and RESTful APIs to process <strong>1M+</strong> daily stock price records across <strong>5,000+</strong> companies, and analyzed large-scale stock price data for real-time market insights</li>
+                  <li>Collaborated with fellow first-gen students in Duke's Spring Forward Program to deliver financial forecasting tools; Optimized AI-driven stock forecasts using Python and OpenAI API, improving accuracy by <strong>35%</strong> through data tuning</li>
+                  <li>Implemented a financial data pipeline using Python, Pandas, and RESTful APIs to process <strong>1M+</strong> daily stock price records across <strong>5,000+</strong> companies, and analyzed large-scale stock price data for real-time market insights</li>
                 </ul>
                 <a 
                   href="https://www.aspinrock.com/individual" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="relative z-20 inline-flex items-center gap-2 mt-4 px-3 py-2 rounded-lg border border-amber-500/20 bg-amber-500/5 hover:bg-amber-500/10 hover:border-amber-500/40 hover:scale-105 transition-all duration-200 cursor-pointer group"
+                  className="inline-flex items-center gap-2 mt-4 px-3 py-2 rounded-lg border border-border hover:border-foreground/20 transition-all duration-200 cursor-pointer group"
                 >
                   <img 
                     src="/aspinrock1_logo.jpeg" 
                     alt="Aspin Rock" 
                     className="h-8 w-auto pointer-events-none select-none"
                   />
-                  <ExternalLink className="h-4 w-4 text-amber-500/60 group-hover:text-amber-500 transition-colors" />
+                  <ExternalLink className="h-4 w-4 text-muted-foreground group-hover:text-foreground transition-colors" />
                 </a>
               </CardContent>
             </Card>
 
             {/* Research Assistant */}
-            <Card className="hover-lift hover:shadow-2xl hover:shadow-indigo-500/10 transition-all duration-300 rounded-tr-3xl rounded-bl-3xl border-b-4 border-b-indigo-500/30 group relative overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
-              <CardHeader className="relative z-10">
+            <Card className="hover-lift transition-all duration-300">
+              <CardHeader>
                 <div className="flex justify-between items-start flex-wrap gap-2">
                   <div>
                     <CardTitle className="text-xl">Research Assistant</CardTitle>
@@ -351,69 +368,67 @@ export default function Home() {
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="flex flex-wrap gap-2 mb-2">
-                  <Badge variant="outline" className="hover:bg-primary/5 transition-colors">Python</Badge>
-                  <Badge variant="outline" className="hover:bg-primary/5 transition-colors">BeautifulSoup</Badge>
-                  <Badge variant="outline" className="hover:bg-primary/5 transition-colors">Excel</Badge>
-                  <Badge variant="outline" className="hover:bg-primary/5 transition-colors">Data Analysis</Badge>
+                  <Badge variant="outline">Python</Badge>
+                  <Badge variant="outline">BeautifulSoup</Badge>
+                  <Badge variant="outline">Excel</Badge>
+                  <Badge variant="outline">Data Analysis</Badge>
                 </div>
                 <ul className="list-disc list-inside space-y-3 text-muted-foreground">
-                  <li className="hover:text-foreground transition-colors">Automated Python web-scraping pipelines with BeautifulSoup to collect and process financial disclosures, cutting manual data gathering by <strong>9+ hours</strong> weekly and enabling large-scale political finance analysis</li>
-                  <li className="hover:text-foreground transition-colors">Structured and validated datasets of legislative financial records with <strong>98%</strong> accuracy in Excel, supporting reliable research on lawmakers' business affiliations and investment activity</li>
+                  <li>Automated Python web-scraping pipelines with BeautifulSoup to collect and process financial disclosures, cutting manual data gathering by <strong>9+ hours</strong> weekly and enabling large-scale political finance analysis</li>
+                  <li>Structured and validated datasets of legislative financial records with <strong>98%</strong> accuracy in Excel, supporting reliable research on lawmakers' business affiliations and investment activity</li>
                 </ul>
                 <a 
                   href="http://fuqua.duke.edu/" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="relative z-20 inline-flex items-center gap-2 mt-4 px-3 py-2 rounded-lg border border-indigo-500/20 bg-indigo-500/5 hover:bg-indigo-500/10 hover:border-indigo-500/40 hover:scale-105 transition-all duration-200 cursor-pointer group"
+                  className="inline-flex items-center gap-2 mt-4 px-3 py-2 rounded-lg border border-border hover:border-foreground/20 transition-all duration-200 cursor-pointer group"
                 >
                   <img 
                     src="/DukeFuqua.png" 
                     alt="Duke Fuqua School of Business" 
                     className="h-8 w-auto pointer-events-none select-none"
                   />
-                  <ExternalLink className="h-4 w-4 text-indigo-500/60 group-hover:text-indigo-500 transition-colors" />
+                  <ExternalLink className="h-4 w-4 text-muted-foreground group-hover:text-foreground transition-colors" />
                 </a>
               </CardContent>
             </Card>
 
             {/* Leadership Section */}
             <div className="mt-12">
-              <h3 className="text-3xl font-bold mb-6 bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">Leadership</h3>
+              <h3 className="text-3xl font-bold mb-6 text-foreground">Leadership</h3>
               <div className="grid gap-6 md:grid-cols-2">
-                <Card className="hover-lift hover:shadow-2xl hover:shadow-cyan-500/10 transition-all duration-300 rounded-3xl border-l-4 border-l-cyan-500/30 group relative overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
-                  <CardHeader className="relative z-10">
+                <Card className="hover-lift transition-all duration-300">
+                  <CardHeader>
                     <div className="flex justify-between items-start flex-wrap gap-2">
                       <div>
                         <CardTitle className="text-lg">Catalyst Marketing Executive</CardTitle>
                         <CardDescription>Durham, NC</CardDescription>
                       </div>
-                      <Badge variant="secondary">Apr. 2024 - Present</Badge>
+                      <Badge variant="secondary">Apr. 2025 - Jan. 2026</Badge>
                     </div>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-muted-foreground hover:text-foreground transition-colors">
+                    <p className="text-muted-foreground">
                       Expanding Duke's largest pre-professional tech org by hosting resume workshops and professional events; generated <strong>150K+</strong> social media impressions and boosted event attendance by <strong>30%</strong> YTD
                     </p>
                     <a 
                       href="https://www.instagram.com/dukecatalyst/" 
                       target="_blank" 
                       rel="noopener noreferrer"
-                      className="relative z-20 inline-flex items-center gap-2 mt-4 px-3 py-2 rounded-lg border border-cyan-500/20 bg-cyan-500/5 hover:bg-cyan-500/10 hover:border-cyan-500/40 hover:scale-105 transition-all duration-200 cursor-pointer group"
+                      className="inline-flex items-center gap-2 mt-4 px-3 py-2 rounded-lg border border-border hover:border-foreground/20 transition-all duration-200 cursor-pointer group"
                     >
                       <img 
                         src="/Catalyst.png" 
                         alt="Duke Catalyst" 
                         className="h-8 w-auto pointer-events-none select-none"
                       />
-                      <ExternalLink className="h-4 w-4 text-cyan-500/60 group-hover:text-cyan-500 transition-colors" />
+                      <ExternalLink className="h-4 w-4 text-muted-foreground group-hover:text-foreground transition-colors" />
                     </a>
                   </CardContent>
                 </Card>
 
-                <Card className="hover-lift hover:shadow-2xl hover:shadow-green-500/10 transition-all duration-300 rounded-2xl border-r-4 border-r-green-500/30 group relative overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-br from-green-500/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
-                  <CardHeader className="relative z-10">
+                <Card className="hover-lift transition-all duration-300">
+                  <CardHeader>
                     <div className="flex justify-between items-start flex-wrap gap-2">
                       <div>
                         <CardTitle className="text-lg">DukeLife Mentor</CardTitle>
@@ -423,21 +438,21 @@ export default function Home() {
                     </div>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-muted-foreground hover:text-foreground transition-colors">
+                    <p className="text-muted-foreground">
                       Mentoring first-gen/low-income students across multiple cohorts, easing academic and social transitions and driving a <strong>~25%</strong> increase in campus resource use
                     </p>
                     <a 
                       href="https://dukelife.duke.edu/" 
                       target="_blank" 
                       rel="noopener noreferrer"
-                      className="relative z-20 inline-flex items-center gap-2 mt-4 px-3 py-2 rounded-lg border border-green-500/20 bg-green-500/5 hover:bg-green-500/10 hover:border-green-500/40 hover:scale-105 transition-all duration-200 cursor-pointer group"
+                      className="inline-flex items-center gap-2 mt-4 px-3 py-2 rounded-lg border border-border hover:border-foreground/20 transition-all duration-200 cursor-pointer group"
                     >
                       <img 
                         src="/DukeLife.png" 
                         alt="DukeLife" 
                         className="h-8 w-auto pointer-events-none select-none"
                       />
-                      <ExternalLink className="h-4 w-4 text-green-500/60 group-hover:text-green-500 transition-colors" />
+                      <ExternalLink className="h-4 w-4 text-muted-foreground group-hover:text-foreground transition-colors" />
                     </a>
                   </CardContent>
                 </Card>
@@ -451,16 +466,13 @@ export default function Home() {
       {/* Projects Section */}
       <Reveal delayMs={80}>
       <section id="projects" className="container mx-auto px-4 py-24 scroll-mt-16 relative">
-        <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-transparent to-primary/5 pointer-events-none" />
-        
         <div className="space-y-12 max-w-6xl mx-auto relative z-10">
           <div className="text-center space-y-4">
             <div className="flex items-center justify-center gap-3 flex-wrap">
-              <h2 className="text-4xl font-bold tracking-tight sm:text-5xl bg-gradient-to-r from-primary via-purple-500 to-blue-500 bg-clip-text text-transparent animate-gradient relative inline-block">
+              <h2 className="text-4xl font-bold tracking-tight sm:text-5xl text-foreground">
                 Projects
-                <div className="absolute -bottom-1 left-1/4 right-1/4 h-1 bg-gradient-to-r from-primary via-purple-500 to-blue-500 animate-gradient rounded-full"></div>
               </h2>
-              <Badge className="text-sm px-4 py-2 bg-black text-white border-none shadow-lg">
+              <Badge variant="secondary" className="text-sm px-4 py-2">
                 🏆 2x Hackathon Winner
               </Badge>
             </div>
@@ -469,11 +481,8 @@ export default function Home() {
 
           <div className="grid gap-6 md:grid-cols-2">
             {/* Excess - Deutsche Bank Hackathon */}
-            <Card className="hover-lift card-shine hover:shadow-2xl hover:shadow-yellow-500/20 transition-all duration-300 group relative overflow-hidden glass border-2 border-yellow-500/20 rounded-tl-3xl rounded-br-3xl">
-              <div className="absolute inset-0 bg-gradient-to-br from-yellow-500/10 via-orange-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              <div className="absolute top-0 right-0 w-32 h-32 bg-yellow-500/10 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              <div className="absolute -top-1 -right-1 w-20 h-20 bg-yellow-500/20 rounded-full blur-xl animate-pulse-slow" />
-              <CardHeader className="relative z-10">
+            <Card className="hover-lift transition-all duration-300">
+              <CardHeader>
                 <div className="flex justify-between items-start flex-wrap gap-2">
                   <div>
                     <CardTitle className="text-xl">Excess - AI Voice Agent</CardTitle>
@@ -482,7 +491,7 @@ export default function Home() {
                   <Badge variant="secondary">Oct. 2025</Badge>
                 </div>
               </CardHeader>
-              <CardContent className="space-y-4 relative z-10">
+              <CardContent className="space-y-4">
                 <p className="text-muted-foreground">
                   Built an AI voice agent using Flask and Retell AI to bridge users to <strong>800+</strong> verified aid programs, 
                   improving access to housing, food, and energy assistance in underrepresented rural communities.
@@ -492,32 +501,30 @@ export default function Home() {
                   lower cost than human operations.
                 </p>
                 <div className="flex flex-wrap gap-2">
-                  <Badge variant="outline" className="hover:bg-yellow-500/10 transition-colors">Python</Badge>
-                  <Badge variant="outline" className="hover:bg-yellow-500/10 transition-colors">Flask</Badge>
-                  <Badge variant="outline" className="hover:bg-yellow-500/10 transition-colors">Retell AI</Badge>
-                  <Badge variant="outline" className="hover:bg-yellow-500/10 transition-colors">REST APIs</Badge>
+                  <Badge variant="outline">Python</Badge>
+                  <Badge variant="outline">Flask</Badge>
+                  <Badge variant="outline">Retell AI</Badge>
+                  <Badge variant="outline">REST APIs</Badge>
                 </div>
                 <a 
                   href="https://github.com/tristanyii/deutchebank-hackathon" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 mt-4 px-3 py-2 rounded-lg border border-yellow-500/20 bg-yellow-500/5 hover:bg-yellow-500/10 hover:border-yellow-500/40 hover:scale-105 transition-all duration-200 cursor-pointer group"
+                  className="inline-flex items-center gap-2 mt-4 px-3 py-2 rounded-lg border border-border hover:border-foreground/20 transition-all duration-200 cursor-pointer group"
                 >
                   <img 
                     src="/Deutsche Bank.png" 
                     alt="Deutsche Bank Hackathon" 
                     className="h-8 w-auto pointer-events-none select-none"
                   />
-                  <ExternalLink className="h-4 w-4 text-yellow-500/60 group-hover:text-yellow-500 transition-colors" />
+                  <ExternalLink className="h-4 w-4 text-muted-foreground group-hover:text-foreground transition-colors" />
                 </a>
               </CardContent>
             </Card>
 
             {/* The Devil's Tracker */}
-            <Card className="hover-lift card-shine hover:shadow-2xl hover:shadow-red-500/20 transition-all duration-300 group relative overflow-hidden glass rounded-tr-3xl rounded-bl-3xl border-t-4 border-t-red-500/30">
-              <div className="absolute inset-0 bg-gradient-to-br from-red-500/10 via-purple-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              <div className="absolute top-0 right-0 w-32 h-32 bg-red-500/10 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              <CardHeader className="relative z-10">
+            <Card className="hover-lift transition-all duration-300">
+              <CardHeader>
                 <div className="flex justify-between items-start flex-wrap gap-2">
                   <div>
                     <CardTitle className="text-xl">The Devil's Tracker</CardTitle>
@@ -526,7 +533,7 @@ export default function Home() {
                   <Badge variant="secondary">Apr. 2025</Badge>
                 </div>
               </CardHeader>
-              <CardContent className="space-y-4 relative z-10">
+              <CardContent className="space-y-4">
                 <p className="text-muted-foreground">
                   Built a cross-platform mobile app to manage poker sessions, automating buy-ins and earnings across <strong>30+</strong> games, reducing settlement time by <strong>90%</strong>
                 </p>
@@ -534,34 +541,32 @@ export default function Home() {
                   Implemented QR-based game/user encoding with Expo Camera cutting setup time from 2 min → 10 secs and real-time sync with Firebase Firestore for game state and earnings
                 </p>
                 <div className="flex flex-wrap gap-2">
-                  <Badge variant="outline" className="hover:bg-red-500/10 transition-colors">React Native</Badge>
-                  <Badge variant="outline" className="hover:bg-red-500/10 transition-colors">TypeScript</Badge>
-                  <Badge variant="outline" className="hover:bg-red-500/10 transition-colors">Node.js</Badge>
-                  <Badge variant="outline" className="hover:bg-red-500/10 transition-colors">Express.js</Badge>
-                  <Badge variant="outline" className="hover:bg-red-500/10 transition-colors">PostgreSQL</Badge>
-                  <Badge variant="outline" className="hover:bg-red-500/10 transition-colors">Firebase</Badge>
+                  <Badge variant="outline">React Native</Badge>
+                  <Badge variant="outline">TypeScript</Badge>
+                  <Badge variant="outline">Node.js</Badge>
+                  <Badge variant="outline">Express.js</Badge>
+                  <Badge variant="outline">PostgreSQL</Badge>
+                  <Badge variant="outline">Firebase</Badge>
                 </div>
                 <a 
                   href="https://github.com/tristanyii/poker-tracker-catalyst" 
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 mt-4 px-3 py-2 rounded-lg border border-red-500/20 bg-red-500/5 hover:bg-red-500/10 hover:border-red-500/40 hover:scale-105 transition-all duration-200 cursor-pointer group"
+                  className="inline-flex items-center gap-2 mt-4 px-3 py-2 rounded-lg border border-border hover:border-foreground/20 transition-all duration-200 cursor-pointer group"
                 >
                   <img 
                     src="/DevilsTracker.png" 
                     alt="The Devil's Tracker - Duke Project" 
                     className="h-8 w-auto pointer-events-none select-none"
                   />
-                  <ExternalLink className="h-4 w-4 text-red-500/60 group-hover:text-red-500 transition-colors" />
+                  <ExternalLink className="h-4 w-4 text-muted-foreground group-hover:text-foreground transition-colors" />
                 </a>
               </CardContent>
             </Card>
 
             {/* GoHelpMe - CUHackIt */}
-            <Card className="hover-lift card-shine hover:shadow-2xl hover:shadow-blue-500/20 transition-all duration-300 group relative overflow-hidden glass border-2 border-blue-500/20 rounded-3xl">
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-cyan-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              <CardHeader className="relative z-10">
+            <Card className="hover-lift transition-all duration-300">
+              <CardHeader>
                 <div className="flex justify-between items-start flex-wrap gap-2">
                   <div>
                     <CardTitle className="text-xl">GoHelpMe - Disaster Response App</CardTitle>
@@ -570,7 +575,7 @@ export default function Home() {
                   <Badge variant="secondary">Mar. 2025</Badge>
                 </div>
               </CardHeader>
-              <CardContent className="space-y-4 relative z-10">
+              <CardContent className="space-y-4">
                 <p className="text-muted-foreground">
                   Led development of a disaster-response app that connects victims with volunteers via real-time geolocation, 
                   enabling faster mobilization and more effective resource allocation during crises.
@@ -580,32 +585,31 @@ export default function Home() {
                   deploying backend services with Node.js, Express, and PostgreSQL.
                 </p>
                 <div className="flex flex-wrap gap-2">
-                  <Badge variant="outline" className="hover:bg-blue-500/10 transition-colors">React Native</Badge>
-                  <Badge variant="outline" className="hover:bg-blue-500/10 transition-colors">Expo</Badge>
-                  <Badge variant="outline" className="hover:bg-blue-500/10 transition-colors">Node.js</Badge>
-                  <Badge variant="outline" className="hover:bg-blue-500/10 transition-colors">Express</Badge>
-                  <Badge variant="outline" className="hover:bg-blue-500/10 transition-colors">PostgreSQL</Badge>
+                  <Badge variant="outline">React Native</Badge>
+                  <Badge variant="outline">Expo</Badge>
+                  <Badge variant="outline">Node.js</Badge>
+                  <Badge variant="outline">Express</Badge>
+                  <Badge variant="outline">PostgreSQL</Badge>
                 </div>
                 <a 
                   href="https://devpost.com/software/gohelpme" 
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 mt-4 px-3 py-2 rounded-lg border border-blue-500/20 bg-blue-500/5 hover:bg-blue-500/10 hover:border-blue-500/40 hover:scale-105 transition-all duration-200 cursor-pointer group"
+                  className="inline-flex items-center gap-2 mt-4 px-3 py-2 rounded-lg border border-border hover:border-foreground/20 transition-all duration-200 cursor-pointer group"
                 >
                   <img 
                     src="/GoHelpMe.jpeg" 
                     alt="GoHelpMe - CUHackIt Winner" 
                     className="h-12 w-auto rounded-lg pointer-events-none select-none"
                   />
-                  <ExternalLink className="h-4 w-4 text-blue-500/60 group-hover:text-blue-500 transition-colors" />
+                  <ExternalLink className="h-4 w-4 text-muted-foreground group-hover:text-foreground transition-colors" />
                 </a>
               </CardContent>
             </Card>
 
             {/* Personal Website */}
-            <Card className="hover-lift card-shine hover:shadow-2xl hover:shadow-purple-500/20 transition-all duration-300 group relative overflow-hidden rounded-2xl border-l-4 border-l-purple-500/30">
-              <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              <CardHeader className="relative z-10">
+            <Card className="hover-lift transition-all duration-300">
+              <CardHeader>
                 <div className="flex justify-between items-start flex-wrap gap-2">
                   <div>
                     <CardTitle className="text-xl">Personal Portfolio Website</CardTitle>
@@ -614,19 +618,19 @@ export default function Home() {
                   <Badge variant="secondary">2025</Badge>
                 </div>
               </CardHeader>
-              <CardContent className="space-y-4 relative z-10">
+              <CardContent className="space-y-4">
                 <p className="text-muted-foreground">
                   Built a modern, responsive personal website featuring real-time Spotify integration with my listening stats, 
-                  smooth scrolling animations, and a unique gradient design system.
+                  smooth scrolling animations, and a clean design system.
                 </p>
                 <p className="text-muted-foreground text-sm">
                   Integrated Spotify Web API to dynamically display my top artists and tracks with real-time updates.
                 </p>
                 <div className="flex flex-wrap gap-2">
-                  <Badge variant="outline" className="hover:bg-purple-500/10 transition-colors">Next.js</Badge>
-                  <Badge variant="outline" className="hover:bg-purple-500/10 transition-colors">TypeScript</Badge>
-                  <Badge variant="outline" className="hover:bg-purple-500/10 transition-colors">Tailwind CSS</Badge>
-                  <Badge variant="outline" className="hover:bg-purple-500/10 transition-colors">Spotify API</Badge>
+                  <Badge variant="outline">Next.js</Badge>
+                  <Badge variant="outline">TypeScript</Badge>
+                  <Badge variant="outline">Tailwind CSS</Badge>
+                  <Badge variant="outline">Spotify API</Badge>
                 </div>
               </CardContent>
             </Card>
@@ -638,8 +642,6 @@ export default function Home() {
       {/* Music Section */}
       <Reveal delayMs={120}>
       <section id="music" className="container mx-auto px-4 py-24 scroll-mt-16 relative">
-        <div className="absolute inset-0 bg-gradient-to-bl from-green-500/5 via-transparent to-blue-500/5 pointer-events-none" />
-        
         <div className="space-y-12 max-w-6xl mx-auto relative z-10">
           
           <SpotifySection />
@@ -650,13 +652,10 @@ export default function Home() {
       {/* Hobbies Section */}
       <Reveal delayMs={160}>
       <section id="hobbies" className="container mx-auto px-4 py-24 scroll-mt-16 relative">
-        <div className="absolute inset-0 bg-gradient-to-tr from-primary/5 via-transparent to-transparent pointer-events-none" />
-        
         <div className="space-y-12 max-w-5xl mx-auto relative z-10">
           <div className="text-center space-y-4">
-            <h2 className="text-4xl font-bold tracking-tight sm:text-5xl bg-gradient-to-r from-primary via-purple-500 to-blue-500 bg-clip-text text-transparent animate-gradient relative inline-block">
+            <h2 className="text-4xl font-bold tracking-tight sm:text-5xl text-foreground">
               Hobbies & Interests
-              <div className="absolute -bottom-1 left-1/4 right-1/4 h-1 bg-gradient-to-r from-primary via-purple-500 to-blue-500 animate-gradient rounded-full"></div>
             </h2>
             <p className="text-muted-foreground text-lg">What I do outside of coding</p>
           </div>

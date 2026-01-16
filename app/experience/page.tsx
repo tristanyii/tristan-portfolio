@@ -1,6 +1,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Nav } from "@/components/nav";
+import { ExternalLink } from "lucide-react";
 
 export default function ExperiencePage() {
   return (
@@ -15,6 +16,35 @@ export default function ExperiencePage() {
           </div>
 
           <div className="grid gap-6 max-w-4xl mx-auto">
+            {/* Kalshi */}
+            <Card>
+              <CardHeader>
+                <div className="flex justify-between items-start flex-wrap gap-2">
+                  <div>
+                    <CardTitle>Market Platforms</CardTitle>
+                    <CardDescription className="text-base">Kalshi • NYC, NY • Remote</CardDescription>
+                  </div>
+                  <Badge>Jan. 2026 - Present</Badge>
+                </div>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <p className="text-muted-foreground">Mention Markets</p>
+                <a 
+                  href="https://kalshi.com/" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 mt-4 px-3 py-2 rounded-lg border border-border hover:border-foreground/20 transition-all duration-200 cursor-pointer group"
+                >
+                  <img 
+                    src="/kalshi.png" 
+                    alt="Kalshi" 
+                    className="h-8 w-auto pointer-events-none select-none"
+                  />
+                  <ExternalLink className="h-4 w-4 text-muted-foreground group-hover:text-foreground transition-colors" />
+                </a>
+              </CardContent>
+            </Card>
+
             {/* Duke Code+ */}
             <Card>
               <CardHeader>
@@ -23,7 +53,7 @@ export default function ExperiencePage() {
                     <CardTitle>Software Engineer Intern</CardTitle>
                     <CardDescription className="text-base">Duke Code+ Program • Durham, NC</CardDescription>
                   </div>
-                  <Badge>May 2025 - Present</Badge>
+                  <Badge>May 2025 - Jan. 2026</Badge>
                 </div>
               </CardHeader>
               <CardContent className="space-y-4">
@@ -101,7 +131,7 @@ export default function ExperiencePage() {
                         <CardTitle>Catalyst Marketing Executive</CardTitle>
                         <CardDescription className="text-base">Durham, NC</CardDescription>
                       </div>
-                      <Badge>Apr. 2024 - Present</Badge>
+                      <Badge>Apr. 2025 - Jan. 2026</Badge>
                     </div>
                   </CardHeader>
                   <CardContent>
