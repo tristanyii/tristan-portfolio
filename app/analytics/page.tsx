@@ -40,6 +40,7 @@ interface VisitorProfile {
   device_type?: string;
   browser?: string;
   os?: string;
+  name?: string;
   pages: string[];
   visits: Array<{
     id: string;
@@ -51,6 +52,7 @@ interface VisitorProfile {
     device_type?: string;
     browser?: string;
     os?: string;
+    name?: string;
     timestamp: Date;
   }>;
 }

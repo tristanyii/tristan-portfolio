@@ -60,7 +60,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
     
-    let body = {};
+    let body: { days?: string | number; limit?: string | number; offset?: string | number } = {};
     try {
       body = await req.json();
     } catch (e) {
@@ -68,9 +68,9 @@ export async function POST(req: NextRequest) {
       body = {};
     }
     
-    const days = parseInt(body.days || '30', 10);
-    const limit = parseInt(body.limit || '100', 10);
-    const offset = parseInt(body.offset || '0', 10);
+    const days = parseInt(String(body.days || '30'), 10);
+    const limit = parseInt(String(body.limit || '100'), 10);
+    const offset = parseInt(String(body.offset || '0'), 10);
     
     const result = await getAllVisitors(days, limit, offset);
     return NextResponse.json(result);
