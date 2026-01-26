@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getAnalyticsStats, resetAnalytics } from '@/lib/analytics';
+import { getAnalyticsStats, resetAnalytics, getAllVisitors } from '@/lib/analytics';
 
 // Force dynamic rendering - database operations and cookies require runtime access
 export const dynamic = 'force-dynamic';
@@ -44,6 +44,41 @@ export async function DELETE(req: NextRequest) {
     console.error('Error resetting analytics:', error);
     return NextResponse.json(
       { error: 'Failed to reset analytics' },
+      { status: 500 }
+    );
+  }
+}
+
+// Get all visitors endpoint
+export async function POST(req: NextRequest) {
+  try {
+    // Check for analytics_unlocked cookie
+    const cookies = req.headers.get('cookie') || '';
+    const isUnlocked = cookies.includes('analytics_unlocked=true');
+    
+    if (!isUnlocked) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+    
+    let body = {};
+    try {
+      body = await req.json();
+    } catch (e) {
+      // If body is empty, use defaults
+      body = {};
+    }
+    
+    const days = parseInt(body.days || '30', 10);
+    const limit = parseInt(body.limit || '100', 10);
+    const offset = parseInt(body.offset || '0', 10);
+    
+    const result = await getAllVisitors(days, limit, offset);
+    return NextResponse.json(result);
+  } catch (error: any) {
+    console.error('Error fetching visitors:', error);
+    console.error('Error details:', error.message, error.stack);
+    return NextResponse.json(
+      { error: 'Failed to fetch visitors', details: error.message },
       { status: 500 }
     );
   }

@@ -3,7 +3,8 @@
 import { useEffect, useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { BarChart3, Users, Globe, Monitor, RefreshCw, Calendar, TrendingUp, Lock, Trash2 } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+import { BarChart3, Users, Globe, Monitor, RefreshCw, Calendar, TrendingUp, Lock, Trash2, ChevronLeft, ChevronRight, Eye, X } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 interface AnalyticsStats {
@@ -23,9 +24,35 @@ interface AnalyticsStats {
     device_type?: string;
     browser?: string;
     os?: string;
+    name?: string;
     timestamp: Date;
   }>;
   visitsOverTime: Array<{ date: string; count: number }>;
+}
+
+interface VisitorProfile {
+  ip: string;
+  firstVisit: Date;
+  lastVisit: Date;
+  totalVisits: number;
+  country?: string;
+  city?: string;
+  device_type?: string;
+  browser?: string;
+  os?: string;
+  pages: string[];
+  visits: Array<{
+    id: string;
+    page: string;
+    path: string;
+    referrer?: string;
+    country?: string;
+    city?: string;
+    device_type?: string;
+    browser?: string;
+    os?: string;
+    timestamp: Date;
+  }>;
 }
 
 // Check if analytics is unlocked via cookie
@@ -36,13 +63,21 @@ function isUnlocked(): boolean {
 
 export default function AnalyticsPage() {
   const [stats, setStats] = useState<AnalyticsStats | null>(null);
+  const [visitors, setVisitors] = useState<VisitorProfile[]>([]);
+  const [totalVisitors, setTotalVisitors] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [loadingVisitors, setLoadingVisitors] = useState(false);
   const [days, setDays] = useState(30);
   const [error, setError] = useState<string | null>(null);
   const [unlocked, setUnlocked] = useState(false);
   const [keySequence, setKeySequence] = useState<string[]>([]);
   const [resetting, setResetting] = useState(false);
+  const [visitorPage, setVisitorPage] = useState(0);
+  const [recentVisitsPage, setRecentVisitsPage] = useState(0);
+  const [selectedVisitor, setSelectedVisitor] = useState<VisitorProfile | null>(null);
   const router = useRouter();
+  
+  const RECENT_VISITS_PER_PAGE = 20;
 
   // Check cookie on mount (client-side only)
   useEffect(() => {
@@ -117,6 +152,54 @@ export default function AnalyticsPage() {
     }
   };
 
+  const fetchVisitors = async (page: number = 0) => {
+    setLoadingVisitors(true);
+    setError(null);
+    try {
+      const response = await fetch('/api/analytics/stats', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          days,
+          limit: 50,
+          offset: page * 50,
+        }),
+      });
+      
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.details || errorData.error || `Failed to fetch visitors: ${response.status}`);
+      }
+      
+      const data = await response.json();
+      setVisitors(data.visitors || []);
+      setTotalVisitors(data.total || 0);
+    } catch (err: any) {
+      console.error('Error fetching visitors:', err);
+      setError(err.message || 'Failed to load visitors');
+    } finally {
+      setLoadingVisitors(false);
+    }
+  };
+
+  // Helper function to mask IP address for privacy
+  const maskIP = (ip: string): string => {
+    if (!ip) return 'Unknown';
+    const parts = ip.split('.');
+    if (parts.length === 4) {
+      // IPv4: show first 2 octets
+      return `${parts[0]}.${parts[1]}.xxx.xxx`;
+    }
+    // IPv6: show first 3 groups
+    const ipv6Parts = ip.split(':');
+    if (ipv6Parts.length > 3) {
+      return `${ipv6Parts.slice(0, 3).join(':')}:xxxx:xxxx`;
+    }
+    return ip;
+  };
+
   const handleReset = async () => {
     if (!confirm('Are you sure you want to delete ALL analytics data? This action cannot be undone.')) {
       return;
@@ -143,8 +226,10 @@ export default function AnalyticsPage() {
   useEffect(() => {
     if (unlocked) {
       fetchStats();
+      fetchVisitors(visitorPage);
+      setRecentVisitsPage(0); // Reset to first page when days filter changes
     }
-  }, [days, unlocked]);
+  }, [days, unlocked, visitorPage]);
 
   // Show loading or locked screen while checking
   if (typeof window === 'undefined' || !unlocked) {
@@ -416,7 +501,7 @@ export default function AnalyticsPage() {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Calendar className="h-5 w-5" />
-                  Recent Visits
+                  Recent Visits ({stats.recentVisits.length.toLocaleString()})
                 </CardTitle>
                 <CardDescription>Latest visitor activity</CardDescription>
               </CardHeader>
@@ -426,6 +511,7 @@ export default function AnalyticsPage() {
                     <thead>
                       <tr className="border-b">
                         <th className="text-left p-2">Time</th>
+                        <th className="text-left p-2">Name</th>
                         <th className="text-left p-2">Page</th>
                         <th className="text-left p-2">Location</th>
                         <th className="text-left p-2">Device</th>
@@ -434,10 +520,19 @@ export default function AnalyticsPage() {
                       </tr>
                     </thead>
                     <tbody>
-                      {stats.recentVisits.slice(0, 20).map((visit) => (
+                      {stats.recentVisits
+                        .slice(recentVisitsPage * RECENT_VISITS_PER_PAGE, (recentVisitsPage + 1) * RECENT_VISITS_PER_PAGE)
+                        .map((visit) => (
                         <tr key={visit.id} className="border-b hover:bg-muted/50">
                           <td className="p-2 text-muted-foreground">
                             {new Date(visit.timestamp).toLocaleString()}
+                          </td>
+                          <td className="p-2">
+                            {visit.name ? (
+                              <span className="font-semibold text-primary">{visit.name}</span>
+                            ) : (
+                              <span className="text-muted-foreground">—</span>
+                            )}
                           </td>
                           <td className="p-2 font-medium">{visit.page}</td>
                           <td className="p-2 text-muted-foreground">
@@ -466,9 +561,275 @@ export default function AnalyticsPage() {
                     </tbody>
                   </table>
                 </div>
+                {/* Pagination for Recent Visits */}
+                {stats.recentVisits.length > RECENT_VISITS_PER_PAGE && (
+                  <div className="flex items-center justify-between mt-4 pt-4 border-t">
+                    <p className="text-sm text-muted-foreground">
+                      Showing {recentVisitsPage * RECENT_VISITS_PER_PAGE + 1}-{Math.min((recentVisitsPage + 1) * RECENT_VISITS_PER_PAGE, stats.recentVisits.length)} of {stats.recentVisits.length} visits
+                    </p>
+                    <div className="flex gap-2">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => setRecentVisitsPage(p => Math.max(0, p - 1))}
+                        disabled={recentVisitsPage === 0}
+                      >
+                        <ChevronLeft className="h-4 w-4" />
+                        Previous
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => setRecentVisitsPage(p => p + 1)}
+                        disabled={(recentVisitsPage + 1) * RECENT_VISITS_PER_PAGE >= stats.recentVisits.length}
+                      >
+                        Next
+                        <ChevronRight className="h-4 w-4 ml-1" />
+                      </Button>
+                    </div>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+
+            {/* All Visitors */}
+            <Card>
+              <CardHeader>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <CardTitle className="flex items-center gap-2">
+                      <Users className="h-5 w-5" />
+                      All Visitors ({totalVisitors.toLocaleString()})
+                    </CardTitle>
+                    <CardDescription>Detailed visitor profiles with visit history</CardDescription>
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent>
+                {loadingVisitors ? (
+                  <div className="flex items-center justify-center py-8">
+                    <RefreshCw className="h-6 w-6 animate-spin text-muted-foreground" />
+                    <span className="ml-3 text-muted-foreground">Loading visitors...</span>
+                  </div>
+                ) : visitors.length === 0 ? (
+                  <p className="text-center text-muted-foreground py-8">No visitors found</p>
+                ) : (
+                  <>
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-sm">
+                        <thead>
+                          <tr className="border-b">
+                            <th className="text-left p-2">Name</th>
+                            <th className="text-left p-2">IP Address</th>
+                            <th className="text-left p-2">Location</th>
+                            <th className="text-left p-2">Device</th>
+                            <th className="text-left p-2">Browser/OS</th>
+                            <th className="text-left p-2">Visits</th>
+                            <th className="text-left p-2">First Visit</th>
+                            <th className="text-left p-2">Last Visit</th>
+                            <th className="text-left p-2">Actions</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {visitors.map((visitor) => (
+                            <tr key={visitor.ip} className="border-b hover:bg-muted/50">
+                              <td className="p-2">
+                                {visitor.name ? (
+                                  <span className="font-semibold text-primary">{visitor.name}</span>
+                                ) : (
+                                  <span className="text-muted-foreground">—</span>
+                                )}
+                              </td>
+                              <td className="p-2 font-mono text-xs">{maskIP(visitor.ip)}</td>
+                              <td className="p-2 text-muted-foreground">
+                                {visitor.city && visitor.country
+                                  ? `${visitor.city}, ${visitor.country}`
+                                  : visitor.country || 'Unknown'}
+                              </td>
+                              <td className="p-2 text-muted-foreground">{visitor.device_type || 'Unknown'}</td>
+                              <td className="p-2 text-muted-foreground">
+                                {visitor.browser || 'Unknown'} / {visitor.os || 'Unknown'}
+                              </td>
+                              <td className="p-2 font-semibold">{visitor.totalVisits}</td>
+                              <td className="p-2 text-muted-foreground text-xs">
+                                {new Date(visitor.firstVisit).toLocaleDateString()}
+                              </td>
+                              <td className="p-2 text-muted-foreground text-xs">
+                                {new Date(visitor.lastVisit).toLocaleString()}
+                              </td>
+                              <td className="p-2">
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  onClick={() => setSelectedVisitor(visitor)}
+                                  className="h-7"
+                                >
+                                  <Eye className="h-3 w-3 mr-1" />
+                                  View
+                                </Button>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                    {/* Pagination */}
+                    <div className="flex items-center justify-between mt-4 pt-4 border-t">
+                      <p className="text-sm text-muted-foreground">
+                        Showing {visitorPage * 50 + 1}-{Math.min((visitorPage + 1) * 50, totalVisitors)} of {totalVisitors} visitors
+                      </p>
+                      <div className="flex gap-2">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => setVisitorPage(p => Math.max(0, p - 1))}
+                          disabled={visitorPage === 0 || loadingVisitors}
+                        >
+                          <ChevronLeft className="h-4 w-4" />
+                          Previous
+                        </Button>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => setVisitorPage(p => p + 1)}
+                          disabled={(visitorPage + 1) * 50 >= totalVisitors || loadingVisitors}
+                        >
+                          Next
+                          <ChevronRight className="h-4 w-4 ml-1" />
+                        </Button>
+                      </div>
+                    </div>
+                  </>
+                )}
               </CardContent>
             </Card>
           </>
+        )}
+
+        {/* Visitor Detail Modal */}
+        {selectedVisitor && (
+          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" onClick={() => setSelectedVisitor(null)}>
+            <Card className="max-w-4xl w-full max-h-[90vh] overflow-hidden" onClick={(e) => e.stopPropagation()}>
+              <CardHeader className="flex items-center justify-between border-b">
+                <div>
+                  <CardTitle>Visitor Details</CardTitle>
+                  <CardDescription className="font-mono text-xs mt-1">{selectedVisitor.ip}</CardDescription>
+                </div>
+                <Button variant="ghost" size="sm" onClick={() => setSelectedVisitor(null)}>
+                  <X className="h-4 w-4" />
+                </Button>
+              </CardHeader>
+              <CardContent className="overflow-y-auto max-h-[calc(90vh-120px)]">
+                <div className="space-y-6 pt-4">
+                  {/* Visitor Info */}
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    {selectedVisitor.name && (
+                      <div>
+                        <p className="text-xs text-muted-foreground mb-1">Name</p>
+                        <p className="font-medium text-primary text-lg">{selectedVisitor.name}</p>
+                      </div>
+                    )}
+                    <div>
+                      <p className="text-xs text-muted-foreground mb-1">Location</p>
+                      <p className="font-medium">
+                        {selectedVisitor.city && selectedVisitor.country
+                          ? `${selectedVisitor.city}, ${selectedVisitor.country}`
+                          : selectedVisitor.country || 'Unknown'}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-xs text-muted-foreground mb-1">Device</p>
+                      <p className="font-medium">{selectedVisitor.device_type || 'Unknown'}</p>
+                    </div>
+                    <div>
+                      <p className="text-xs text-muted-foreground mb-1">Browser</p>
+                      <p className="font-medium">{selectedVisitor.browser || 'Unknown'}</p>
+                    </div>
+                    <div>
+                      <p className="text-xs text-muted-foreground mb-1">OS</p>
+                      <p className="font-medium">{selectedVisitor.os || 'Unknown'}</p>
+                    </div>
+                    <div>
+                      <p className="text-xs text-muted-foreground mb-1">Total Visits</p>
+                      <p className="font-medium text-lg">{selectedVisitor.totalVisits}</p>
+                    </div>
+                    <div>
+                      <p className="text-xs text-muted-foreground mb-1">Pages Visited</p>
+                      <p className="font-medium">{selectedVisitor.pages.length}</p>
+                    </div>
+                    <div>
+                      <p className="text-xs text-muted-foreground mb-1">First Visit</p>
+                      <p className="font-medium text-xs">{new Date(selectedVisitor.firstVisit).toLocaleString()}</p>
+                    </div>
+                    <div>
+                      <p className="text-xs text-muted-foreground mb-1">Last Visit</p>
+                      <p className="font-medium text-xs">{new Date(selectedVisitor.lastVisit).toLocaleString()}</p>
+                    </div>
+                  </div>
+
+                  {/* Pages Visited */}
+                  <div>
+                    <p className="text-sm font-semibold mb-2">Pages Visited</p>
+                    <div className="flex flex-wrap gap-2">
+                      {selectedVisitor.pages.map((page, idx) => (
+                        <Badge key={idx} variant="outline">{page}</Badge>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Visit History */}
+                  <div>
+                    <p className="text-sm font-semibold mb-2">Visit History ({selectedVisitor.visits.length} visits)</p>
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-xs">
+                        <thead>
+                          <tr className="border-b">
+                            <th className="text-left p-2">Time</th>
+                            <th className="text-left p-2">Name</th>
+                            <th className="text-left p-2">Page</th>
+                            <th className="text-left p-2">Path</th>
+                            <th className="text-left p-2">Referrer</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {selectedVisitor.visits.map((visit) => (
+                            <tr key={visit.id} className="border-b hover:bg-muted/50">
+                              <td className="p-2 text-muted-foreground">
+                                {new Date(visit.timestamp).toLocaleString()}
+                              </td>
+                              <td className="p-2">
+                                {visit.name ? (
+                                  <span className="font-semibold text-primary">{visit.name}</span>
+                                ) : (
+                                  <span className="text-muted-foreground">—</span>
+                                )}
+                              </td>
+                              <td className="p-2 font-medium">{visit.page}</td>
+                              <td className="p-2 text-muted-foreground font-mono text-xs">{visit.path}</td>
+                              <td className="p-2 text-muted-foreground truncate max-w-xs">
+                                {visit.referrer ? (
+                                  <a
+                                    href={visit.referrer}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="hover:underline"
+                                  >
+                                    {visit.referrer.replace(/^https?:\/\//, '').split('/')[0]}
+                                  </a>
+                                ) : (
+                                  'Direct'
+                                )}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
         )}
       </div>
     </div>
