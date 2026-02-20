@@ -812,4 +812,8 @@
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
   }
+
+  .writing-vertical-lr {
+    writing-mode: vertical-lr;
+  }
 }
