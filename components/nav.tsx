@@ -29,6 +29,7 @@ export function Nav() {
     { href: "/#projects", label: "Projects", hash: "#projects" },
     { href: "/#music", label: "Music", hash: "#music" },
     { href: "/#hobbies", label: "Hobbies", hash: "#hobbies" },
+    { href: "/#goals", label: "2026 Goals", hash: "#goals" },
   ];
 
   return (

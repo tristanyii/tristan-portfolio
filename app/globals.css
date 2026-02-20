@@ -264,10 +264,24 @@
 
   @keyframes shimmer {
     0% {
-      background-position: -1000px 0;
+      background-position: -100% 0;
     }
     100% {
-      background-position: 1000px 0;
+      background-position: 100% 0;
+    }
+  }
+  
+  @keyframes shimmer-slide {
+    0% {
+      transform: translateX(-100%);
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateX(100%);
+      opacity: 0;
     }
   }
 

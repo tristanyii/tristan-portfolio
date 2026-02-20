@@ -8,6 +8,7 @@ import { Reveal } from "@/components/reveal";
 const SpotifySection = dynamic(() => import("@/components/spotify-section").then(m => m.SpotifySection), { ssr: true, loading: () => null });
 import { ClientLocalMusicPlayer } from "@/components/client-local-music";
 import { HobbiesSection } from "@/components/hobbies-section";
+import { GoalsSection } from "@/components/goals-section";
 import { SkillsSection } from "@/components/skills-section";
 import { Nav } from "@/components/nav";
 import Image from "next/image";
@@ -661,6 +662,25 @@ export default function Home() {
           </div>
 
           <HobbiesSection />
+        </div>
+      </section>
+      </Reveal>
+
+      {/* 2026 Goals - clickable card in hobbies style */}
+      <Reveal delayMs={200}>
+      <section id="goals" className="container mx-auto px-4 py-24 scroll-mt-16">
+        <div className="space-y-12 max-w-6xl mx-auto">
+          <div className="text-center space-y-4">
+            <h2 className="text-4xl font-bold tracking-tight sm:text-5xl text-foreground">
+              2026 Goals
+            </h2>
+            <p className="text-muted-foreground text-lg">What I&apos;m working towards this year</p>
+          </div>
+          <div className="flex justify-center">
+            <div className="w-full max-w-sm">
+              <GoalsSection />
+            </div>
+          </div>
         </div>
       </section>
       </Reveal>
