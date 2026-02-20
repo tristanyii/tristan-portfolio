@@ -43,6 +43,9 @@ export function Nav() {
           <Button variant="ghost" size="sm" className="hover:bg-primary/20 hover:text-primary transition-all hover:scale-105" asChild>
             <a href="#hobbies">Hobbies</a>
           </Button>
+          <Button variant="ghost" size="sm" className="hover:bg-primary/20 hover:text-primary transition-all hover:scale-105" asChild>
+            <a href="#goals">Goals</a>
+          </Button>
           {isAdmin && (
             <Button variant="ghost" size="sm" className="hover:bg-primary/20 hover:text-primary transition-all hover:scale-105" asChild>
               <a href="/analytics" className="flex items-center gap-1">
@@ -121,6 +124,13 @@ export function Nav() {
               onClick={() => setMobileMenuOpen(false)}
             >
               Hobbies
+            </a>
+            <a
+              href="#goals"
+              className="block px-4 py-2 rounded-lg hover:bg-primary/20 transition-colors text-center"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Goals
             </a>
             {isAdmin && (
               <a
