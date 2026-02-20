@@ -12,7 +12,6 @@ import { ProjectsSection } from "@/components/projects-section";
 import { Nav } from "@/components/nav";
 import Image from "next/image";
 import { EditableText } from "@/components/editable-text";
-
 const techStack = {
   "Languages": ["TypeScript", "JavaScript", "Python", "Java", "C", "C#", "Swift"],
   "Frameworks": ["React", "Next.js", "Flask", "HTML/CSS"],

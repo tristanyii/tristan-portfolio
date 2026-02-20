@@ -911,4 +911,31 @@
   .animate-music-bar {
     animation: music-bar 0.8s ease-in-out infinite;
   }
+
+  /* Intro animation */
+  .intro-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: hsl(var(--background));
+  }
+  .intro-exit {
+    animation: intro-slide-up 700ms cubic-bezier(0.76, 0, 0.24, 1) forwards;
+  }
+  @keyframes intro-slide-up {
+    0%   { transform: translateY(0); opacity: 1; }
+    100% { transform: translateY(-100%); opacity: 0; }
+  }
+  .intro-cursor {
+    animation: intro-blink 0.6s step-end infinite;
+    color: hsl(var(--primary));
+    margin-left: 1px;
+  }
+  @keyframes intro-blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
 }

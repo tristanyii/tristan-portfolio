@@ -5,6 +5,7 @@ import { Providers } from "@/components/providers";
 import { AnalyticsTracker } from "@/components/analytics-tracker";
 import { AnalyticsUnlock } from "@/components/analytics-unlock";
 import { AdminProvider } from "@/components/admin-provider";
+import { IntroAnimation } from "@/components/intro-animation";
 
 // Modern, friendly sans for body text
 const geistSans = Plus_Jakarta_Sans({
@@ -78,6 +79,7 @@ export default function RootLayout({
           <AnalyticsTracker />
           <AnalyticsUnlock />
           <AdminProvider>
+            <IntroAnimation />
             {children}
           </AdminProvider>
         </Providers>
