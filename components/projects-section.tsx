@@ -94,11 +94,11 @@ export function ProjectsSection() {
 
   return (
     <div className="max-w-7xl mx-auto">
-      <div className="mb-12">
-        <EditableText contentKey="section.projects.label" defaultValue="Portfolio" as="p" className="text-base uppercase tracking-[0.2em] text-muted-foreground/50 mb-2" />
-        <div className="flex items-baseline gap-4">
-          <EditableText contentKey="section.projects.title" defaultValue="Projects" as="h2" className="text-5xl sm:text-6xl font-bold text-foreground" />
-          <EditableText contentKey="section.projects.subtitle" defaultValue="2x Hackathon Winner" as="span" className="text-base text-muted-foreground/40" />
+      <div className="mb-8 sm:mb-12">
+        <EditableText contentKey="section.projects.label" defaultValue="Portfolio" as="p" className="text-sm sm:text-base uppercase tracking-[0.2em] text-muted-foreground/50 mb-2" />
+        <div className="flex items-baseline gap-2 sm:gap-4 flex-wrap">
+          <EditableText contentKey="section.projects.title" defaultValue="Projects" as="h2" className="text-3xl sm:text-5xl md:text-6xl font-bold text-foreground" />
+          <EditableText contentKey="section.projects.subtitle" defaultValue="2x Hackathon Winner" as="span" className="text-sm sm:text-base text-muted-foreground/40" />
           {isAdmin && (
             <button
               onClick={addProject}
@@ -142,20 +142,20 @@ export function ProjectsSection() {
                 </div>
 
                 <div className="flex-1 min-w-0">
-                  <div className="flex items-baseline gap-3 flex-wrap">
-                    <EditableText contentKey={`${key}.title`} defaultValue={p.title} as="h3" className="text-3xl font-bold text-foreground" />
-                    <EditableText contentKey={`${key}.subtitle`} defaultValue={p.subtitle} as="span" className="text-lg text-muted-foreground" />
+                  <div className="flex items-baseline gap-2 sm:gap-3 flex-wrap">
+                    <EditableText contentKey={`${key}.title`} defaultValue={p.title} as="h3" className="text-2xl sm:text-3xl font-bold text-foreground" />
+                    <EditableText contentKey={`${key}.subtitle`} defaultValue={p.subtitle} as="span" className="text-base sm:text-lg text-muted-foreground" />
                   </div>
 
-                  <EditableText contentKey={`${key}.desc`} defaultValue={p.description} as="p" className="text-lg text-muted-foreground mt-2 leading-relaxed max-w-3xl" multiline />
+                  <EditableText contentKey={`${key}.desc`} defaultValue={p.description} as="p" className="text-base sm:text-lg text-muted-foreground mt-2 leading-relaxed" multiline />
 
-                  <div className="flex flex-wrap items-center gap-3 mt-3">
+                  <div className="flex flex-wrap items-center gap-2 sm:gap-3 mt-3">
                     <div className="flex flex-wrap gap-1.5">
                       {isAdmin ? (
-                        <EditableText contentKey={`${key}.tags`} defaultValue={p.tags.join(", ")} as="span" className="text-base text-muted-foreground" />
+                        <EditableText contentKey={`${key}.tags`} defaultValue={p.tags.join(", ")} as="span" className="text-sm sm:text-base text-muted-foreground" />
                       ) : (
                         displayTags.map((t) => (
-                          <span key={t} className="text-base px-3 py-1 rounded-full border border-border text-muted-foreground">{t}</span>
+                          <span key={t} className="text-sm sm:text-base px-2 sm:px-3 py-0.5 sm:py-1 rounded-full border border-border text-muted-foreground">{t}</span>
                         ))
                       )}
                     </div>

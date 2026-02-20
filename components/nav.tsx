@@ -88,54 +88,29 @@ export function Nav() {
 
       {/* Mobile Navigation Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-t glass">
-          <div className="container mx-auto px-4 py-4 space-y-2">
-            <a
-              href="#home"
-              className="block px-4 py-2 rounded-lg hover:bg-primary/20 transition-colors text-center"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Home
-            </a>
-            <a
-              href="#experience"
-              className="block px-4 py-2 rounded-lg hover:bg-primary/20 transition-colors text-center"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Experience
-            </a>
-            <a
-              href="#projects"
-              className="block px-4 py-2 rounded-lg hover:bg-primary/20 transition-colors text-center"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Projects
-            </a>
-            <a
-              href="#music"
-              className="block px-4 py-2 rounded-lg hover:bg-primary/20 transition-colors text-center"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Music
-            </a>
-            <a
-              href="#hobbies"
-              className="block px-4 py-2 rounded-lg hover:bg-primary/20 transition-colors text-center"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Hobbies
-            </a>
-            <a
-              href="#goals"
-              className="block px-4 py-2 rounded-lg hover:bg-primary/20 transition-colors text-center"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Goals
-            </a>
+        <div className="md:hidden border-t glass animate-in slide-in-from-top-2 duration-200">
+          <div className="container mx-auto px-4 py-3 space-y-1">
+            {[
+              { href: "#home", label: "Home" },
+              { href: "#experience", label: "Experience" },
+              { href: "#projects", label: "Projects" },
+              { href: "#music", label: "Music" },
+              { href: "#hobbies", label: "Hobbies" },
+              { href: "#goals", label: "Goals" },
+            ].map((item) => (
+              <a
+                key={item.href}
+                href={item.href}
+                className="block px-4 py-3 rounded-lg hover:bg-primary/10 active:bg-primary/20 transition-colors text-center text-base font-medium"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                {item.label}
+              </a>
+            ))}
             {isAdmin && (
               <a
                 href="/analytics"
-                className="block px-4 py-2 rounded-lg hover:bg-primary/20 transition-colors text-center flex items-center justify-center gap-2"
+                className="flex items-center justify-center gap-2 px-4 py-3 rounded-lg hover:bg-primary/10 active:bg-primary/20 transition-colors text-center text-base font-medium"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 <BarChart3 className="h-4 w-4" />
@@ -143,8 +118,7 @@ export function Nav() {
               </a>
             )}
           </div>
-          {/* Mobile theme toggle */}
-          <div className="container mx-auto px-4 pb-4 flex justify-center">
+          <div className="container mx-auto px-4 pb-3 flex justify-center">
             <Button
               variant="outline"
               size="sm"
@@ -158,7 +132,7 @@ export function Nav() {
             >
               <Sun className="h-4 w-4 mr-2 hidden dark:inline" />
               <Moon className="h-4 w-4 mr-2 dark:hidden" />
-              Toggle Theme
+              Theme
             </Button>
           </div>
         </div>

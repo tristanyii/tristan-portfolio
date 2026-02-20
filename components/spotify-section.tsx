@@ -401,14 +401,14 @@ export function SpotifySection() {
 
   return (
     <div className="space-y-12">
-      <div className="text-center space-y-4">
+      <div className="text-center space-y-3 sm:space-y-4">
         <EditableText contentKey="section.music.label" defaultValue="What I Listen To" as="p" className="text-sm uppercase tracking-[0.2em] text-muted-foreground/50 mb-2" />
-        <EditableText contentKey="section.music.title" defaultValue="Music" as="h2" className="text-5xl font-bold tracking-tight sm:text-6xl text-foreground" />
-        <div className="flex items-center justify-center gap-2">
-          <p className="text-muted-foreground text-xl">
+        <EditableText contentKey="section.music.title" defaultValue="Music" as="h2" className="text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight text-foreground" />
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-3">
+          <p className="text-muted-foreground text-base sm:text-xl">
             Artists I&apos;m currently listening to on Spotify ({timeRange === 'medium_term' ? 'last 6 months' : 'all time'})
           </p>
-          <div className="flex gap-2 ml-3">
+          <div className="flex gap-2">
             <Button
               variant={timeRange === 'medium_term' ? 'default' : 'outline'}
               size="sm"
@@ -444,7 +444,7 @@ export function SpotifySection() {
         <div className="block md:hidden space-y-6">
           {/* Top 3 Artists - Large Cards */}
           <div className="space-y-4">
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-3 gap-2 sm:gap-4">
               {topArtists.slice(0, 3).map((artist, index) => (
                   <Card 
                     key={artist.id} 
@@ -458,24 +458,24 @@ export function SpotifySection() {
                       willChange: index >= visibleArtists ? 'opacity, transform' : 'auto',
                     }}
                   >
-                  <div className="absolute top-2 right-2 bg-primary text-primary-foreground rounded-full w-8 h-8 flex items-center justify-center font-bold text-sm group-hover:scale-110 transition-transform z-10">
+                  <div className="absolute top-1.5 right-1.5 sm:top-2 sm:right-2 bg-primary text-primary-foreground rounded-full w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center font-bold text-xs sm:text-sm group-hover:scale-110 transition-transform z-10">
                     #{index + 1}
                   </div>
-                  <CardHeader className="text-center p-4">
+                  <CardHeader className="text-center p-2 sm:p-4">
                     {artist.images[0] ? (
                       <img
                         src={artist.images[0].url}
                         alt={artist.name}
-                        className="w-20 h-20 mx-auto mb-2 rounded-full object-cover shadow-lg group-hover:scale-110 transition-transform"
+                        className="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-2 rounded-full object-cover shadow-lg group-hover:scale-110 transition-transform"
                       />
                     ) : (
-                      <div className="w-20 h-20 mx-auto mb-2 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white text-xl font-bold">
+                      <div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-2 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white text-lg sm:text-xl font-bold">
                         {artist.name.slice(0, 2).toUpperCase()}
                       </div>
                     )}
-                    <CardTitle className="text-xs group-hover:text-primary transition-colors line-clamp-2">{artist.name}</CardTitle>
+                    <CardTitle className="text-[11px] sm:text-xs group-hover:text-primary transition-colors line-clamp-2">{artist.name}</CardTitle>
                     <div className="flex flex-wrap gap-1 justify-center mt-1">
-                      <span className="text-[9px] bg-secondary px-1.5 py-0.5 rounded-full hover:bg-primary/10 transition-colors line-clamp-1">
+                      <span className="text-[9px] sm:text-[10px] bg-secondary px-1.5 py-0.5 rounded-full hover:bg-primary/10 transition-colors line-clamp-1">
                         {getGenre(artist.name, artist.genres)}
                       </span>
                     </div>

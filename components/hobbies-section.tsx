@@ -22,7 +22,7 @@ export function HobbiesSection() {
       <TravelMap isOpen={isTravelMapOpen} onClose={() => setIsTravelMapOpen(false)} />
       <PhotographyGallery isOpen={isPhotographyOpen} onClose={() => setIsPhotographyOpen(false)} />
       
-      <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-4 sm:gap-8 md:grid-cols-2 lg:grid-cols-3">
         {hobbies.map((hobby, idx) => (
         <div
           key={idx}
@@ -76,7 +76,7 @@ export function HobbiesSection() {
               src="/12761818.png"
               alt="arrow"
               aria-hidden="true"
-              className="pointer-events-none absolute -left-8 md:-left-12 top-1/2 -translate-y-1/2 w-12 h-12 md:w-16 md:h-16 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300 animate-twisty-bounce rotate-12"
+              className="pointer-events-none absolute -left-4 sm:-left-8 md:-left-12 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-12 sm:h-12 md:w-16 md:h-16 opacity-0 sm:opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300 animate-twisty-bounce rotate-12"
             />
           )}
         </div>

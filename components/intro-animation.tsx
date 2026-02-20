@@ -45,17 +45,17 @@ export function IntroAnimation() {
     <div
       className={`intro-overlay ${phase === "exit" ? "intro-exit" : ""}`}
     >
-      <div className="flex flex-col items-center gap-6">
+      <div className="flex flex-col items-center gap-4 sm:gap-6 px-4">
         <img
           src="/snorlax-pixel.gif"
           alt="Snorlax"
-          className={`w-28 h-28 sm:w-36 sm:h-36 object-contain drop-shadow-2xl transition-opacity duration-500 ${
+          className={`w-24 h-24 sm:w-36 sm:h-36 object-contain drop-shadow-2xl transition-opacity duration-500 ${
             phase === "snorlax" || phase === "typing" || phase === "exit" ? "opacity-100" : "opacity-0"
           }`}
         />
-        <div className="h-12 flex items-center">
+        <div className="h-10 sm:h-12 flex items-center">
           {(phase === "typing" || phase === "exit") && (
-            <span className="text-3xl sm:text-4xl font-bold tracking-tight text-white">
+            <span className="text-2xl sm:text-4xl font-bold tracking-tight text-white">
               {name.slice(0, typedLen)}
               <span className="intro-cursor">|</span>
             </span>

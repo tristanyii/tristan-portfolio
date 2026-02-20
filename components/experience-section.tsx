@@ -396,15 +396,15 @@ export function ExperienceSection() {
       {/* Mobile: stacked panels */}
       <div className="md:hidden px-4">
         <div className="flex items-center gap-3 mb-2">
-          <EditableText contentKey="section.experience.label" defaultValue="Experience" as="p" className="text-base uppercase tracking-[0.2em] text-muted-foreground/50" />
+          <EditableText contentKey="section.experience.label" defaultValue="Experience" as="p" className="text-sm uppercase tracking-[0.2em] text-muted-foreground/50" />
           {isAdmin && (
             <button onClick={addExperience} className="p-1 rounded border border-dashed border-primary/40 text-primary/60 hover:text-primary hover:border-primary transition-colors">
               <Plus className="h-4 w-4" />
             </button>
           )}
         </div>
-        <EditableText contentKey="section.experience.title" defaultValue="Work" as="h2" className="text-4xl sm:text-5xl font-bold text-foreground mb-8" />
-        <div className="space-y-4">
+        <EditableText contentKey="section.experience.title" defaultValue="Work" as="h2" className="text-3xl sm:text-5xl font-bold text-foreground mb-6" />
+        <div className="space-y-5">
           {orderedExperiences.map((exp, i) => {
             const origIdx = experiences.indexOf(exp);
             const key = getExpKey(exp, origIdx);
@@ -423,7 +423,7 @@ export function ExperienceSection() {
                     <Trash2 className="h-3.5 w-3.5" />
                   </button>
                 )}
-                <div className="relative h-28 bg-[#161616]">
+                <div className="relative h-32 bg-[#161616]">
                   <div className="absolute inset-0 panel-dots" />
                   <EditableText
                     contentKey={`${key}.bgText`}
@@ -432,27 +432,27 @@ export function ExperienceSection() {
                     className="absolute inset-0 flex items-center justify-center text-[3rem] font-black text-white/[0.025] select-none leading-none tracking-tighter"
                     adminClassName="ghost-text"
                   />
-                  <div className="absolute bottom-3 left-3">
-                    <div className="w-10 h-10 rounded-md bg-white/[0.04] border border-white/[0.08] flex items-center justify-center overflow-hidden">
+                  <div className="absolute bottom-3 left-4">
+                    <div className="w-11 h-11 rounded-lg bg-white/[0.06] border border-white/[0.1] flex items-center justify-center overflow-hidden">
                       <EditableImage
                         contentKey={`${key}.logo`}
                         defaultSrc={exp.link?.logo || ""}
                         alt={exp.link?.label || exp.org}
-                        className="w-7 h-7 object-contain"
+                        className="w-8 h-8 object-contain"
                       />
                     </div>
                   </div>
                 </div>
-                <div className="p-5 border border-t-0 border-border bg-card rounded-b-xl">
+                <div className="p-4 sm:p-5 border border-t-0 border-border bg-card rounded-b-xl">
                   <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground/40 mb-1">{exp.num}</p>
-                  <EditableText contentKey={`${key}.org`} defaultValue={exp.org} as="h3" className="text-3xl font-bold text-foreground" />
-                  <EditableText contentKey={`${key}.role`} defaultValue={exp.role} as="h4" className="text-xl font-semibold text-foreground mt-2 border-b border-foreground/20 pb-1 inline-block" />
-                  <EditableText contentKey={`${key}.desc`} defaultValue={exp.description} as="p" className="text-xl text-muted-foreground mt-2 leading-relaxed" multiline />
+                  <EditableText contentKey={`${key}.org`} defaultValue={exp.org} as="h3" className="text-2xl sm:text-3xl font-bold text-foreground" />
+                  <EditableText contentKey={`${key}.role`} defaultValue={exp.role} as="h4" className="text-base sm:text-lg font-semibold text-foreground mt-2 border-b border-foreground/20 pb-1 inline-block" />
+                  <EditableText contentKey={`${key}.desc`} defaultValue={exp.description} as="p" className="text-base sm:text-lg text-muted-foreground mt-2 leading-relaxed" multiline />
                   <div className="mt-3 flex items-center justify-between">
-                    <EditableText contentKey={`${key}.date`} defaultValue={exp.date} as="span" className="text-base font-mono text-muted-foreground/40" />
+                    <EditableText contentKey={`${key}.date`} defaultValue={exp.date} as="span" className="text-sm font-mono text-muted-foreground/40" />
                     {exp.link && (
-                      <a href={exp.link.href} target="_blank" rel="noopener noreferrer" className="text-muted-foreground/40 hover:text-foreground transition-colors">
-                        <ExternalLink className="h-3.5 w-3.5" />
+                      <a href={exp.link.href} target="_blank" rel="noopener noreferrer" className="text-muted-foreground/40 hover:text-foreground transition-colors p-1">
+                        <ExternalLink className="h-4 w-4" />
                       </a>
                     )}
                   </div>
@@ -464,7 +464,7 @@ export function ExperienceSection() {
       </div>
 
       {/* Leadership */}
-      <div className="mx-auto px-6 lg:px-10 mt-10">
+      <div className="mx-auto px-4 sm:px-6 lg:px-10 mt-10">
       <div className="max-w-7xl mx-auto">
         <div className="flex items-baseline gap-4 mb-2">
           <EditableText contentKey="section.leadership.label" defaultValue="Involvement" as="p" className="text-base uppercase tracking-[0.2em] text-muted-foreground/50" />
@@ -474,13 +474,13 @@ export function ExperienceSection() {
             </button>
           )}
         </div>
-        <EditableText contentKey="section.leadership.title" defaultValue="Leadership" as="h2" className="text-5xl sm:text-6xl font-bold text-foreground mb-8" />
+        <EditableText contentKey="section.leadership.title" defaultValue="Leadership" as="h2" className="text-3xl sm:text-5xl md:text-6xl font-bold text-foreground mb-6 sm:mb-8" />
         <div className="grid gap-px sm:grid-cols-2 border border-border rounded-lg overflow-hidden">
           {orderedLeadership.map((l, i) => {
             const origIdx = leadership.indexOf(l);
             const key = getLeadKey(l, origIdx);
             return (
-              <div key={key} className={`bg-card p-6 flex flex-col relative ${leadDrag.overIdx === i && leadDrag.dragIdx !== i ? "drag-over" : ""}`} {...leadDrag.bind(i)}>
+              <div key={key} className={`bg-card p-4 sm:p-6 flex flex-col relative ${leadDrag.overIdx === i && leadDrag.dragIdx !== i ? "drag-over" : ""}`} {...leadDrag.bind(i)}>
                 {isAdmin && (
                   <div className="absolute top-3 left-3 drag-handle p-1.5 rounded-lg bg-muted hover:bg-muted-foreground/20 transition-colors z-10">
                     <GripVertical className="h-4 w-4 text-muted-foreground" />
@@ -494,10 +494,10 @@ export function ExperienceSection() {
                     <Trash2 className="h-3.5 w-3.5" />
                   </button>
                 )}
-                <EditableText contentKey={`${key}.date`} defaultValue={l.date} as="p" className="text-base font-mono text-muted-foreground/50 mb-3" />
-                <EditableText contentKey={`${key}.role`} defaultValue={l.role} as="h4" className="text-2xl font-semibold text-foreground" />
-                <EditableText contentKey={`${key}.org`} defaultValue={l.org} as="p" className="text-lg text-muted-foreground mb-3" />
-                <EditableText contentKey={`${key}.desc`} defaultValue={l.description} as="p" className="text-xl text-muted-foreground flex-1 leading-relaxed" multiline />
+                <EditableText contentKey={`${key}.date`} defaultValue={l.date} as="p" className="text-sm sm:text-base font-mono text-muted-foreground/50 mb-2 sm:mb-3" />
+                <EditableText contentKey={`${key}.role`} defaultValue={l.role} as="h4" className="text-xl sm:text-2xl font-semibold text-foreground" />
+                <EditableText contentKey={`${key}.org`} defaultValue={l.org} as="p" className="text-base sm:text-lg text-muted-foreground mb-2 sm:mb-3" />
+                <EditableText contentKey={`${key}.desc`} defaultValue={l.description} as="p" className="text-base sm:text-lg text-muted-foreground flex-1 leading-relaxed" multiline />
                 <a href={l.link.href} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 mt-4 text-sm text-muted-foreground hover:text-foreground transition-colors self-start">
                   <EditableImage contentKey={`${key}.logo`} defaultSrc={l.link.logo} alt={l.link.label} className="h-5 w-auto" />
                   <ExternalLink className="h-3 w-3" />
