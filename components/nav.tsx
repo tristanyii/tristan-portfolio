@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Menu, X, Sun, Moon, BarChart3 } from "lucide-react";
 import { useState } from "react";
 import { useAdmin } from "./admin-provider";
+import { EditableText } from "./editable-text";
 
 export function Nav() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -17,7 +18,12 @@ export function Nav() {
           className="text-2xl font-bold hover:opacity-70 transition-opacity flex items-center h-full text-foreground"
           onClick={() => setMobileMenuOpen(false)}
         >
-          Tristan Yi
+          <EditableText
+            contentKey="nav.logo"
+            defaultValue="Tristan Yi"
+            as="span"
+            className="text-2xl font-bold"
+          />
         </a>
         
         {/* Desktop Navigation */}

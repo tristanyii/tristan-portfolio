@@ -138,8 +138,18 @@ export default function Home() {
           <div className="flex flex-wrap gap-x-10 gap-y-4 justify-center lg:justify-start">
             {Object.entries(techStack).map(([category, items]) => (
               <div key={category} className="flex items-baseline gap-2">
-                <span className="text-base uppercase tracking-wider text-muted-foreground/50 shrink-0">{category}</span>
-                <span className="text-lg text-muted-foreground">{items.join(" · ")}</span>
+                <EditableText
+                  contentKey={`tech.${category}.label`}
+                  defaultValue={category}
+                  as="span"
+                  className="text-base uppercase tracking-wider text-muted-foreground/50 shrink-0"
+                />
+                <EditableText
+                  contentKey={`tech.${category}.items`}
+                  defaultValue={items.join(" · ")}
+                  as="span"
+                  className="text-lg text-muted-foreground"
+                />
               </div>
             ))}
           </div>
