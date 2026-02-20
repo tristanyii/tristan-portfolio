@@ -51,6 +51,8 @@ export function GoalsChecklist({ isOpen, onClose }: GoalsChecklistProps) {
   const [newCategory, setNewCategory] = useState("General");
   const [editingNote, setEditingNote] = useState<number | null>(null);
   const [noteText, setNoteText] = useState("");
+  const [editingTitle, setEditingTitle] = useState<number | null>(null);
+  const [titleText, setTitleText] = useState("");
   const [saving, setSaving] = useState(false);
   const countdown = useCountdown();
 
@@ -178,6 +180,28 @@ export function GoalsChecklist({ isOpen, onClose }: GoalsChecklistProps) {
       console.error("Failed to save note:", err);
     } finally {
       setSaving(false);
+    }
+  };
+
+  const saveTitle = async (goalId: number) => {
+    const trimmed = titleText.trim();
+    if (!trimmed) { setEditingTitle(null); return; }
+    setSaving(true);
+    try {
+      const res = await fetch("/api/goals", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: goalId, title: trimmed }),
+      });
+      if (res.ok) {
+        const updated = await res.json();
+        setGoals((prev) => prev.map((g) => (g.id === updated.id ? updated : g)));
+      }
+    } catch (err) {
+      console.error("Failed to save title:", err);
+    } finally {
+      setSaving(false);
+      setEditingTitle(null);
     }
   };
 
@@ -372,15 +396,36 @@ export function GoalsChecklist({ isOpen, onClose }: GoalsChecklistProps) {
                         </button>
 
                         <div className="flex-1 min-w-0">
-                          <span
-                            className={`text-base font-medium transition-all ${
-                              goal.completed
-                                ? "line-through text-muted-foreground"
-                                : "text-foreground"
-                            }`}
-                          >
-                            {goal.title}
-                          </span>
+                          {editingTitle === goal.id && isAdmin ? (
+                            <input
+                              value={titleText}
+                              onChange={(e) => setTitleText(e.target.value)}
+                              onBlur={() => saveTitle(goal.id)}
+                              onKeyDown={(e) => {
+                                if (e.key === "Enter") saveTitle(goal.id);
+                                if (e.key === "Escape") setEditingTitle(null);
+                              }}
+                              autoFocus
+                              className="text-base font-medium w-full bg-transparent outline-none border-b-2 border-primary/40 focus:border-primary px-0 py-0.5"
+                              style={{ font: "inherit", color: "inherit" }}
+                            />
+                          ) : (
+                            <span
+                              className={`text-base font-medium transition-all ${
+                                goal.completed
+                                  ? "line-through text-muted-foreground"
+                                  : "text-foreground"
+                              } ${isAdmin ? "cursor-pointer hover:text-primary" : ""}`}
+                              onClick={() => {
+                                if (isAdmin) {
+                                  setEditingTitle(goal.id);
+                                  setTitleText(goal.title);
+                                }
+                              }}
+                            >
+                              {goal.title}
+                            </span>
+                          )}
 
                           {/* Sticky note - always visible */}
                           {goal.note && editingNote !== goal.id && (

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Music2, Loader2, TrendingUp, Clock } from "lucide-react";
+import { EditableText } from "./editable-text";
 
 interface Artist {
   id: string;
@@ -104,13 +105,11 @@ export function SpotifySection() {
     return (
       <div className="space-y-12">
         <div className="text-center space-y-4">
-          <p className="text-sm uppercase tracking-[0.2em] text-muted-foreground/50 mb-2">What I Listen To</p>
-          <h2 className="text-5xl font-bold tracking-tight sm:text-6xl text-foreground">
-            Music
-          </h2>
+          <EditableText contentKey="section.music.label" defaultValue="What I Listen To" as="p" className="text-sm uppercase tracking-[0.2em] text-muted-foreground/50 mb-2" />
+          <EditableText contentKey="section.music.title" defaultValue="Music" as="h2" className="text-5xl font-bold tracking-tight sm:text-6xl text-foreground" />
           <div className="flex items-center justify-center gap-2">
             <p className="text-muted-foreground text-xl">
-              Artists I'm currently listening to on Spotify ({timeRange === 'medium_term' ? 'last 6 months' : 'all time'})
+              Artists I&apos;m currently listening to on Spotify ({timeRange === 'medium_term' ? 'last 6 months' : 'all time'})
             </p>
             <div className="flex gap-2 ml-3">
               <Button
@@ -366,10 +365,8 @@ export function SpotifySection() {
     return (
       <div className="space-y-8">
         <div className="text-center space-y-4">
-          <p className="text-sm uppercase tracking-[0.2em] text-muted-foreground/50 mb-2">What I Listen To</p>
-          <h2 className="text-5xl font-bold tracking-tight sm:text-6xl text-foreground">
-            Music
-          </h2>
+          <EditableText contentKey="section.music.label" defaultValue="What I Listen To" as="p" className="text-sm uppercase tracking-[0.2em] text-muted-foreground/50 mb-2" />
+          <EditableText contentKey="section.music.title" defaultValue="Music" as="h2" className="text-5xl font-bold tracking-tight sm:text-6xl text-foreground" />
           <div className="flex justify-center items-center py-12">
             <Loader2 className="h-8 w-8 animate-spin" />
             <span className="ml-3 text-muted-foreground">Loading my Spotify stats...</span>
@@ -383,10 +380,8 @@ export function SpotifySection() {
     return (
       <div className="space-y-8">
         <div className="text-center space-y-4">
-          <p className="text-sm uppercase tracking-[0.2em] text-muted-foreground/50 mb-2">What I Listen To</p>
-          <h2 className="text-5xl font-bold tracking-tight sm:text-6xl text-foreground">
-            Music
-          </h2>
+          <EditableText contentKey="section.music.label" defaultValue="What I Listen To" as="p" className="text-sm uppercase tracking-[0.2em] text-muted-foreground/50 mb-2" />
+          <EditableText contentKey="section.music.title" defaultValue="Music" as="h2" className="text-5xl font-bold tracking-tight sm:text-6xl text-foreground" />
           <p className="text-muted-foreground">Check out my Spotify profile!</p>
           <Button variant="outline" asChild>
             <a 
@@ -407,13 +402,11 @@ export function SpotifySection() {
   return (
     <div className="space-y-12">
       <div className="text-center space-y-4">
-        <p className="text-sm uppercase tracking-[0.2em] text-muted-foreground/50 mb-2">What I Listen To</p>
-        <h2 className="text-5xl font-bold tracking-tight sm:text-6xl text-foreground">
-          Music
-        </h2>
+        <EditableText contentKey="section.music.label" defaultValue="What I Listen To" as="p" className="text-sm uppercase tracking-[0.2em] text-muted-foreground/50 mb-2" />
+        <EditableText contentKey="section.music.title" defaultValue="Music" as="h2" className="text-5xl font-bold tracking-tight sm:text-6xl text-foreground" />
         <div className="flex items-center justify-center gap-2">
           <p className="text-muted-foreground text-xl">
-            Artists I'm currently listening to on Spotify ({timeRange === 'medium_term' ? 'last 6 months' : 'all time'})
+            Artists I&apos;m currently listening to on Spotify ({timeRange === 'medium_term' ? 'last 6 months' : 'all time'})
           </p>
           <div className="flex gap-2 ml-3">
             <Button

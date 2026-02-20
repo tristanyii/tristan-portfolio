@@ -10,6 +10,7 @@ interface Props {
   as?: React.ElementType;
   className?: string;
   multiline?: boolean;
+  adminClassName?: string;
 }
 
 export function EditableText({
@@ -18,6 +19,7 @@ export function EditableText({
   as: Component = "span",
   className = "",
   multiline = false,
+  adminClassName = "",
 }: Props) {
   const { isAdmin, getContent, setContent } = useAdmin();
   const [editing, setEditing] = useState(false);
@@ -76,7 +78,7 @@ export function EditableText({
 
   return (
     <Component
-      className={`${className} admin-editable group/edit`}
+      className={`${className} admin-editable ${adminClassName} group/edit`}
       onClick={(e: React.MouseEvent) => {
         e.stopPropagation();
         e.preventDefault();

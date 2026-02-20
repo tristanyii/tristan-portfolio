@@ -1,6 +1,5 @@
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Github, Linkedin, Mail, ArrowDown, ExternalLink } from "lucide-react";
+import { Github, Linkedin, Mail, ArrowDown } from "lucide-react";
 import dynamic from "next/dynamic";
 import { SnorlaxCollection } from "@/components/snorlax-collection";
 import { Reveal } from "@/components/reveal";
@@ -9,10 +8,10 @@ import { ClientLocalMusicPlayer } from "@/components/client-local-music";
 import { HobbiesSection } from "@/components/hobbies-section";
 import { GoalsSection } from "@/components/goals-section";
 import { ExperienceSection } from "@/components/experience-section";
+import { ProjectsSection } from "@/components/projects-section";
 import { Nav } from "@/components/nav";
 import Image from "next/image";
 import { EditableText } from "@/components/editable-text";
-import { EditableImage } from "@/components/editable-image";
 
 const techStack = {
   "Languages": ["TypeScript", "JavaScript", "Python", "Java", "C", "C#", "Swift"],
@@ -20,42 +19,6 @@ const techStack = {
   "Databases": ["PostgreSQL", "MongoDB", "Neo4j", "Firebase"],
   "Tools": ["Docker", "AWS", "Git", "CI/CD", "REST APIs"],
 };
-
-const projects = [
-  {
-    title: "Excess",
-    subtitle: "AI Voice Agent",
-    award: "Deutsche Bank Hackathon — 1st Place",
-    date: "Oct 2025",
-    description: "AI voice agent bridging users to 800+ verified aid programs for housing, food, and energy assistance in underrepresented communities. ~60% lower cost than human ops.",
-    tags: ["Python", "Flask", "Retell AI"],
-    link: { href: "https://github.com/tristanyii/deutchebank-hackathon", logo: "/Deutsche Bank.png", label: "Deutsche Bank" },
-  },
-  {
-    title: "Devil's Tracker",
-    subtitle: "Poker Session App",
-    date: "Apr 2025",
-    description: "Cross-platform mobile app managing poker sessions — QR-based encoding cut setup from 2min to 10sec, real-time Firebase sync across 30+ games.",
-    tags: ["React Native", "TypeScript", "Node.js", "PostgreSQL"],
-    link: { href: "https://github.com/tristanyii/poker-tracker-catalyst", logo: "/DevilsTracker.png", label: "Devil's Tracker" },
-  },
-  {
-    title: "GoHelpMe",
-    subtitle: "Disaster Response App",
-    award: "CUHackIt — 1st Place",
-    date: "Mar 2025",
-    description: "Disaster-response platform connecting victims with volunteers via real-time geolocation. Backend handled 500+ live help requests during testing.",
-    tags: ["React Native", "Expo", "Node.js", "Express", "PostgreSQL"],
-    link: { href: "https://devpost.com/software/gohelpme", logo: "/GoHelpMe.jpeg", label: "GoHelpMe" },
-  },
-  {
-    title: "This Website",
-    subtitle: "Personal Portfolio",
-    date: "2025",
-    description: "The site you're on. Real-time Spotify integration, interactive travel map, photography gallery, analytics dashboard, and a goals checklist backed by Postgres.",
-    tags: ["Next.js", "TypeScript", "Tailwind", "Spotify API"],
-  },
-];
 
 export default function Home() {
   return (
@@ -133,6 +96,7 @@ export default function Home() {
       </section>
 
       {/* ── Tech Stack — inline, no box ── */}
+      <Reveal variant="fade-up" delayMs={300} duration={800}>
       <section className="container mx-auto px-6 lg:px-10 pb-16 -mt-8">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-wrap gap-x-10 gap-y-4 justify-center lg:justify-start">
@@ -155,6 +119,7 @@ export default function Home() {
           </div>
         </div>
       </section>
+      </Reveal>
 
       {/* ── Experience ── */}
       <section id="experience" className="scroll-mt-16">
@@ -162,65 +127,14 @@ export default function Home() {
       </section>
 
       {/* ── Projects ── */}
-      <Reveal delayMs={80}>
+      <Reveal variant="fade-up" duration={900}>
       <section id="projects" className="mx-auto px-6 lg:px-10 py-20 scroll-mt-16">
-        <div className="max-w-7xl mx-auto">
-          <div className="mb-12">
-            <p className="text-base uppercase tracking-[0.2em] text-muted-foreground/50 mb-2">Portfolio</p>
-            <div className="flex items-baseline gap-4">
-              <h2 className="text-5xl sm:text-6xl font-bold text-foreground">Projects</h2>
-              <span className="text-base text-muted-foreground/40">2x Hackathon Winner</span>
-            </div>
-          </div>
-
-          <div className="space-y-0 divide-y divide-border">
-            {projects.map((p, i) => (
-              <div key={i} className="py-8 first:pt-0 last:pb-0 group">
-                <div className="flex flex-col md:flex-row md:items-start gap-4 md:gap-8">
-                  <div className="md:w-40 shrink-0">
-                    <EditableText contentKey={`proj.${i}.date`} defaultValue={p.date} as="p" className="text-base font-mono text-muted-foreground/50" />
-                    {p.award && (
-                      <EditableText contentKey={`proj.${i}.award`} defaultValue={p.award} as="p" className="text-base text-foreground/70 mt-1 font-medium" />
-                    )}
-                  </div>
-
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-baseline gap-3 flex-wrap">
-                      <EditableText contentKey={`proj.${i}.title`} defaultValue={p.title} as="h3" className="text-3xl font-bold text-foreground" />
-                      <EditableText contentKey={`proj.${i}.subtitle`} defaultValue={p.subtitle} as="span" className="text-lg text-muted-foreground" />
-                    </div>
-
-                    <EditableText contentKey={`proj.${i}.desc`} defaultValue={p.description} as="p" className="text-lg text-muted-foreground mt-2 leading-relaxed max-w-3xl" multiline />
-
-                    <div className="flex flex-wrap items-center gap-3 mt-3">
-                      <div className="flex flex-wrap gap-1.5">
-                        {p.tags.map((t) => (
-                          <span key={t} className="text-base px-3 py-1 rounded-full border border-border text-muted-foreground">{t}</span>
-                        ))}
-                      </div>
-                      {p.link && (
-                        <a
-                          href={p.link.href}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors ml-auto"
-                        >
-                          <EditableImage contentKey={`proj.${i}.logo`} defaultSrc={p.link.logo} alt={p.link.label} className="h-5 w-auto" />
-                          <ExternalLink className="h-3 w-3" />
-                        </a>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+        <ProjectsSection />
       </section>
       </Reveal>
 
       {/* ── Music ── */}
-      <Reveal delayMs={120}>
+      <Reveal variant="blur" duration={1000}>
       <section id="music" className="mx-auto px-6 lg:px-10 py-20 scroll-mt-16">
         <div className="max-w-7xl mx-auto">
           <SpotifySection />
@@ -229,22 +143,22 @@ export default function Home() {
       </Reveal>
 
       {/* ── Hobbies ── */}
-      <Reveal delayMs={160}>
+      <Reveal variant="fade-up" duration={900}>
       <section id="hobbies" className="mx-auto px-6 lg:px-10 py-20 scroll-mt-16">
         <div className="max-w-7xl mx-auto">
-          <p className="text-base uppercase tracking-[0.2em] text-muted-foreground/50 mb-2">Beyond Code</p>
-          <h2 className="text-5xl sm:text-6xl font-bold text-foreground mb-8">Hobbies</h2>
+          <EditableText contentKey="section.hobbies.label" defaultValue="Beyond Code" as="p" className="text-base uppercase tracking-[0.2em] text-muted-foreground/50 mb-2" />
+          <EditableText contentKey="section.hobbies.title" defaultValue="Hobbies" as="h2" className="text-5xl sm:text-6xl font-bold text-foreground mb-8" />
           <HobbiesSection />
         </div>
       </section>
       </Reveal>
 
       {/* ── 2026 Goals ── */}
-      <Reveal delayMs={200}>
+      <Reveal variant="zoom" duration={900}>
       <section id="goals" className="mx-auto px-6 lg:px-10 py-20 scroll-mt-16">
         <div className="max-w-7xl mx-auto">
-          <p className="text-base uppercase tracking-[0.2em] text-muted-foreground/50 mb-2">Looking Ahead</p>
-          <h2 className="text-5xl sm:text-6xl font-bold text-foreground mb-8">2026 Goals</h2>
+          <EditableText contentKey="section.goals.label" defaultValue="Looking Ahead" as="p" className="text-base uppercase tracking-[0.2em] text-muted-foreground/50 mb-2" />
+          <EditableText contentKey="section.goals.title" defaultValue="2026 Goals" as="h2" className="text-5xl sm:text-6xl font-bold text-foreground mb-8" />
           <div className="w-full max-w-sm">
             <GoalsSection />
           </div>
@@ -253,6 +167,7 @@ export default function Home() {
       </Reveal>
 
       {/* ── Footer ── */}
+      <Reveal variant="fade-up" duration={700}>
       <footer className="border-t mt-16">
         <div className="container mx-auto px-4 py-10">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
@@ -265,6 +180,7 @@ export default function Home() {
           </div>
         </div>
       </footer>
+      </Reveal>
 
       <ClientLocalMusicPlayer />
     </div>

@@ -795,14 +795,44 @@
     animation: twisty-bounce 3s ease-in-out infinite;
   }
 
-  /* IntersectionObserver-powered reveal helper - avoid transform to not break fixed overlays */
+  /* ── Scroll reveal system ── */
   .reveal {
     opacity: 0;
-    transition: opacity 600ms cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: opacity, transform, filter;
+    transition:
+      opacity 800ms cubic-bezier(0.16, 1, 0.3, 1),
+      transform 800ms cubic-bezier(0.16, 1, 0.3, 1),
+      filter 800ms cubic-bezier(0.16, 1, 0.3, 1);
   }
+
+  .reveal--fade-up    { transform: translateY(40px); }
+  .reveal--fade-down  { transform: translateY(-40px); }
+  .reveal--fade-left  { transform: translateX(50px); }
+  .reveal--fade-right { transform: translateX(-50px); }
+  .reveal--zoom       { transform: scale(0.92); }
+  .reveal--blur       { transform: translateY(24px); filter: blur(8px); }
+  .reveal--none       { transform: none; }
 
   .reveal.is-visible {
     opacity: 1;
+    transform: none;
+    filter: none;
+    will-change: auto;
+  }
+
+  /* Stagger children */
+  .reveal > .reveal-child,
+  .reveal[class*="stagger"] > * {
+    opacity: 0;
+    transform: translateY(24px);
+    transition:
+      opacity 700ms cubic-bezier(0.16, 1, 0.3, 1),
+      transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .reveal > .reveal-child.is-visible,
+  .reveal.is-visible > .is-visible {
+    opacity: 1;
+    transform: none;
   }
 
   .scrollbar-hide {
@@ -833,11 +863,22 @@
     position: relative;
     border-radius: 4px;
     outline: 1px dashed transparent;
-    transition: outline-color 0.2s ease, background-color 0.2s ease;
+    transition: outline-color 0.2s ease, background-color 0.2s ease, opacity 0.2s ease, color 0.2s ease;
   }
   .admin-editable:hover {
     outline-color: hsl(var(--primary) / 0.6);
     background-color: hsl(var(--primary) / 0.06);
+  }
+  .admin-editable.ghost-text {
+    pointer-events: auto !important;
+    user-select: auto !important;
+    z-index: 40 !important;
+    color: rgba(255, 255, 255, 0.08) !important;
+  }
+  .admin-editable.ghost-text:hover {
+    color: rgba(255, 255, 255, 0.35) !important;
+    outline-color: hsl(var(--primary) / 0.8);
+    background-color: hsl(var(--primary) / 0.1);
   }
 
   @keyframes music-bar {
