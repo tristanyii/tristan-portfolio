@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { X, Check, Plus, Trash2, Target, MessageSquare, ChevronDown, ChevronUp, Loader2 } from "lucide-react";
+import { X, Check, Plus, Trash2, Target, MessageSquare, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
@@ -49,7 +49,6 @@ export function GoalsChecklist({ isOpen, onClose }: GoalsChecklistProps) {
   const [showAddForm, setShowAddForm] = useState(false);
   const [newTitle, setNewTitle] = useState("");
   const [newCategory, setNewCategory] = useState("General");
-  const [expandedNote, setExpandedNote] = useState<number | null>(null);
   const [editingNote, setEditingNote] = useState<number | null>(null);
   const [noteText, setNoteText] = useState("");
   const [saving, setSaving] = useState(false);
@@ -343,11 +342,11 @@ export function GoalsChecklist({ isOpen, onClose }: GoalsChecklistProps) {
             Object.entries(grouped).map(([category, categoryGoals]) => (
               <div key={category}>
                 <div className="flex items-center gap-2 mb-3">
-                  <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
+                  <h3 className="text-base font-semibold uppercase tracking-wider text-muted-foreground">
                     {category}
                   </h3>
                   <div className="flex-1 h-px bg-border" />
-                  <span className="text-xs text-muted-foreground">
+                  <span className="text-sm text-muted-foreground">
                     {categoryGoals.filter((g) => g.completed).length}/{categoryGoals.length}
                   </span>
                 </div>
@@ -357,7 +356,7 @@ export function GoalsChecklist({ isOpen, onClose }: GoalsChecklistProps) {
                     <div key={goal.id} className="group">
                       <div
                         className={`flex items-start gap-3 px-3 py-2.5 rounded-lg transition-colors ${
-                          isAdmin ? "hover:bg-muted/50 cursor-pointer" : ""
+                          isAdmin ? "hover:bg-muted/50" : ""
                         } ${goal.completed ? "opacity-60" : ""}`}
                       >
                         <button
@@ -373,39 +372,24 @@ export function GoalsChecklist({ isOpen, onClose }: GoalsChecklistProps) {
                         </button>
 
                         <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2">
-                            <span
-                              className={`text-sm font-medium transition-all ${
-                                goal.completed
-                                  ? "line-through text-muted-foreground"
-                                  : "text-foreground"
-                              }`}
-                            >
-                              {goal.title}
-                            </span>
-                          </div>
+                          <span
+                            className={`text-base font-medium transition-all ${
+                              goal.completed
+                                ? "line-through text-muted-foreground"
+                                : "text-foreground"
+                            }`}
+                          >
+                            {goal.title}
+                          </span>
 
-                          {goal.note && (
-                            <div className="mt-1.5">
-                              <button
-                                onClick={() =>
-                                  setExpandedNote(expandedNote === goal.id ? null : goal.id)
-                                }
-                                className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
-                              >
-                                <MessageSquare className="h-3 w-3" />
-                                <span>Note</span>
-                                {expandedNote === goal.id ? (
-                                  <ChevronUp className="h-3 w-3" />
-                                ) : (
-                                  <ChevronDown className="h-3 w-3" />
-                                )}
-                              </button>
-                              {expandedNote === goal.id && (
-                                <p className="mt-1 text-xs text-muted-foreground bg-muted/50 rounded-md px-2.5 py-2 leading-relaxed">
+                          {/* Sticky note - always visible */}
+                          {goal.note && editingNote !== goal.id && (
+                            <div className="mt-2 relative">
+                              <div className="bg-yellow-100 dark:bg-yellow-900/40 border border-yellow-300/40 dark:border-yellow-700/40 rounded px-3 py-2 shadow-sm rotate-[-0.5deg]">
+                                <p className="text-sm text-yellow-900 dark:text-yellow-100/80 leading-relaxed whitespace-pre-wrap">
                                   {goal.note}
                                 </p>
-                              )}
+                              </div>
                             </div>
                           )}
 
@@ -415,8 +399,8 @@ export function GoalsChecklist({ isOpen, onClose }: GoalsChecklistProps) {
                                 value={noteText}
                                 onChange={(e) => setNoteText(e.target.value)}
                                 placeholder="Leave a note..."
-                                className="w-full px-2.5 py-2 rounded-md border border-border bg-background text-xs text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 resize-none"
-                                rows={2}
+                                className="w-full px-3 py-2 rounded border border-yellow-300/60 bg-yellow-50 dark:bg-yellow-900/30 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-yellow-400/50 resize-none"
+                                rows={3}
                                 autoFocus
                               />
                               <div className="flex gap-1.5">

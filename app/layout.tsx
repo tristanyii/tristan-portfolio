@@ -4,6 +4,7 @@ import "./globals.css";
 import { Providers } from "@/components/providers";
 import { AnalyticsTracker } from "@/components/analytics-tracker";
 import { AnalyticsUnlock } from "@/components/analytics-unlock";
+import { AdminProvider } from "@/components/admin-provider";
 
 // Modern, friendly sans for body text
 const geistSans = Plus_Jakarta_Sans({
@@ -27,7 +28,7 @@ export const metadata: Metadata = {
   title: "Tristan Yi's Portfolio",
   description: "Personal website of Tristan Yi - Computer Science and Statistics student at Duke University",
   icons: {
-    icon: "/snorlax-pixel.gif",
+    icon: "/icon.png",
   },
   openGraph: {
     title: "Tristan Yi's Portfolio",
@@ -75,7 +76,9 @@ export default function RootLayout({
         <Providers>
           <AnalyticsTracker />
           <AnalyticsUnlock />
-          {children}
+          <AdminProvider>
+            {children}
+          </AdminProvider>
         </Providers>
       </body>
     </html>

@@ -104,12 +104,12 @@ export function SpotifySection() {
     return (
       <div className="space-y-12">
         <div className="text-center space-y-4">
-          <h2 className="text-4xl font-bold tracking-tight sm:text-5xl bg-gradient-to-r from-primary via-purple-500 to-blue-500 bg-clip-text text-transparent animate-gradient relative inline-block">
-            My Music Taste 🎵
-            <div className="absolute -bottom-1 left-1/4 right-1/4 h-1 bg-gradient-to-r from-primary via-purple-500 to-blue-500 animate-gradient rounded-full"></div>
+          <p className="text-sm uppercase tracking-[0.2em] text-muted-foreground/50 mb-2">What I Listen To</p>
+          <h2 className="text-5xl font-bold tracking-tight sm:text-6xl text-foreground">
+            Music
           </h2>
           <div className="flex items-center justify-center gap-2">
-            <p className="text-muted-foreground text-lg">
+            <p className="text-muted-foreground text-xl">
               Artists I'm currently listening to on Spotify ({timeRange === 'medium_term' ? 'last 6 months' : 'all time'})
             </p>
             <div className="flex gap-2 ml-3">
@@ -366,9 +366,9 @@ export function SpotifySection() {
     return (
       <div className="space-y-8">
         <div className="text-center space-y-4">
-          <h2 className="text-4xl font-bold tracking-tight sm:text-5xl bg-gradient-to-r from-primary via-purple-500 to-blue-500 bg-clip-text text-transparent animate-gradient relative inline-block">
-            My Music Taste 🎵
-            <div className="absolute -bottom-1 left-1/4 right-1/4 h-1 bg-gradient-to-r from-primary via-purple-500 to-blue-500 animate-gradient rounded-full"></div>
+          <p className="text-sm uppercase tracking-[0.2em] text-muted-foreground/50 mb-2">What I Listen To</p>
+          <h2 className="text-5xl font-bold tracking-tight sm:text-6xl text-foreground">
+            Music
           </h2>
           <div className="flex justify-center items-center py-12">
             <Loader2 className="h-8 w-8 animate-spin" />
@@ -383,9 +383,9 @@ export function SpotifySection() {
     return (
       <div className="space-y-8">
         <div className="text-center space-y-4">
-          <h2 className="text-4xl font-bold tracking-tight sm:text-5xl bg-gradient-to-r from-primary via-purple-500 to-blue-500 bg-clip-text text-transparent animate-gradient relative inline-block">
-            My Music Taste 🎵
-            <div className="absolute -bottom-1 left-1/4 right-1/4 h-1 bg-gradient-to-r from-primary via-purple-500 to-blue-500 animate-gradient rounded-full"></div>
+          <p className="text-sm uppercase tracking-[0.2em] text-muted-foreground/50 mb-2">What I Listen To</p>
+          <h2 className="text-5xl font-bold tracking-tight sm:text-6xl text-foreground">
+            Music
           </h2>
           <p className="text-muted-foreground">Check out my Spotify profile!</p>
           <Button variant="outline" asChild>
@@ -407,12 +407,12 @@ export function SpotifySection() {
   return (
     <div className="space-y-12">
       <div className="text-center space-y-4">
-        <h2 className="text-4xl font-bold tracking-tight sm:text-5xl bg-gradient-to-r from-primary via-purple-500 to-blue-500 bg-clip-text text-transparent animate-gradient relative inline-block">
-          My Music Taste 🎵
-          <div className="absolute -bottom-1 left-1/4 right-1/4 h-1 bg-gradient-to-r from-primary via-purple-500 to-blue-500 animate-gradient rounded-full"></div>
+        <p className="text-sm uppercase tracking-[0.2em] text-muted-foreground/50 mb-2">What I Listen To</p>
+        <h2 className="text-5xl font-bold tracking-tight sm:text-6xl text-foreground">
+          Music
         </h2>
         <div className="flex items-center justify-center gap-2">
-          <p className="text-muted-foreground text-lg">
+          <p className="text-muted-foreground text-xl">
             Artists I'm currently listening to on Spotify ({timeRange === 'medium_term' ? 'last 6 months' : 'all time'})
           </p>
           <div className="flex gap-2 ml-3">

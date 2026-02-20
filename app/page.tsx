@@ -11,6 +11,8 @@ import { GoalsSection } from "@/components/goals-section";
 import { ExperienceSection } from "@/components/experience-section";
 import { Nav } from "@/components/nav";
 import Image from "next/image";
+import { EditableText } from "@/components/editable-text";
+import { EditableImage } from "@/components/editable-image";
 
 const techStack = {
   "Languages": ["TypeScript", "JavaScript", "Python", "Java", "C", "C#", "Swift"],
@@ -57,7 +59,7 @@ const projects = [
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-background overflow-x-hidden relative w-full max-w-full">
+    <div className="min-h-screen bg-background relative w-full">
       <Nav />
 
       {/* ── Hero ── */}
@@ -69,12 +71,18 @@ export default function Home() {
 
           <div className="flex flex-col items-center lg:items-start text-center lg:text-left space-y-5 flex-1">
             <div className="space-y-2 animate-slide-in-right">
-              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight">
-                Tristan Yi
-              </h1>
-              <p className="text-lg md:text-xl text-muted-foreground">
-                CS @ <span className="font-duke text-foreground">Duke</span> &nbsp;·&nbsp; Software Engineer &nbsp;·&nbsp; First-Gen
-              </p>
+              <EditableText
+                contentKey="hero.name"
+                defaultValue="Tristan Yi"
+                as="h1"
+                className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight"
+              />
+              <EditableText
+                contentKey="hero.subtitle"
+                defaultValue="CS @ Duke · Software Engineer · First-Gen"
+                as="p"
+                className="text-2xl md:text-3xl text-muted-foreground"
+              />
             </div>
 
             <div className="flex flex-wrap gap-3 pt-2 justify-center lg:justify-start animate-fade-in-delay-3">
@@ -125,13 +133,13 @@ export default function Home() {
       </section>
 
       {/* ── Tech Stack — inline, no box ── */}
-      <section className="container mx-auto px-4 pb-16 -mt-8">
-        <div className="max-w-4xl mx-auto">
+      <section className="container mx-auto px-6 lg:px-10 pb-16 -mt-8">
+        <div className="max-w-7xl mx-auto">
           <div className="flex flex-wrap gap-x-10 gap-y-4 justify-center lg:justify-start">
             {Object.entries(techStack).map(([category, items]) => (
               <div key={category} className="flex items-baseline gap-2">
-                <span className="text-xs uppercase tracking-wider text-muted-foreground/50 shrink-0">{category}</span>
-                <span className="text-sm text-muted-foreground">{items.join(" · ")}</span>
+                <span className="text-base uppercase tracking-wider text-muted-foreground/50 shrink-0">{category}</span>
+                <span className="text-lg text-muted-foreground">{items.join(" · ")}</span>
               </div>
             ))}
           </div>
@@ -139,46 +147,45 @@ export default function Home() {
       </section>
 
       {/* ── Experience ── */}
-      <section id="experience" className="py-20 scroll-mt-16">
-        <div className="container mx-auto px-4">
-          <ExperienceSection />
-        </div>
+      <section id="experience" className="scroll-mt-16">
+        <ExperienceSection />
       </section>
 
       {/* ── Projects ── */}
       <Reveal delayMs={80}>
-      <section id="projects" className="container mx-auto px-4 py-20 scroll-mt-16">
-        <div className="max-w-5xl mx-auto">
-          <div className="flex items-baseline gap-4 mb-12">
-            <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground/50">Projects</p>
-            <span className="text-xs text-muted-foreground/40">2x Hackathon Winner</span>
+      <section id="projects" className="mx-auto px-6 lg:px-10 py-20 scroll-mt-16">
+        <div className="max-w-7xl mx-auto">
+          <div className="mb-12">
+            <p className="text-base uppercase tracking-[0.2em] text-muted-foreground/50 mb-2">Portfolio</p>
+            <div className="flex items-baseline gap-4">
+              <h2 className="text-5xl sm:text-6xl font-bold text-foreground">Projects</h2>
+              <span className="text-base text-muted-foreground/40">2x Hackathon Winner</span>
+            </div>
           </div>
 
           <div className="space-y-0 divide-y divide-border">
             {projects.map((p, i) => (
               <div key={i} className="py-8 first:pt-0 last:pb-0 group">
                 <div className="flex flex-col md:flex-row md:items-start gap-4 md:gap-8">
-                  {/* Left: date + award */}
                   <div className="md:w-40 shrink-0">
-                    <p className="text-xs font-mono text-muted-foreground/50">{p.date}</p>
+                    <EditableText contentKey={`proj.${i}.date`} defaultValue={p.date} as="p" className="text-base font-mono text-muted-foreground/50" />
                     {p.award && (
-                      <p className="text-xs text-foreground/70 mt-1 font-medium">{p.award}</p>
+                      <EditableText contentKey={`proj.${i}.award`} defaultValue={p.award} as="p" className="text-base text-foreground/70 mt-1 font-medium" />
                     )}
                   </div>
 
-                  {/* Right: content */}
                   <div className="flex-1 min-w-0">
                     <div className="flex items-baseline gap-3 flex-wrap">
-                      <h3 className="text-xl font-bold text-foreground">{p.title}</h3>
-                      <span className="text-sm text-muted-foreground">{p.subtitle}</span>
+                      <EditableText contentKey={`proj.${i}.title`} defaultValue={p.title} as="h3" className="text-3xl font-bold text-foreground" />
+                      <EditableText contentKey={`proj.${i}.subtitle`} defaultValue={p.subtitle} as="span" className="text-lg text-muted-foreground" />
                     </div>
 
-                    <p className="text-sm text-muted-foreground mt-2 leading-relaxed max-w-2xl">{p.description}</p>
+                    <EditableText contentKey={`proj.${i}.desc`} defaultValue={p.description} as="p" className="text-lg text-muted-foreground mt-2 leading-relaxed max-w-3xl" multiline />
 
                     <div className="flex flex-wrap items-center gap-3 mt-3">
                       <div className="flex flex-wrap gap-1.5">
                         {p.tags.map((t) => (
-                          <span key={t} className="text-[11px] px-2 py-0.5 rounded-full border border-border text-muted-foreground">{t}</span>
+                          <span key={t} className="text-base px-3 py-1 rounded-full border border-border text-muted-foreground">{t}</span>
                         ))}
                       </div>
                       {p.link && (
@@ -188,7 +195,7 @@ export default function Home() {
                           rel="noopener noreferrer"
                           className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors ml-auto"
                         >
-                          <img src={p.link.logo} alt={p.link.label} className="h-5 w-auto" />
+                          <EditableImage contentKey={`proj.${i}.logo`} defaultSrc={p.link.logo} alt={p.link.label} className="h-5 w-auto" />
                           <ExternalLink className="h-3 w-3" />
                         </a>
                       )}
@@ -204,8 +211,8 @@ export default function Home() {
 
       {/* ── Music ── */}
       <Reveal delayMs={120}>
-      <section id="music" className="container mx-auto px-4 py-20 scroll-mt-16">
-        <div className="max-w-6xl mx-auto">
+      <section id="music" className="mx-auto px-6 lg:px-10 py-20 scroll-mt-16">
+        <div className="max-w-7xl mx-auto">
           <SpotifySection />
         </div>
       </section>
@@ -213,10 +220,10 @@ export default function Home() {
 
       {/* ── Hobbies ── */}
       <Reveal delayMs={160}>
-      <section id="hobbies" className="container mx-auto px-4 py-20 scroll-mt-16">
-        <div className="max-w-5xl mx-auto">
-          <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground/50 mb-4">Beyond Code</p>
-          <h2 className="text-3xl font-bold text-foreground mb-8">Hobbies</h2>
+      <section id="hobbies" className="mx-auto px-6 lg:px-10 py-20 scroll-mt-16">
+        <div className="max-w-7xl mx-auto">
+          <p className="text-base uppercase tracking-[0.2em] text-muted-foreground/50 mb-2">Beyond Code</p>
+          <h2 className="text-5xl sm:text-6xl font-bold text-foreground mb-8">Hobbies</h2>
           <HobbiesSection />
         </div>
       </section>
@@ -224,10 +231,10 @@ export default function Home() {
 
       {/* ── 2026 Goals ── */}
       <Reveal delayMs={200}>
-      <section id="goals" className="container mx-auto px-4 py-20 scroll-mt-16">
-        <div className="max-w-5xl mx-auto">
-          <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground/50 mb-4">Looking Ahead</p>
-          <h2 className="text-3xl font-bold text-foreground mb-8">2026 Goals</h2>
+      <section id="goals" className="mx-auto px-6 lg:px-10 py-20 scroll-mt-16">
+        <div className="max-w-7xl mx-auto">
+          <p className="text-base uppercase tracking-[0.2em] text-muted-foreground/50 mb-2">Looking Ahead</p>
+          <h2 className="text-5xl sm:text-6xl font-bold text-foreground mb-8">2026 Goals</h2>
           <div className="w-full max-w-sm">
             <GoalsSection />
           </div>
@@ -239,8 +246,8 @@ export default function Home() {
       <footer className="border-t mt-16">
         <div className="container mx-auto px-4 py-10">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-            <p className="text-xs text-muted-foreground/50">© 2025 Tristan Yi</p>
-            <div className="flex gap-6 text-xs text-muted-foreground">
+            <p className="text-base text-muted-foreground/50">© 2025 Tristan Yi</p>
+            <div className="flex gap-6 text-base text-muted-foreground">
               <a href="mailto:triyi0513@gmail.com" className="hover:text-foreground transition-colors">Email</a>
               <a href="https://github.com/tristanyii" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors">GitHub</a>
               <a href="https://linkedin.com/in/tristan-yi" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors">LinkedIn</a>

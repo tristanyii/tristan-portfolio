@@ -8,11 +8,10 @@ import { Play, Pause, SkipForward, SkipBack, Volume2, Music, X } from "lucide-re
 interface Song {
   title: string;
   artist: string;
-  file: string; // Path to MP3 file in /public/music/
-  cover?: string; // Optional: Path to album cover image
+  file: string;
+  cover?: string;
 }
 
-// 🎵 ADD YOUR SONGS HERE - Starting with LeeHi
 const playlist: Song[] = [
   {
     title: "ONLY",
@@ -44,7 +43,6 @@ const playlist: Song[] = [
     file: "/grentperez - Clementine (Official Lyric Video).mp3",
     cover: "/images (1).jpeg",
   },
-  // Add more songs here...
 ];
 
 export function LocalMusicPlayer() {
@@ -52,27 +50,21 @@ export function LocalMusicPlayer() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
-  const [volume, setVolume] = useState(0.3); // Start softly at 30%
+  const [volume, setVolume] = useState(0.3);
   const [isExpanded, setIsExpanded] = useState(false);
   const [showPlayer, setShowPlayer] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
-
-  // Note: Auto-play removed - music starts when user clicks button
 
   const startMusic = () => {
     setShowPlayer(true);
     setTimeout(() => {
       if (audioRef.current) {
-        // Start LeeHi's ONLY at 30 seconds
         if (currentSongIndex === 0) {
           audioRef.current.currentTime = 30;
         }
         audioRef.current.play().then(() => {
           setIsPlaying(true);
-        }).catch(err => {
-          console.error("Autoplay prevented:", err);
-          // Browser blocked autoplay - user will need to click button
-        });
+        }).catch(() => {});
       }
     }, 100);
   };
@@ -115,13 +107,11 @@ export function LocalMusicPlayer() {
     setIsPlaying(!isPlaying);
   };
 
-  // Hide the floating player UI but keep audio playing
   const hidePlayer = () => {
     setIsExpanded(false);
     setShowPlayer(false);
   };
 
-  // Close/exit the floating player and stop audio
   const closeAndPause = () => {
     setIsExpanded(false);
     setShowPlayer(false);
@@ -131,14 +121,12 @@ export function LocalMusicPlayer() {
     setIsPlaying(false);
   };
 
-  // Allow external sections to close the player (e.g., from Music section "Exit")
   useEffect(() => {
     const handler = () => hidePlayer();
     window.addEventListener("music:close", handler as EventListener);
     return () => window.removeEventListener("music:close", handler as EventListener);
   }, []);
 
-  // Close on Escape key
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
@@ -155,7 +143,6 @@ export function LocalMusicPlayer() {
     setIsPlaying(true);
     setTimeout(() => {
       if (audioRef.current) {
-        // Start LeeHi's ONLY at 30 seconds
         if (nextIndex === 0) {
           audioRef.current.currentTime = 30;
         }
@@ -166,20 +153,17 @@ export function LocalMusicPlayer() {
 
   const prevSong = () => {
     if (currentTime > 3) {
-      // If more than 3 seconds in, restart current song
       if (currentSongIndex === 0) {
-        audioRef.current!.currentTime = 30; // Start LeeHi at 0:30
+        audioRef.current!.currentTime = 30;
       } else {
         audioRef.current!.currentTime = 0;
       }
     } else {
-      // Otherwise go to previous song
       const prevIndex = (currentSongIndex - 1 + playlist.length) % playlist.length;
       setCurrentSongIndex(prevIndex);
       setIsPlaying(true);
       setTimeout(() => {
         if (audioRef.current) {
-          // Start LeeHi's ONLY at 30 seconds
           if (prevIndex === 0) {
             audioRef.current.currentTime = 30;
           }
@@ -213,20 +197,15 @@ export function LocalMusicPlayer() {
       {/* Compact Music Button */}
       <div className="fixed bottom-8 right-8 z-50">
         {!isExpanded ? (
-          /* Collapsed - Show Mini Player */
-                 <button
-                   onClick={() => {
-                     if (!showPlayer) {
-                       // First click: start music AND open menu
-                       startMusic();
-                     }
-                     setIsExpanded(true);
-                   }}
-                   className="flex items-center gap-3 text-white px-5 py-3 rounded-full shadow-2xl hover:shadow-3xl transition-all hover:scale-110 animate-pulse-glow"
-                   style={{
-                     background: 'linear-gradient(135deg, #9333EA 0%, #7C3AED 50%, #6366F1 100%)'
-                   }}
-                 >
+          <button
+            onClick={() => {
+              if (!showPlayer) {
+                startMusic();
+              }
+              setIsExpanded(true);
+            }}
+            className="flex items-center gap-3 text-white px-5 py-3 rounded-full shadow-2xl hover:shadow-3xl transition-all hover:scale-110 animate-pulse-glow bg-[#7C3AED]"
+          >
             <div className="relative">
               <Music className={`h-6 w-6 ${isPlaying ? 'animate-pulse' : ''}`} />
               {isPlaying && (
@@ -246,9 +225,7 @@ export function LocalMusicPlayer() {
             </div>
           </button>
         ) : (
-          /* Expanded - Show Full Player */
-          <div className="bg-background/98 backdrop-blur-lg border-2 border-primary/30 rounded-xl shadow-2xl w-72 animate-in zoom-in-95"
-          >
+          <div className="bg-background border-2 border-primary/30 rounded-xl shadow-2xl w-72 animate-in zoom-in-95">
             {/* Header */}
             <div className="p-3 border-b flex items-center justify-between">
               <div className="flex items-center gap-2">
@@ -275,17 +252,11 @@ export function LocalMusicPlayer() {
                       alt={currentSong.title}
                       className="w-full aspect-square rounded-lg object-cover shadow-lg"
                     />
-                    {isPlaying && (
-                      <div className="absolute inset-0 rounded-lg bg-gradient-to-br from-transparent via-transparent to-primary/20 animate-gradient pointer-events-none"></div>
-                    )}
                   </div>
                 ) : (
-                  <div className="w-full aspect-square bg-gradient-to-br from-primary via-purple-500 to-blue-500 rounded-lg shadow-lg flex items-center justify-center animate-gradient">
+                  <div className="w-full aspect-square bg-gradient-to-br from-primary via-purple-500 to-blue-500 rounded-lg shadow-lg flex items-center justify-center">
                     <Music className={`h-16 w-16 text-white/80 ${isPlaying ? 'animate-pulse' : ''}`} />
                   </div>
-                )}
-                {isPlaying && (
-                  <div className="absolute -inset-2 bg-primary/20 rounded-lg blur-md animate-pulse-slow -z-10"></div>
                 )}
               </div>
             </div>
@@ -388,7 +359,6 @@ export function LocalMusicPlayer() {
                       setIsPlaying(true);
                       setTimeout(() => {
                         if (audioRef.current) {
-                          // Start LeeHi's ONLY at 30 seconds
                           if (index === 0) {
                             audioRef.current.currentTime = 30;
                           }

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import dynamic from "next/dynamic";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { EditableText } from "./editable-text";
 
 const GoalsChecklist = dynamic(
   () => import("./goals-checklist").then((m) => m.GoalsChecklist),
@@ -31,14 +32,22 @@ export function GoalsSection() {
               </div>
             </div>
             <CardTitle className="text-2xl font-bold text-center group-hover:text-primary transition-colors">
-              2026 Goals
+              <EditableText
+                contentKey="goals.card.title"
+                defaultValue="2026 Goals"
+                as="span"
+                className="text-2xl font-bold"
+              />
             </CardTitle>
           </CardHeader>
 
           <CardContent className="relative z-10 text-center">
-            <p className="text-muted-foreground text-sm leading-relaxed group-hover:text-foreground transition-colors">
-              Check out what I&apos;m working towards this year — a live checklist of my 2026 goals.
-            </p>
+            <EditableText
+              contentKey="goals.card.desc"
+              defaultValue="Check out what I'm working towards this year — a live checklist of my 2026 goals."
+              as="p"
+              className="text-muted-foreground text-sm leading-relaxed group-hover:text-foreground transition-colors"
+            />
             <div className="mt-4 text-xs text-primary/0 group-hover:text-primary/70 transition-all duration-300">
               ✨ Click to explore
             </div>

@@ -3,8 +3,9 @@
 import { useState } from "react";
 import dynamic from "next/dynamic";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { EditableText } from "./editable-text";
+import { EditableImage } from "./editable-image";
 
-// Lazy-load heavy modals only when opened
 const TravelMap = dynamic(() => import("./travel-map").then(m => m.TravelMap), { ssr: false });
 const PhotographyGallery = dynamic(() => import("./photography-gallery").then(m => m.PhotographyGallery), { ssr: false });
 
@@ -37,14 +38,10 @@ export function HobbiesSection() {
             }}
           >
           <Card className="relative overflow-hidden glass border-2 border-white/10 hover:border-primary/50 h-full">
-            {/* Circular emoji background */}
             <div className={`absolute top-6 right-6 w-20 h-20 rounded-full bg-gradient-to-br ${hobby.color} blur-2xl opacity-50 group-hover:opacity-100 group-hover:scale-150 transition-all duration-500`} />
-            
-            {/* Decorative corner element */}
             <div className="absolute -top-10 -right-10 w-32 h-32 rounded-full bg-gradient-to-br from-primary/5 to-transparent group-hover:scale-150 transition-transform duration-700" />
             
             <CardHeader className="relative z-10 pb-2">
-              {/* Large centered emoji */}
               <div className="flex justify-center mb-3">
                 <div className={`w-20 h-20 rounded-2xl bg-gradient-to-br ${hobby.color} flex items-center justify-center group-hover:rotate-12 group-hover:scale-110 transition-all duration-500 shadow-lg`}>
                   <span className="text-5xl">{hobby.emoji}</span>
@@ -52,22 +49,28 @@ export function HobbiesSection() {
               </div>
               
               <CardTitle className="text-2xl font-bold text-center group-hover:text-primary transition-colors">
-                {hobby.title}
+                <EditableText
+                  contentKey={`hobby.${idx}.title`}
+                  defaultValue={hobby.title}
+                  as="span"
+                  className="text-2xl font-bold"
+                />
               </CardTitle>
             </CardHeader>
             
             <CardContent className="relative z-10 text-center">
-              <p className="text-muted-foreground text-sm leading-relaxed group-hover:text-foreground transition-colors">
-                {hobby.desc}
-              </p>
+              <EditableText
+                contentKey={`hobby.${idx}.desc`}
+                defaultValue={hobby.desc}
+                as="p"
+                className="text-muted-foreground text-sm leading-relaxed group-hover:text-foreground transition-colors"
+              />
               
-              {/* Click indicator */}
               <div className="mt-4 text-xs text-primary/0 group-hover:text-primary/70 transition-all duration-300">
                 {hobby.available ? "✨ Click to explore" : "🚧 Coming soon"}
               </div>
             </CardContent>
           </Card>
-          {/* External image arrow pointing to the card */}
           {hobby.available && (
             <img
               src="/12761818.png"
@@ -82,4 +85,3 @@ export function HobbiesSection() {
     </>
   );
 }
-

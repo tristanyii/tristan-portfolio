@@ -2,42 +2,19 @@
 
 import { Button } from "@/components/ui/button";
 import { Menu, X, Sun, Moon, BarChart3 } from "lucide-react";
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useAdmin } from "./admin-provider";
 
 export function Nav() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [analyticsUnlocked, setAnalyticsUnlocked] = useState(false);
-  const router = useRouter();
-
-  // Check if analytics is unlocked
-  useEffect(() => {
-    if (typeof document === 'undefined') return;
-    const checkUnlock = () => {
-      const isUnlocked = document.cookie.split(';').some(c => c.trim().startsWith('analytics_unlocked=true'));
-      setAnalyticsUnlocked(isUnlocked);
-    };
-    checkUnlock();
-    // Check periodically
-    const interval = setInterval(checkUnlock, 1000);
-    return () => clearInterval(interval);
-  }, []);
-
-  const navItems = [
-    { href: "/", label: "Home", hash: "#home" },
-    { href: "/#experience", label: "Experience", hash: "#experience" },
-    { href: "/#projects", label: "Projects", hash: "#projects" },
-    { href: "/#music", label: "Music", hash: "#music" },
-    { href: "/#hobbies", label: "Hobbies", hash: "#hobbies" },
-    { href: "/#goals", label: "2026 Goals", hash: "#goals" },
-  ];
+  const { isAdmin } = useAdmin();
 
   return (
     <nav className="border-b glass sticky top-0 z-50 shadow-lg backdrop-blur-xl bg-background/80">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         <a 
           href="#home" 
-          className="text-xl font-bold hover:opacity-80 transition-all hover:scale-105 flex items-center h-full bg-gradient-to-r from-primary via-purple-500 to-blue-500 bg-clip-text text-transparent animate-gradient"
+          className="text-2xl font-bold hover:opacity-70 transition-opacity flex items-center h-full text-foreground"
           onClick={() => setMobileMenuOpen(false)}
         >
           Tristan Yi
@@ -60,7 +37,7 @@ export function Nav() {
           <Button variant="ghost" size="sm" className="hover:bg-primary/20 hover:text-primary transition-all hover:scale-105" asChild>
             <a href="#hobbies">Hobbies</a>
           </Button>
-          {analyticsUnlocked && (
+          {isAdmin && (
             <Button variant="ghost" size="sm" className="hover:bg-primary/20 hover:text-primary transition-all hover:scale-105" asChild>
               <a href="/analytics" className="flex items-center gap-1">
                 <BarChart3 className="h-4 w-4" />
@@ -139,7 +116,7 @@ export function Nav() {
             >
               Hobbies
             </a>
-            {analyticsUnlocked && (
+            {isAdmin && (
               <a
                 href="/analytics"
                 className="block px-4 py-2 rounded-lg hover:bg-primary/20 transition-colors text-center flex items-center justify-center gap-2"
@@ -173,4 +150,3 @@ export function Nav() {
     </nav>
   );
 }
-
