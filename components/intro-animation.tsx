@@ -9,10 +9,6 @@ export function IntroAnimation() {
 
   useEffect(() => {
     if (typeof window === "undefined") return;
-    if (sessionStorage.getItem("intro_played")) {
-      setPhase("done");
-      return;
-    }
 
     document.body.style.overflow = "hidden";
     setPhase("snorlax");
@@ -34,7 +30,6 @@ export function IntroAnimation() {
   useEffect(() => {
     if (phase !== "exit") return;
     const t = setTimeout(() => {
-      sessionStorage.setItem("intro_played", "true");
       document.body.style.overflow = "";
       setPhase("done");
     }, 700);
@@ -43,7 +38,7 @@ export function IntroAnimation() {
 
   if (phase === "done") return null;
   if (phase === "idle") {
-    return <div className="intro-overlay" style={{ opacity: 1 }} />;
+    return <div className="intro-overlay" />;
   }
 
   return (
@@ -60,7 +55,7 @@ export function IntroAnimation() {
         />
         <div className="h-12 flex items-center">
           {(phase === "typing" || phase === "exit") && (
-            <span className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground">
+            <span className="text-3xl sm:text-4xl font-bold tracking-tight text-white">
               {name.slice(0, typedLen)}
               <span className="intro-cursor">|</span>
             </span>
