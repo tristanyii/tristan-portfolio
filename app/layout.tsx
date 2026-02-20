@@ -28,7 +28,8 @@ export const metadata: Metadata = {
   title: "Tristan Yi's Portfolio",
   description: "Personal website of Tristan Yi - Computer Science and Statistics student at Duke University",
   icons: {
-    icon: "/icon.png",
+    icon: [{ url: "/icon.png", type: "image/png", sizes: "512x512" }],
+    apple: "/apple-icon.png",
   },
   openGraph: {
     title: "Tristan Yi's Portfolio",
