@@ -78,8 +78,8 @@ export default function RootLayout({
         <Providers>
           <AnalyticsTracker />
           <AnalyticsUnlock />
+          <IntroAnimation />
           <AdminProvider>
-            <IntroAnimation />
             {children}
           </AdminProvider>
         </Providers>
