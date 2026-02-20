@@ -1,9 +1,10 @@
 "use client";
 
-import { ExternalLink, Plus, Trash2 } from "lucide-react";
+import { ExternalLink, Plus, Trash2, GripVertical } from "lucide-react";
 import { EditableText } from "./editable-text";
 import { EditableImage } from "./editable-image";
 import { useAdmin } from "./admin-provider";
+import { useDragReorder } from "@/hooks/use-drag-reorder";
 
 interface Project {
   title: string;
@@ -74,6 +75,7 @@ export function ProjectsSection() {
       date: "2026",
       description: "Describe your project here.",
       tags: ["Tag"],
+      link: { href: "#", logo: "", label: "Logo" },
     };
     const updated = [...customProjects, newProj];
     setContent("added_projects", JSON.stringify(updated));
@@ -86,6 +88,9 @@ export function ProjectsSection() {
 
   const getKey = (p: Project, i: number) =>
     p.isCustom ? `cproj.${p.customId}` : `proj.${i}`;
+
+  const projDrag = useDragReorder(projects, "proj_order", getKey);
+  const orderedProjects = projDrag.orderedItems;
 
   return (
     <div className="max-w-7xl mx-auto">
@@ -107,13 +112,19 @@ export function ProjectsSection() {
       </div>
 
       <div className="space-y-0 divide-y divide-border">
-        {projects.map((p, i) => {
-          const key = getKey(p, i);
+        {orderedProjects.map((p, i) => {
+          const origIdx = projects.indexOf(p);
+          const key = getKey(p, origIdx);
           const tagsStr = getContent(`${key}.tags`, p.tags.join(", "));
           const displayTags = tagsStr.split(",").map(t => t.trim()).filter(Boolean);
 
           return (
-            <div key={i} className="py-8 first:pt-0 last:pb-0 group relative">
+            <div key={key} className={`py-8 first:pt-0 last:pb-0 group relative ${projDrag.overIdx === i && projDrag.dragIdx !== i ? "drag-over" : ""}`} {...projDrag.bind(i)}>
+              {isAdmin && (
+                <div className="absolute top-8 -left-9 drag-handle p-1.5 rounded-lg hover:bg-muted transition-colors hidden md:flex items-center">
+                  <GripVertical className="h-4 w-4 text-muted-foreground/40" />
+                </div>
+              )}
               {isAdmin && p.isCustom && (
                 <button
                   onClick={() => removeProject(p.customId!)}
@@ -148,17 +159,14 @@ export function ProjectsSection() {
                         ))
                       )}
                     </div>
-                    {p.link && (
-                      <a
-                        href={p.link.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors ml-auto"
-                      >
-                        <EditableImage contentKey={`${key}.logo`} defaultSrc={p.link.logo} alt={p.link.label} className="h-5 w-auto" />
-                        <ExternalLink className="h-3 w-3" />
-                      </a>
-                    )}
+                    <div className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors ml-auto">
+                      <EditableImage contentKey={`${key}.logo`} defaultSrc={p.link?.logo || ""} alt={p.link?.label || p.title} className="h-5 w-auto" />
+                      {p.link && p.link.href !== "#" && (
+                        <a href={p.link.href} target="_blank" rel="noopener noreferrer">
+                          <ExternalLink className="h-3 w-3" />
+                        </a>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>

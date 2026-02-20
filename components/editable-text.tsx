@@ -13,6 +13,8 @@ interface Props {
   adminClassName?: string;
 }
 
+const BLANK = "\u200B";
+
 export function EditableText({
   contentKey,
   defaultValue,
@@ -26,7 +28,9 @@ export function EditableText({
   const [draft, setDraft] = useState("");
   const ref = useRef<HTMLInputElement & HTMLTextAreaElement>(null);
 
-  const value = getContent(contentKey, defaultValue);
+  const raw = getContent(contentKey, defaultValue);
+  const isBlank = raw === BLANK || raw.trim() === "";
+  const value = isBlank ? "" : raw;
 
   useEffect(() => {
     if (editing) {
@@ -37,11 +41,17 @@ export function EditableText({
 
   const save = useCallback(() => {
     const v = draft.trim();
-    if (v && v !== value) setContent(contentKey, v);
+    if (v === value) { setEditing(false); return; }
+    // Save blank marker when user clears the field
+    setContent(contentKey, v || BLANK);
     setEditing(false);
   }, [draft, value, contentKey, setContent]);
 
-  if (!isAdmin) return <Component className={className}>{value}</Component>;
+  // Non-admin: hide entirely if blank
+  if (!isAdmin) {
+    if (isBlank) return null;
+    return <Component className={className}>{value}</Component>;
+  }
 
   if (editing) {
     const shared = {
@@ -60,12 +70,14 @@ export function EditableText({
             {...shared}
             ref={ref}
             rows={3}
+            placeholder="Leave empty to hide"
             onKeyDown={(e: KeyboardEvent) => e.key === "Escape" && setEditing(false)}
           />
         ) : (
           <input
             {...shared}
             ref={ref}
+            placeholder="Leave empty to hide"
             onKeyDown={(e: KeyboardEvent) => {
               if (e.key === "Enter") save();
               if (e.key === "Escape") setEditing(false);
@@ -86,7 +98,7 @@ export function EditableText({
         setEditing(true);
       }}
     >
-      {value}
+      {isBlank ? "\u00A0" : value}
       <Pencil className="inline-block w-3 h-3 ml-1.5 opacity-0 group-hover/edit:opacity-60 transition-opacity align-middle" />
     </Component>
   );

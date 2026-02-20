@@ -1,11 +1,12 @@
 "use client";
 
 import { useRef, useState, useEffect, useCallback } from "react";
-import { ExternalLink, Plus, Trash2 } from "lucide-react";
+import { ExternalLink, Plus, Trash2, GripVertical } from "lucide-react";
 import Image from "next/image";
 import { EditableText } from "./editable-text";
 import { EditableImage } from "./editable-image";
 import { useAdmin } from "./admin-provider";
+import { useDragReorder } from "@/hooks/use-drag-reorder";
 
 interface Experience {
   role: string;
@@ -135,6 +136,7 @@ export function ExperienceSection() {
       date: "Date",
       description: "Description of your work.",
       bgText: "New",
+      link: { href: "#", label: "Logo", logo: "" },
     };
     const updated = [...customExps, newExp];
     setContent("added_experiences", JSON.stringify(updated));
@@ -169,6 +171,18 @@ export function ExperienceSection() {
     return () => window.removeEventListener("resize", onResize);
   }, []);
 
+  const getExpKey = (exp: Experience, i: number) =>
+    exp.isCustom ? `cexp.${exp.customId}` : `exp.${i}`;
+
+  const getLeadKey = (l: Leadership, i: number) =>
+    l.isCustom ? `clead.${l.customId}` : `lead.${i}`;
+
+  const expDrag = useDragReorder(experiences, "exp_order", getExpKey);
+  const orderedExperiences = expDrag.orderedItems;
+
+  const leadDrag = useDragReorder(leadership, "lead_order", getLeadKey);
+  const orderedLeadership = leadDrag.orderedItems;
+
   const handleScroll = useCallback(() => {
     const el = outerRef.current;
     if (!el) return;
@@ -176,9 +190,9 @@ export function ExperienceSection() {
     const scrolled = -rect.top;
     setSectionVisible(rect.top < vh * 0.5);
     if (scrolled < 0) { setActiveIdx(0); return; }
-    const idx = Math.min(experiences.length - 1, Math.floor(scrolled / SCROLL_PER_ITEM));
+    const idx = Math.min(orderedExperiences.length - 1, Math.floor(scrolled / SCROLL_PER_ITEM));
     setActiveIdx(idx);
-  }, [vh, experiences.length]);
+  }, [vh, orderedExperiences.length]);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -186,13 +200,7 @@ export function ExperienceSection() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [handleScroll]);
 
-  const totalHeight = SCROLL_PER_ITEM * experiences.length + vh;
-
-  const getExpKey = (exp: Experience, i: number) =>
-    exp.isCustom ? `cexp.${exp.customId}` : `exp.${i}`;
-
-  const getLeadKey = (l: Leadership, i: number) =>
-    l.isCustom ? `clead.${l.customId}` : `lead.${i}`;
+  const totalHeight = SCROLL_PER_ITEM * orderedExperiences.length + vh;
 
   return (
     <>
@@ -220,14 +228,16 @@ export function ExperienceSection() {
             </div>
 
             <div className="flex gap-[2px] h-[70vh] max-h-[580px] rounded-xl overflow-hidden">
-              {experiences.map((exp, i) => {
+              {orderedExperiences.map((exp, i) => {
                 const isActive = i === activeIdx;
-                const key = getExpKey(exp, i);
+                const origIdx = experiences.indexOf(exp);
+                const key = getExpKey(exp, origIdx);
                 const orgDisplay = getContent(`${key}.org`, exp.org);
                 return (
                   <div
-                    key={i}
-                    className="relative overflow-hidden cursor-pointer"
+                    key={key}
+                    className={`relative overflow-hidden cursor-pointer ${expDrag.overIdx === i && expDrag.dragIdx !== i ? "drag-over" : ""}`}
+                    {...expDrag.bind(i)}
                     style={{
                       flex: isActive ? 6 : 0.8,
                       transition: "flex 1s cubic-bezier(0.16, 1, 0.3, 1)",
@@ -267,15 +277,14 @@ export function ExperienceSection() {
                         transition: "opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1)",
                       }}
                     >
-                      {exp.link && (
-                        <div className="w-8 h-8 rounded-md bg-white/[0.06] border border-white/[0.1] flex items-center justify-center overflow-hidden">
-                          {exp.link.useNext ? (
-                            <Image src={exp.link.logo} alt={exp.link.label} width={24} height={24} className="w-5 h-5 object-contain" unoptimized />
-                          ) : (
-                            <img src={exp.link.logo} alt={exp.link.label} className="w-5 h-5 object-contain" />
-                          )}
-                        </div>
-                      )}
+                      <div className="w-8 h-8 rounded-md bg-white/[0.06] border border-white/[0.1] flex items-center justify-center overflow-hidden">
+                        <EditableImage
+                          contentKey={`${key}.logo`}
+                          defaultSrc={exp.link?.logo || ""}
+                          alt={exp.link?.label || exp.org}
+                          className="w-5 h-5 object-contain"
+                        />
+                      </div>
                       <div className="writing-vertical-lr rotate-180">
                         <span className="text-[11px] font-medium tracking-widest uppercase text-white/40 whitespace-nowrap">
                           {orgDisplay}
@@ -294,26 +303,31 @@ export function ExperienceSection() {
                       }}
                     >
                       <div className="flex-1 relative p-8">
-                        {exp.link && (
-                          <div className="absolute bottom-6 left-8">
-                            <div className="w-14 h-14 rounded-lg bg-white/[0.06] border border-white/[0.1] flex items-center justify-center overflow-hidden">
-                              <EditableImage
-                                contentKey={`${key}.logo`}
-                                defaultSrc={exp.link.logo}
-                                alt={exp.link.label}
-                                className="w-10 h-10 object-contain"
-                              />
-                            </div>
+                        <div className="absolute bottom-6 left-8">
+                          <div className="w-14 h-14 rounded-lg bg-white/[0.06] border border-white/[0.1] flex items-center justify-center overflow-hidden">
+                            <EditableImage
+                              contentKey={`${key}.logo`}
+                              defaultSrc={exp.link?.logo || ""}
+                              alt={exp.link?.label || exp.org}
+                              className="w-10 h-10 object-contain"
+                            />
                           </div>
-                        )}
-                        {isAdmin && exp.isCustom && (
-                          <button
-                            onClick={(e) => { e.stopPropagation(); removeExperience(exp.customId!); }}
-                            className="absolute top-4 right-4 p-2 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500/20 transition-colors"
-                            title="Remove experience"
-                          >
-                            <Trash2 className="h-4 w-4" />
-                          </button>
+                        </div>
+                        {isAdmin && (
+                          <div className="absolute top-4 right-4 flex items-center gap-1.5">
+                            <div className="drag-handle p-1.5 rounded-lg bg-white/[0.06] hover:bg-white/[0.12] transition-colors">
+                              <GripVertical className="h-4 w-4 text-white/40" />
+                            </div>
+                            {exp.isCustom && (
+                              <button
+                                onClick={(e) => { e.stopPropagation(); removeExperience(exp.customId!); }}
+                                className="p-1.5 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500/20 transition-colors"
+                                title="Remove experience"
+                              >
+                                <Trash2 className="h-4 w-4" />
+                              </button>
+                            )}
+                          </div>
                         )}
                       </div>
 
@@ -365,7 +379,7 @@ export function ExperienceSection() {
 
             {/* Dot nav */}
             <div className="flex justify-center gap-2 mt-5">
-              {experiences.map((_, i) => (
+              {orderedExperiences.map((_, i) => (
                 <button
                   key={i}
                   onClick={() => setActiveIdx(i)}
@@ -391,10 +405,16 @@ export function ExperienceSection() {
         </div>
         <EditableText contentKey="section.experience.title" defaultValue="Work" as="h2" className="text-4xl sm:text-5xl font-bold text-foreground mb-8" />
         <div className="space-y-4">
-          {experiences.map((exp, i) => {
-            const key = getExpKey(exp, i);
+          {orderedExperiences.map((exp, i) => {
+            const origIdx = experiences.indexOf(exp);
+            const key = getExpKey(exp, origIdx);
             return (
-              <div key={i} className="rounded-xl overflow-hidden relative">
+              <div key={key} className={`rounded-xl overflow-hidden relative ${expDrag.overIdx === i && expDrag.dragIdx !== i ? "drag-over" : ""}`} {...expDrag.bind(i)}>
+                {isAdmin && (
+                  <div className="absolute top-2 left-2 z-20 drag-handle p-1.5 rounded-lg bg-white/10 hover:bg-white/20 transition-colors">
+                    <GripVertical className="h-4 w-4 text-white/50" />
+                  </div>
+                )}
                 {isAdmin && exp.isCustom && (
                   <button
                     onClick={() => removeExperience(exp.customId!)}
@@ -412,18 +432,16 @@ export function ExperienceSection() {
                     className="absolute inset-0 flex items-center justify-center text-[3rem] font-black text-white/[0.025] select-none leading-none tracking-tighter"
                     adminClassName="ghost-text"
                   />
-                  {exp.link && (
-                    <div className="absolute bottom-3 left-3">
-                      <div className="w-10 h-10 rounded-md bg-white/[0.04] border border-white/[0.08] flex items-center justify-center overflow-hidden">
-                        <EditableImage
-                          contentKey={`${key}.logo`}
-                          defaultSrc={exp.link.logo}
-                          alt={exp.link.label}
-                          className="w-7 h-7 object-contain"
-                        />
-                      </div>
+                  <div className="absolute bottom-3 left-3">
+                    <div className="w-10 h-10 rounded-md bg-white/[0.04] border border-white/[0.08] flex items-center justify-center overflow-hidden">
+                      <EditableImage
+                        contentKey={`${key}.logo`}
+                        defaultSrc={exp.link?.logo || ""}
+                        alt={exp.link?.label || exp.org}
+                        className="w-7 h-7 object-contain"
+                      />
                     </div>
-                  )}
+                  </div>
                 </div>
                 <div className="p-5 border border-t-0 border-border bg-card rounded-b-xl">
                   <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground/40 mb-1">{exp.num}</p>
@@ -458,10 +476,16 @@ export function ExperienceSection() {
         </div>
         <EditableText contentKey="section.leadership.title" defaultValue="Leadership" as="h2" className="text-5xl sm:text-6xl font-bold text-foreground mb-8" />
         <div className="grid gap-px sm:grid-cols-2 border border-border rounded-lg overflow-hidden">
-          {leadership.map((l, i) => {
-            const key = getLeadKey(l, i);
+          {orderedLeadership.map((l, i) => {
+            const origIdx = leadership.indexOf(l);
+            const key = getLeadKey(l, origIdx);
             return (
-              <div key={i} className="bg-card p-6 flex flex-col relative">
+              <div key={key} className={`bg-card p-6 flex flex-col relative ${leadDrag.overIdx === i && leadDrag.dragIdx !== i ? "drag-over" : ""}`} {...leadDrag.bind(i)}>
+                {isAdmin && (
+                  <div className="absolute top-3 left-3 drag-handle p-1.5 rounded-lg bg-muted hover:bg-muted-foreground/20 transition-colors z-10">
+                    <GripVertical className="h-4 w-4 text-muted-foreground" />
+                  </div>
+                )}
                 {isAdmin && l.isCustom && (
                   <button
                     onClick={() => removeLeadership(l.customId!)}

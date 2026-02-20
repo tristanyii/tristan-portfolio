@@ -2,7 +2,7 @@
 
 import { useState, useRef } from "react";
 import { useAdmin } from "./admin-provider";
-import { Upload } from "lucide-react";
+import { Upload, ImagePlus } from "lucide-react";
 
 interface Props {
   contentKey: string;
@@ -17,6 +17,7 @@ export function EditableImage({ contentKey, defaultSrc, alt, className = "" }: P
   const fileRef = useRef<HTMLInputElement>(null);
 
   const src = getContent(contentKey, defaultSrc);
+  const hasImage = src && src.length > 0;
 
   const handleFile = async (file: File) => {
     if (!file.type.startsWith("image/")) return;
@@ -36,12 +37,19 @@ export function EditableImage({ contentKey, defaultSrc, alt, className = "" }: P
   };
 
   if (!isAdmin) {
+    if (!hasImage) return null;
     return <img src={src} alt={alt} className={className} />;
   }
 
   return (
     <div className="relative group inline-flex">
-      <img src={src} alt={alt} className={className} />
+      {hasImage ? (
+        <img src={src} alt={alt} className={className} />
+      ) : (
+        <div className={`${className} flex items-center justify-center bg-muted/30 border border-dashed border-primary/30 rounded-md min-w-[2.5rem] min-h-[2.5rem]`}>
+          <ImagePlus className="w-4 h-4 text-primary/40" />
+        </div>
+      )}
       <input
         ref={fileRef}
         type="file"
