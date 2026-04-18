@@ -39,9 +39,9 @@ export const metadata: Metadata = {
     siteName: "Tristan Yi's Portfolio",
     images: [
       {
-        url: "/backgorund.jpg",
-        width: 1200,
-        height: 630,
+        url: "/og-thumbnail.png",
+        width: 1024,
+        height: 571,
         alt: "Tristan Yi's Portfolio",
       },
     ],
@@ -52,7 +52,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Tristan Yi's Portfolio",
     description: "Personal portfolio of Tristan Yi - Computer Science and Statistics student at Duke University",
-    images: ["/backgorund.jpg"],
+    images: ["/og-thumbnail.png"],
   },
   metadataBase: new URL("https://tristanyi.vercel.app"),
 };
