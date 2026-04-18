@@ -25,12 +25,13 @@ const displayFont = Space_Grotesk({
   subsets: ["latin"],
 });
 
-/** Resolves OG/icon URLs on the active host (Vercel preview, production, or custom domain). */
+// Next puts /favicon.ico?... first in <head>; `app/favicon.ico` is that file (copy of public/icon.png when you change the art).
+/** Resolves OG URLs on the active host (Vercel preview, production, or custom domain). */
 function getMetadataBase(): URL {
   const raw =
     process.env.NEXT_PUBLIC_SITE_URL ||
     (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : null) ||
-    "http://localhost:3000";
+    (process.env.NODE_ENV === "production" ? "https://tristanyi.vercel.app" : "http://localhost:3000");
   return new URL(raw.endsWith("/") ? raw.slice(0, -1) : raw);
 }
 
