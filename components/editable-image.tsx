@@ -38,13 +38,13 @@ export function EditableImage({ contentKey, defaultSrc, alt, className = "" }: P
 
   if (!isAdmin) {
     if (!hasImage) return null;
-    return <img src={src} alt={alt} className={className} />;
+    return <img src={src} alt={alt} className={className} draggable={false} />;
   }
 
   return (
     <div className="relative group inline-flex">
       {hasImage ? (
-        <img src={src} alt={alt} className={className} />
+        <img src={src} alt={alt} className={className} draggable={false} />
       ) : (
         <div className={`${className} flex items-center justify-center bg-muted/30 border border-dashed border-primary/30 rounded-md min-w-[2.5rem] min-h-[2.5rem]`}>
           <ImagePlus className="w-4 h-4 text-primary/40" />

@@ -119,9 +119,17 @@ export function ProjectsSection() {
           const displayTags = tagsStr.split(",").map(t => t.trim()).filter(Boolean);
 
           return (
-            <div key={key} className={`py-8 first:pt-0 last:pb-0 group relative ${projDrag.overIdx === i && projDrag.dragIdx !== i ? "drag-over" : ""}`} {...projDrag.bind(i)}>
+            <div
+              key={key}
+              className={`py-8 first:pt-0 last:pb-0 group relative ${projDrag.overIdx === i && projDrag.dragIdx !== i ? "drag-over" : ""}`}
+              {...projDrag.bindDropTarget(i)}
+            >
               {isAdmin && (
-                <div className="absolute top-8 -left-9 drag-handle p-1.5 rounded-lg hover:bg-muted transition-colors hidden md:flex items-center">
+                <div
+                  className="absolute top-8 -left-9 z-10 drag-handle p-1.5 rounded-lg hover:bg-muted transition-colors flex items-center touch-none"
+                  title="Drag to reorder"
+                  {...projDrag.bindDragHandle(i)}
+                >
                   <GripVertical className="h-4 w-4 text-muted-foreground/40" />
                 </div>
               )}
