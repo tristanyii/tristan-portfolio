@@ -26,7 +26,7 @@ const defaultProjects: Project[] = [
     date: "Oct 2025",
     description: "AI voice agent bridging users to 800+ verified aid programs for housing, food, and energy assistance in underrepresented communities. ~60% lower cost than human ops.",
     tags: ["Python", "Flask", "Retell AI"],
-    link: { href: "https://github.com/tristanyii/deutchebank-hackathon", logo: "/Deutsche Bank.png", label: "Deutsche Bank" },
+    link: { href: "https://github.com/tristan-yi/deutchebank-hackathon", logo: "/Deutsche Bank.png", label: "Deutsche Bank" },
   },
   {
     title: "Devil's Tracker",
@@ -34,7 +34,7 @@ const defaultProjects: Project[] = [
     date: "Apr 2025",
     description: "Cross-platform mobile app managing poker sessions — QR-based encoding cut setup from 2min to 10sec, real-time Firebase sync across 30+ games.",
     tags: ["React Native", "TypeScript", "Node.js", "PostgreSQL"],
-    link: { href: "https://github.com/tristanyii/poker-tracker-catalyst", logo: "/DevilsTracker.png", label: "Devil's Tracker" },
+    link: { href: "https://github.com/tristan-yi/poker-tracker", logo: "/DevilsTracker.png", label: "Devil's Tracker" },
   },
   {
     title: "GoHelpMe",

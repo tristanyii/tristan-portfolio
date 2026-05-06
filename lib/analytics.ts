@@ -157,8 +157,11 @@ export async function getAnalyticsStats(days: number = 30): Promise<AnalyticsSta
     };
   }
   
-  const cutoffDate = new Date();
-  cutoffDate.setDate(cutoffDate.getDate() - days);
+  const isLifetime = days <= 0;
+  const cutoffDate = isLifetime ? new Date(0) : new Date();
+  if (!isLifetime) {
+    cutoffDate.setDate(cutoffDate.getDate() - days);
+  }
   
   try {
     // Total visits
@@ -321,8 +324,11 @@ export async function getAllVisitors(days: number = 30, limit: number = 100, off
     return { visitors: [], total: 0 };
   }
   
-  const cutoffDate = new Date();
-  cutoffDate.setDate(cutoffDate.getDate() - days);
+  const isLifetime = days <= 0;
+  const cutoffDate = isLifetime ? new Date(0) : new Date();
+  if (!isLifetime) {
+    cutoffDate.setDate(cutoffDate.getDate() - days);
+  }
   const cutoffDateISO = cutoffDate.toISOString();
   
   try {

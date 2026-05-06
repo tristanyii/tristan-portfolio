@@ -52,7 +52,7 @@ export default function Home() {
                 <a href="mailto:triyi0513@gmail.com"><Mail className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />Contact</a>
               </Button>
               <Button size="lg" variant="outline" className="text-sm sm:text-base" asChild>
-                <a href="https://github.com/tristanyii" target="_blank" rel="noopener noreferrer"><Github className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />GitHub</a>
+                <a href="https://github.com/tristan-yi" target="_blank" rel="noopener noreferrer"><Github className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />GitHub</a>
               </Button>
               <Button size="lg" variant="outline" className="text-sm sm:text-base" asChild>
                 <a href="https://linkedin.com/in/tristan-yi" target="_blank" rel="noopener noreferrer"><Linkedin className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />LinkedIn</a>
@@ -173,7 +173,7 @@ export default function Home() {
             <p className="text-base text-muted-foreground/50">© 2025 Tristan Yi</p>
             <div className="flex gap-6 text-base text-muted-foreground">
               <a href="mailto:triyi0513@gmail.com" className="hover:text-foreground transition-colors">Email</a>
-              <a href="https://github.com/tristanyii" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors">GitHub</a>
+              <a href="https://github.com/tristan-yi" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors">GitHub</a>
               <a href="https://linkedin.com/in/tristan-yi" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors">LinkedIn</a>
             </div>
           </div>

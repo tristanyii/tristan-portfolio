@@ -4,8 +4,9 @@ import { useEffect, useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { BarChart3, Users, Globe, Monitor, RefreshCw, Calendar, TrendingUp, Lock, Trash2, ChevronLeft, ChevronRight, Eye, X } from 'lucide-react';
+import { BarChart3, Users, Globe, Monitor, RefreshCw, Calendar, TrendingUp, Lock, Trash2, ChevronLeft, ChevronRight, Eye, X, LineChart } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { VisitsChart } from '@/components/analytics/visits-chart';
 
 interface AnalyticsStats {
   totalVisits: number;
@@ -309,6 +310,13 @@ export default function AnalyticsPage() {
               90 days
             </Button>
             <Button
+              variant={days === 0 ? 'default' : 'outline'}
+              size="sm"
+              onClick={() => setDays(0)}
+            >
+              Lifetime
+            </Button>
+            <Button
               variant="outline"
               size="sm"
               onClick={fetchStats}
@@ -349,7 +357,7 @@ export default function AnalyticsPage() {
                 <CardContent>
                   <div className="text-2xl font-bold">{stats.totalVisits.toLocaleString()}</div>
                   <p className="text-xs text-muted-foreground mt-1">
-                    Last {days} days
+                    {days === 0 ? 'All time' : `Last ${days} days`}
                   </p>
                 </CardContent>
               </Card>
@@ -397,6 +405,24 @@ export default function AnalyticsPage() {
                 </CardContent>
               </Card>
             </div>
+
+            {/* Visits Over Time */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <LineChart className="h-5 w-5" />
+                  Visits Over Time
+                </CardTitle>
+                <CardDescription>
+                  {days === 0
+                    ? 'Daily visits across the lifetime of the site'
+                    : `Daily visits over the last ${days} days`}
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <VisitsChart data={stats.visitsOverTime} days={days} />
+              </CardContent>
+            </Card>
 
             {/* Charts Row */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
